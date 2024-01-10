@@ -24,10 +24,10 @@
           <InfoWindow :data="m"></InfoWindow>
         </GMapInfoWindow>
       </GMapMarker>
+      <GMapPolyline :options="options" />
   </GMapMap>
 </template>
 <script>
-import {Client} from "@googlemaps/google-maps-services-js";
 import { useGeolocation } from '../useGeolocation'
 import { toRaw } from 'vue';
 import axios from 'axios'
@@ -46,6 +46,7 @@ export default {
             coords,
             distance: 0,
             center: { lat: 21.0070115, lng: 105.8414017 },
+            options: {},
             markers: [
                 {
                     id: 0,
@@ -167,94 +168,26 @@ export default {
             });
         },
         getRoutingFunc() {
-            const client = new Client({});
-            // Định nghĩa toạ độ của điểm xuất phát và điểm đích
-            const origins = [{ lat: 41.43206, lng: -81.38992 }];
-            const destinations = [{ lat: -33.86748, lng: 151.20699 }];
-
-            // Đối tượng params chứa các thông tin cần thiết cho request
-
-            console.log(client);
-            client
-  .distancematrix({
-    params: {
-      origins: origins,
-      destinations: destinations,
-      mode: "driving", // Chọn phương tiện di chuyển, có thể thay đổi thành "transit" nếu là đi bằng phương tiện công cộng
-      key: this.KEY, // Thay thế YOUR_GOOGLE_MAPS_API_KEY bằng khóa API của bạn
-    },
-    timeout: 1000, // milliseconds
-  })
-  .then((response) => {
-    // Xử lý kết quả ở đây
-    console.log("Kết quả:", response.data.rows);
-  })
-            console.log(this.$refs.mapRef);
-            // this.$options.directionsRender.setMap(this.$refs.mapRef)
-            // this.$options.directionsService.route({
-            //     origin: {
-            //         query: "chicago, il",
-            //     },
-            //     destination: {
-            //         query: "oklahoma city, ok",
-            //     },
-            //     travelMode: "DRIVING",
-            //     })
-            //     .then((response) => {
-            //         this.$options.directionsRender.setDirections(response);
-            //     })
-            //     .catch((e) => window.alert("Directions request failed due to " + e));
-
-            // const corDelete = 'https://cors-anywhere.herokuapp.com/';
-            // const data = {
-            //     "origin": {
-            //         "location": {
-            //         "latLng": {
-            //             "latitude": 37.419734,
-            //             "longitude": -122.0827784
-            //         }
-            //         }
-            //     },
-            //     "destination": {
-            //         "location": {
-            //         "latLng": {
-            //             "latitude": 37.417670,
-            //             "longitude": -122.079595
-            //         }
-            //         }
-            //     },
-            //     "travelMode": "DRIVE",
-            //     "routingPreference": "TRAFFIC_AWARE",
-            //     "departureTime": "2023-10-15T15:01:23.045123456Z",
-            //     "computeAlternativeRoutes": false,
-            //     "routeModifiers": {
-            //         "avoidTolls": false,
-            //         "avoidHighways": false,
-            //         "avoidFerries": false
-            //     },
-            //     "languageCode": "en-US",
-            //     "units": "IMPERIAL"
-            //     };
-
-            //     const url = 'https://routes.googleapis.com/directions/v2:computeRoutes/json?key=' + this.KEY;
-            //     const config = {
-            //         method: 'post',
-            //         url: corDelete + url,
-            //         secure: false,
-            //         "crossDomain": true,
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //             "Accept": "*/*",
-            //         },
-            //     };
-            //     axios(config, data)
-            //     .then(response => {
-            //         console.log(response.data);
-            //     })
-            //     .catch(error => {
-            //         console.error(error);
-            //     });
-        }
+            const corDelete = 'https://cors-anywhere.herokuapp.com/';
+                const url = `
+                https://maps.googleapis.com/maps/api/directions/json?
+                    origin=Sydney%2C%20AU
+                    &destination=Perth%2C%20AU&waypoints=via%3A-37.81223%2C144.96254%7Cvia%3A-34.92788%2C138.60008
+                    &key=${this.KEY}`;
+                const config = {
+                    method: 'get',
+                    url: corDelete + url,
+                    secure: false,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                };
+                axios(config).then(response => {
+                    console.log(response);
+                    }).catch(err => {
+                        console.error(err);
+                    });
+                }
     },
     components: { InfoWindow },
 }
