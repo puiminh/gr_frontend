@@ -37,8 +37,12 @@
 	color: var(--yellow);
 }
 
+.h70screen {
+	height: 70vh;
+}
+
 .h80screen {
-	height: 90vh;
+	height: 80vh;
 }
 
 .h90screen {

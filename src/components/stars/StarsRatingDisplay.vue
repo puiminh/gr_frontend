@@ -14,61 +14,61 @@
         <input
             disabled
             :checked="displayValue>=5"  
-            class="comment-stars-input" type="radio" name="rating-5" value="5" id="rating-5"><label class="comment-stars-view" for="rating-5"><svg class="icon icon-star">
+            class="comment-stars-input" type="radio" :name="'rating-5'+'index'+index" value="5" :id="'rating-5'+'index'+index"> <label class="comment-stars-view" :for="'rating-5'+'index'+index"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
         <input
             disabled
             :checked="displayValue>=4.5" 
-            class="comment-stars-input" type="radio" name="rating-4.5" value="4.5" id="rating-4.5"> <label class="comment-stars-view is-half" for="rating-4.5"><svg class="icon icon-star-half">
+            class="comment-stars-input" type="radio" :name="'rating-4.5'+'index'+index" value="4.5" :id="'rating-4.5'+'index'+index"> <label class="comment-stars-view is-half" :for="'rating-4.5'+'index'+index"><svg class="icon icon-star-half">
             <use xlink:href="#icon-star-half"></use>
           </svg></label>
         <input
             disabled
           :checked="displayValue>=4" 
-            class="comment-stars-input" type="radio" name="rating-4" value="4" id="rating-4"> <label class="comment-stars-view" for="rating-4"><svg class="icon icon-star">
+            class="comment-stars-input" type="radio" :name="'rating-4'+'index'+index" value="4" :id="'rating-4'+'index'+index"> <label class="comment-stars-view" :for="'rating-4'+'index'+index"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
         <input
             disabled
           :checked="displayValue>=3.5" 
-            class="comment-stars-input" type="radio" name="rating-3.5" value="3.5" id="rating-3.5"> <label class="comment-stars-view is-half" for="rating-3.5"><svg class="icon icon-star-half">
+            class="comment-stars-input" type="radio" :name="'rating-3.5'+'index'+index" value="3.5" :id="'rating-3.5'+'index'+index"> <label class="comment-stars-view is-half" :for="'rating-3.5'+'index'+index"><svg class="icon icon-star-half">
             <use xlink:href="#icon-star-half"></use>
           </svg></label>
         <input
             disabled
           :checked="displayValue>=3" 
-            class="comment-stars-input" type="radio" name="rating-3" value="3" id="rating-3"> <label class="comment-stars-view" for="rating-3"><svg class="icon icon-star">
+            class="comment-stars-input" type="radio" :name="'rating-3'+'index'+index" value="3" :id="'rating-3'+'index'+index"> <label class="comment-stars-view" :for="'rating-3'+'index'+index"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
         <input
             disabled
           :checked="displayValue>=2.5" 
-            class="comment-stars-input" type="radio" name="rating-2.5" value="2.5" id="rating-2.5"> <label class="comment-stars-view is-half" for="rating-2.5"><svg class="icon icon-star-half">
+            class="comment-stars-input" type="radio" :name="'rating-2.5'+'index'+index" value="2.5" :id="'rating-2.5'+'index'+index"> <label class="comment-stars-view is-half" :for="'rating-2.5'+'index'+index"><svg class="icon icon-star-half">
             <use xlink:href="#icon-star-half"></use>
           </svg></label>
         <input
             disabled
           :checked="displayValue>=2" 
-            class="comment-stars-input" type="radio" name="rating-2" value="2" id="rating-2"> <label class="comment-stars-view" for="rating-2"><svg class="icon icon-star">
+            class="comment-stars-input" type="radio" :name="'rating-2'+'index'+index" value="2" :id="'rating-2'+'index'+index"> <label class="comment-stars-view" :for="'rating-2'+'index'+index"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
         <input
             disabled
             :checked="displayValue>=1.5" 
-            class="comment-stars-input" type="radio" name="rating-1.5" value="1.5" id="rating-1.5"> <label class="comment-stars-view is-half" for="rating-1.5"><svg class="icon icon-star-half">
+            class="comment-stars-input" type="radio" :name="'rating-1.5'+'index'+index" value="1.5" :id="'rating-1.5'+'index'+index"> <label class="comment-stars-view is-half" :for="'rating-1.5'+'index'+index"><svg class="icon icon-star-half">
             <use xlink:href="#icon-star-half"></use>
           </svg></label>
         <input
             disabled
             :checked="displayValue>=1" 
-            class="comment-stars-input" type="radio" name="rating-1" value="1" id="rating-1"> <label class="comment-stars-view" for="rating-1"><svg class="icon icon-star">
+            class="comment-stars-input" type="radio" :name="'rating-1'+'index'+index" value="1" :id="'rating-1'+'index'+index"> <label class="comment-stars-view" :for="'rating-1'+'index'+index"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
         <input
             disabled
             :checked="displayValue>=0.5"
-            class="comment-stars-input" type="radio" name="rating-0.5" value="0.5" id="rating-0.5"> <label class="comment-stars-view is-half" for="rating-0.5"><svg class="icon icon-star-half">
+            class="comment-stars-input" type="radio" :name="'rating-0.5'+'index'+index" value="0.5" :id="'rating-0.5'+'index'+index"> <label class="comment-stars-view is-half" :for="'rating-0.5'+'index'+index"><svg class="icon icon-star-half">
             <use xlink:href="#icon-star-half"></use>
           </svg></label>
       </div>
@@ -76,7 +76,7 @@
 </template>
 <script>
 export default {
-  props: ['stars'],
+  props: ['stars','index'],
 
   data() {
     return {

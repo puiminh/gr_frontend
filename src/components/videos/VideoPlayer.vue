@@ -39,11 +39,6 @@
           /
           <div class="total-time" ref="totalTimeElem"></div>
         </div>
-        <button class="captions-btn">
-          <svg viewBox="0 0 24 24">
-            <path fill="currentColor" d="M18,11H16.5V10.5H14.5V13.5H16.5V13H18V14A1,1 0 0,1 17,15H14A1,1 0 0,1 13,14V10A1,1 0 0,1 14,9H17A1,1 0 0,1 18,10M11,11H9.5V10.5H7.5V13.5H9.5V13H11V14A1,1 0 0,1 10,15H7A1,1 0 0,1 6,14V10A1,1 0 0,1 7,9H10A1,1 0 0,1 11,10M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4Z" />
-          </svg>
-        </button>
         <button class="speed-btn wide-btn" ref="speedBtn" @click="changePlaybackSpeed">
           1x
         </button>
@@ -76,11 +71,12 @@
           @play="handlePlay"
           @pause="handlePause"
           @loadeddata="handleVideoLoaded"
+          
     >
     </video>
   </div>
 
-  <div class="control-zone">
+  <!-- <div class="control-zone">
     <center>
       <div>
         <p style="font-weight: 800;">
@@ -112,12 +108,13 @@
           </div>
         </div>
     </center>
-  </div>
+  </div> -->
 </template>
   
 <script>
 import "./VideoPlayer.css"  
 export default {
+  emits: ['returnCurrentTime'],
   data () {
     return {
       isScrubbing: false,
@@ -125,7 +122,7 @@ export default {
     }
   },
   props: {
-    highlights: {
+    instructions: {
       type: Array,
       default() {
         return []
@@ -143,7 +140,7 @@ export default {
     },
   },
   methods: {
-    jumpToTime(seconds) {
+    jumpToTimeVideo(seconds) {
       if (this.$refs.video) {
         this.$refs.video.currentTime = seconds;
       }
@@ -166,6 +163,8 @@ export default {
       this.$refs.currentTime.textContent = this.formatDuration(this.$refs.video.currentTime)
       const percent = this.$refs.video.currentTime / this.$refs.video.duration
       this.$refs.timelineContainer.style.setProperty("--progress-position", percent)
+
+      this.$emit('returnCurrentTime',(this.$refs.video.currentTime))
     },
     formatDuration(time) {
       const leadingZeroFormatter = new Intl.NumberFormat(undefined, {
@@ -221,6 +220,10 @@ export default {
     togglePlay() {
       this.$refs.video.paused ? this.$refs.video.play() : this.$refs.video.pause()
     },
+    forcePause() {
+      console.log("forcePause");
+      this.$refs.video.pause();
+    },
     handlePlay() {
       this.$refs.videoContainer.classList.remove("paused");
     },
@@ -228,5 +231,8 @@ export default {
       this.$refs.videoContainer.classList.add("paused");
     },
   },
+  // mounted() {
+  //   this.$refs.video.addEventListener("timeupdate", this.getCurrentTime)
+  // },
 }
 </script>
