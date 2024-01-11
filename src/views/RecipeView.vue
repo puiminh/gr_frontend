@@ -20,7 +20,7 @@
                 <p class="author text-xl yellow">Julian Nguyen</p>
                 <p class="title text-7xl text-white mt-4 dm-serif" ref="overview_title">Chicken Tikka Masala</p>
                 <div class="flex items-center gap-4 mt-8">
-                  <StarsRating class="flex align-start -ml-2"></StarsRating>
+                  <StarsRatingDisplay :stars="4.3" class="flex align-start -ml-2"></StarsRatingDisplay>
                   <p class="text-slate-400 font-bold text-sm font-mono">4 out of 5</p>
                 </div>
               </div>
@@ -53,13 +53,35 @@
       </div>
       <div class="content-right-containter flex-initial w-1/4 m-4">
         <div class="content-right flex flex-col justify-between fixed bg-white">
-          <div class="pl-16 pt-16">
-            <p class="title text-slate-700 text-3xl">Ingredients</p>
+          <div
+            :class="{hidden : rightMode != 1}" 
+            class="pl-16 pt-16">
+            <p class="title text-slate-700 text-3xl dm-serif mb-6">Ingredients</p>
             <div v-for="(item,index) in 5" :key="index" class="checkbox_ingredient flex mt-8">
               <IngredientCheckbox :item="item"></IngredientCheckbox>
-              <p class="text text-xl text-slate-600 ml-8 font-bold">Hành tím {{item}}</p>
+              <p class="text text-lg text-slate-600 ml-8 font-bold">Hành tím {{item}}</p>
             </div>
           </div>
+
+          <div
+            :class="{hidden : rightMode != 2}"
+            class="pl-16 pt-16">
+            <p class="title text-slate-700 text-3xl dm-serif mb-6">Reviews</p>
+            <div class="">
+              <div class="flex">
+                <img class="w-8 h-8 object-cover" src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="">
+                <div>
+                  <p>Allison Smith</p>
+                  <StarsRatingDisplay :stars="3.8"></StarsRatingDisplay>
+                </div>
+              </div>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipiscing elit, odio pulvinar mollis fames habitant lacus, ut nunc fusce justo est placerat.
+              </p>
+            </div>
+          </div>
+
+
   
           <div class="switch-menu self-center bg-slate-200 h-20 mx-4 mb-4 px-8 py-2 gap-4 flex items-center justify-between rounded-3xl">
             <div
@@ -101,7 +123,7 @@
   
 <script>
 // import VideoPlayer from '@/components/videos/VideoPlayer.vue';
-import StarsRating from '@/components/stars/StarsRating.vue';
+import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
 import IngredientCheckbox from '@/components/checkboxs/IngredientCheckbox.vue';
 import InstructionComponent from '@/components/recipeComponents/InstructionComponent.vue';
 
@@ -150,7 +172,7 @@ export default {
   name: 'RecipeView',
   components: {
     // VideoPlayer,
-    StarsRating,
+    StarsRatingDisplay,
     IngredientCheckbox,
     InstructionComponent,
   },
@@ -187,7 +209,7 @@ export default {
       }
     }
     console.log(this.$refs.recipeview);
-    this.$refs.recipeview.addEventListener('scroll', debounce(this.handleScroll, 300));
+    this.$refs.recipeview.addEventListener('scroll', debounce(this.handleScroll, 100));
   }
 };
 </script>
