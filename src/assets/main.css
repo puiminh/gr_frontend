@@ -18,11 +18,35 @@
 
 ::-webkit-scrollbar-thumb
 {
-	background-color: #FCBE84;
+	background-color: var(--yellow);
+}
+
+:root {
+	--yellow: #FCBE84;
 }
 
 #app {
-  font-family: 'Nunito Sans', sans-serif;
+	font-family: 'Nunito Sans', sans-serif;
+}
+
+.dm-serif {
+	font-family: 'DM Serif Display', serif;
+}
+
+.yellow {
+	color: var(--yellow);
+}
+
+.h80screen {
+	height: 90vh;
+}
+
+.h90screen {
+	height: 90vh;
+}
+
+.word-space-3 {
+	word-spacing: 3px;
 }
 
 a,

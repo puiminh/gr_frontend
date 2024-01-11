@@ -48,8 +48,8 @@ export default {
 }
 
 .round input[type="checkbox"]:checked + label {
-  background-color: #FCBE84;
-  border-color: #FCBE84;
+  background-color: var(--yellow);
+  border-color: var(--yellow);
 }
 
 .round input[type="checkbox"]:checked + label:after {

@@ -68,7 +68,7 @@ export default {
 }
 
 .comment-stars-input:checked ~ .comment-stars-view svg {
-  fill: #FCBE84;
+  fill: var(--yellow);
 }
 
 .comment-stars-input:checked ~ .comment-stars-view:hover svg,
