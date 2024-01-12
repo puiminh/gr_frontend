@@ -1,12 +1,12 @@
 <template>
     <div 
-      class="body flex h-screen overflow-auto" ref="recipeview"
+      class="body flex h-screen overflow-auto py-8" ref="recipeview"
     >
-      <div class="content-left w-2/3 pl-16 pt-8 item">
+      <div class="content-left w-2/3 pl-16  item">
         <div class="navbar flex items-center">
           <svg class="hambugericon w-12 mr-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Menu_Alt_03"> <path id="Vector" d="M5 17H13M5 12H19M5 7H13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
           <h1 class="logo text-4xl font-medium text-white mr-12 dm-serif">Recipes.</h1>
-          <div class="searchbar rounded-lg w-2/3 h-16 mx-4 flex items-center">
+          <div class="searchbar rounded-lg w-2/3 h-16 mx-4 flex items-center cursor-pointer hover:bg-slate-200">
             <span class="pl-12 pt-1 text-2xl font-bold text-slate-700">Tìm kiếm</span>
           </div>
         </div>
@@ -38,7 +38,7 @@
           <div class="instruction_frame pt-8" ref="instruction_frame">
             <div class="instruction mt-8">
               <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="instruction_title">Method</p>
-              <div class="instruction-block-container h80screen overflow-auto">
+              <div class="instruction-block-container h90screen overflow-auto">
                 <InstructionComponent
                   class="mb-8" 
                   v-for="(instruction) in instructions" 
@@ -52,15 +52,28 @@
               
             </div>
           </div>
+
+          <div class="gallery_frame pt-24" ref="gallery_frame">
+            <div class="gallery mt-8">
+              <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="gallery_title">Gallery</p>
+              <div class="">
+                <ImageGallery :images="images"></ImageGallery>
+              </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
       <div class="content-right-containter flex-initial w-1/3 m-2 pl-6 relative">
+        <!-- :class="[{'bg-transparent' : rightMode == 2}, {'bg-white' : rightMode != 2}]" -->
         <div
-          :class="{'bg-transparent' : rightMode == 2}" 
-          class="content-right flex flex-col justify-between fixed bg-white">
+          class="content-right flex flex-col justify-between fixed bg-white"
+          
+        >
           <div
-            :class="{hidden : rightMode != 1}" 
-            class="p-16 pt-12">
+            :class="{hidden : (rightMode != 1) && (rightMode != 4)}" 
+            class="p-16 pt-12 slide-left">
             <p class="title text-slate-700 text-3xl dm-serif mb-12">Ingredients</p>
             <div class="insideContainer  h-5/6 overflow-y-auto">
               <div v-for="(item,index) in ingredients" :key="index" class="checkbox_ingredient flex mb-8 items-start">
@@ -76,7 +89,7 @@
 
           <div
             :class="{hidden : rightMode != 2}"
-            class="p-16 h-full -mt-8 min-w-5/6">
+            class="p-16 h-full -mt-8 min-w-5/6 slide-left">
             <!-- <p class="title text-slate-700 text-3xl dm-serif mb-6">Video</p> -->
             <VideoPlayer 
               class="max-h-screen" 
@@ -90,7 +103,7 @@
 
           <div
             :class="{hidden : rightMode != 3}"
-            class="p-16 pt-12">
+            class="p-16 pt-12 slide-left">
             <p class="title text-slate-700 text-3xl dm-serif mb-12">Reviews</p>
             <div class="insideContainer h-5/6 overflow-y-auto">
               <UserReviewComponent 
@@ -145,6 +158,8 @@ import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
 import IngredientCheckbox from '@/components/checkboxs/IngredientCheckbox.vue';
 import InstructionComponent from '@/components/recipeComponents/InstructionComponent.vue';
 import UserReviewComponent from '@/components/userComponents/UserReviewComponent.vue';
+import ImageGallery from '@/components/images/ImageGallery.vue';
+
 
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
 
@@ -163,6 +178,7 @@ export default {
     IngredientCheckbox,
     InstructionComponent,
     UserReviewComponent,
+    ImageGallery,
     VideoPlayer,
   },
   data() {
@@ -230,7 +246,36 @@ export default {
           unit: "gram",
           amount: 500,
         },
+      ],
+      reviews: [
+        {
+          name: "Alan Smit",
+          comment: "...",
+          rating: 4.3,
+          avatar: "..."
+        },
+        {
+          name: "Alan Smit",
+          comment: "...",
+          rating: 4.3,
+          avatar: "..."
+        },
+      ],
+      images: [
+        {
+          src: "https://img.freepik.com/free-photo/tasty-burger-isolated-white-background-fresh-hamburger-fastfood-with-beef-cheese_90220-1063.jpg?size=338&ext=jpg&ga=GA1.1.1412446893.1704931200&semt=sph",
+          author: "Alan Smithsonian"
+        },
+        {
+          src: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
+          author: "Alan Smithsonian"
+        },
+        {
+          src: "https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/07/1296x728-header.jpg?w=1155&h=1528",
+          author: "Alan Smithsonian"
+        },
       ]
+
     };
   },
   methods: {
@@ -254,7 +299,7 @@ export default {
       this.rightMode = value;
         let el;
         switch (value) {
-          case 1:
+          case 1, 4:
               el = this.$refs.overview_frame;
               if (el) {
                 el.scrollIntoView({behavior: 'smooth'});
@@ -262,6 +307,12 @@ export default {
             break;
           case 2:
               el = this.$refs.instruction_frame;
+              if (el) {
+                el.scrollIntoView({behavior: 'smooth'});
+              }
+            break;
+          case 3:
+              el = this.$refs.gallery_frame;
               if (el) {
                 el.scrollIntoView({behavior: 'smooth'});
               }
@@ -276,6 +327,8 @@ export default {
         this.rightMode = 1;
       } else if(this.isFullyInViewport(this.$refs.instruction_title)) {
         this.rightMode = 2;
+      } else if(this.isFullyInViewport(this.$refs.gallery_title)) {
+        this.rightMode = 3;
       }
 
     },
@@ -340,10 +393,34 @@ export default {
 
 .searchbar {
   background-color: rgba(245, 246, 247, 0.2);
+  transition: background-color 0.2s linear ;
+}
+
+.searchbar:hover {
+  background-color: rgba(255, 255, 255, 0.845);
+}
+
+.searchbar:hover .span {
+  color: rgb(0, 0, 0);
 }
 
 .instruction-block-container::-webkit-scrollbar {
   width: 10px;
+}
+
+.slide-left {
+  animation: slideUp 0.2s ease-in-out; /* Độ dài và chế độ animation */
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(30%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 
