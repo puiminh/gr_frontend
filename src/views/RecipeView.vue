@@ -54,7 +54,7 @@
           </div>
 
           <div class="gallery_frame pt-24" ref="gallery_frame">
-            <div class="gallery mt-8">
+            <div class="gallery mt-8 ">
               <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="gallery_title">Gallery</p>
               <div class="">
                 <ImageGallery :images="images"></ImageGallery>
@@ -62,6 +62,18 @@
             </div>
           </div>
 
+          <div class="map_frame pt-24 h80screen" ref="map_frame">
+            <div class="map mt-8 w-full h-full">
+              <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="map_title">Map</p>
+              <div class="w-full h-full">
+                <MapComponent cass="w-full h-full"></MapComponent>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-full h90screen">
+
+          </div>
 
         </div>
       </div>
@@ -159,6 +171,10 @@ import IngredientCheckbox from '@/components/checkboxs/IngredientCheckbox.vue';
 import InstructionComponent from '@/components/recipeComponents/InstructionComponent.vue';
 import UserReviewComponent from '@/components/userComponents/UserReviewComponent.vue';
 import ImageGallery from '@/components/images/ImageGallery.vue';
+import MapComponent from '@/components/maps/MapComponent.vue';
+import FooterComponent from '@/components/FooterComponent.vue';
+
+
 
 
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
@@ -179,7 +195,9 @@ export default {
     InstructionComponent,
     UserReviewComponent,
     ImageGallery,
+    MapComponent,
     VideoPlayer,
+    
   },
   data() {
     return {
@@ -299,7 +317,7 @@ export default {
       this.rightMode = value;
         let el;
         switch (value) {
-          case 1, 4:
+          case 1:
               el = this.$refs.overview_frame;
               if (el) {
                 el.scrollIntoView({behavior: 'smooth'});
@@ -329,6 +347,8 @@ export default {
         this.rightMode = 2;
       } else if(this.isFullyInViewport(this.$refs.gallery_title)) {
         this.rightMode = 3;
+      } else if(this.isFullyInViewport(this.$refs.map_frame)) {
+        this.rightMode = 4;
       }
 
     },

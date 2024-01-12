@@ -31,7 +31,7 @@
 import { useGeolocation } from '../useGeolocation'
 import { toRaw } from 'vue';
 import axios from 'axios'
-import InfoWindow from '../components/InfoWindow.vue';
+import InfoWindow from '../components/maps/InfoWindow.vue';
 
 export default {
     data() {
@@ -166,28 +166,7 @@ export default {
             }).catch(err => {
                 console.error(err);
             });
-        },
-        getRoutingFunc() {
-            const corDelete = 'https://cors-anywhere.herokuapp.com/';
-                const url = `
-                https://maps.googleapis.com/maps/api/directions/json?
-                    origin=Sydney%2C%20AU
-                    &destination=Perth%2C%20AU&waypoints=via%3A-37.81223%2C144.96254%7Cvia%3A-34.92788%2C138.60008
-                    &key=${this.KEY}`;
-                const config = {
-                    method: 'get',
-                    url: corDelete + url,
-                    secure: false,
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                };
-                axios(config).then(response => {
-                    console.log(response);
-                    }).catch(err => {
-                        console.error(err);
-                    });
-                }
+        }
     },
     components: { InfoWindow },
 }

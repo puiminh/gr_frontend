@@ -37,7 +37,7 @@ ul {
 	padding: 0;
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
 	max-width: 100%;
 	width: 100%;
 }
