@@ -1,7 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import MapViewVue from '@/views/MapView.vue'
+import MapView from '@/views/MapView.vue'
 import RecipeView from '@/views/RecipeView.vue'
+import SearchView from '@/views/SearchView.vue'
+
+
+import MainLayout from '@/layouts/MainLayout.vue'
+import RecipeViewLayout from '@/layouts/RecipeViewLayout.vue'
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,26 +16,35 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      meta: {
+        layout: MainLayout,
+      },
       component: HomeView
     },
     {
       path: '/map',
       name: 'map',
-      component: MapViewVue,
+      meta: {
+        layout: MainLayout,
+      },
+      component: MapView,
+    },
+    {
+      path: '/search',
+      name: 'search',
+      meta: {
+        layout: MainLayout,
+      },
+      component: SearchView,
     },
     {
       path: '/recipeView',
       name: 'recipeView',
+      meta: {
+        layout: RecipeViewLayout,
+      },
       component: RecipeView,
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
   ]
 })
 

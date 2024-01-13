@@ -10,7 +10,10 @@
           </symbol>
         </defs>
       </svg>
-      <div class="comment-stars">
+      <div 
+        class="comment-stars"
+        :class="{small: small}"
+      >
         <input
             disabled
             :checked="displayValue>=5"  
@@ -76,7 +79,7 @@
 </template>
 <script>
 export default {
-  props: ['stars','index'],
+  props: ['stars','index','small'],
 
   data() {
     return {
@@ -126,6 +129,12 @@ input, label {
   fill: #ededef;
   width: 1.39306640625em;
   height: 1.5em;
+}
+
+.comment-stars.small svg {
+  fill: #ededef;
+  width: 1em;
+  height: 1.04em;
 }
 
 .comment-stars-view.is-half {
