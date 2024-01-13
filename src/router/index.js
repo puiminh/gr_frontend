@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import MapView from '@/views/MapView.vue'
-import RecipeView from '@/views/RecipeView.vue'
+import RecipeView from '@/views/recipes/RecipeView.vue'
 import SearchView from '@/views/SearchView.vue'
 
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import RecipeViewLayout from '@/layouts/RecipeViewLayout.vue'
 import StoreView from '@/views/StoreView.vue'
+import CreateRecipeVue from '@/views/recipes/CreateRecipe.vue'
 
 
 
@@ -53,6 +54,14 @@ const router = createRouter({
         layout: RecipeViewLayout,
       },
       component: RecipeView,
+    },
+    {
+      path: '/create-recipe',
+      name: 'create-recipe',
+      meta: {
+        layout: RecipeViewLayout,
+      },
+      component: CreateRecipeVue,
     },
 
   ]

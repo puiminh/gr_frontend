@@ -2,14 +2,15 @@
     <div 
       class="body black-gradient flex h-screen overflow-auto py-8" ref="recipeview"
     >
+        <button class="fixed z-50 bottom-4 left-4 p-4 bg-yellow drop-shadow-xl rounded-full">
+            <IconSave class="w-6 h-6"></IconSave>
+        </button>
       <div class="content-left w-2/3 pl-16  item">
         <div class="navbar flex items-center">
-          <router-link to="/" class="flex items-center">
+          <div to="/" class="flex items-center">
             <img class="h-12 mr-2" src="/images/recipe-favicon-white.png" alt="">
-            <h1 class="logo text-4xl font-medium text-white mr-12 dm-serif">Recipes.</h1>
-          </router-link>
-          <div class="searchbar rounded-lg w-2/3 h-16 mx-4 flex items-center cursor-pointer hover:bg-slate-200">
-            <span class="pl-12 pt-1 text-2xl font-bold text-slate-700">Tìm kiếm</span>
+            <h1 class="logo text-4xl font-medium text-white mr-12 dm-serif">Let's make your Recipe!</h1>
+            <router-link to="/" class="self-end mb-2 text-slate-200 underline ">Back</router-link>
           </div>
         </div>
         <div 
@@ -18,20 +19,24 @@
           <div class="overview_frame pt-12" ref="overview_frame">
             <div class="flex">
               <div class="w-2/3 flex flex-col">
-                <p class="author text-xl yellow">Julian Nguyen</p>
-                <p class="title text-7xl text-white mt-4 dm-serif" ref="overview_title">Chicken Tikka Masala</p>
-                <div class="flex items-center gap-4 mt-8">
+                <p class="author text-xl yellow cursor-not-allowed">Julian Nguyen</p>
+                <p contenteditable="true" class="title text-7xl text-white mt-4 dm-serif" ref="overview_title">Your meal's name</p>
+
+                <div class="flex items-center gap-4 mt-8 bg-slate-800 cursor-not-allowed">
                   <StarsRatingDisplay :stars="4.3" class="flex align-start -ml-2"></StarsRatingDisplay>
                   <p class="text-slate-400 font-bold text-sm font-mono">4.3 out of 5</p>
                 </div>
               </div>
               <div class="image-holder relative">
-                <img class="w-96 absolute  -top-5 left-5 max-w-none z-50" src="https://veerji.ca/wp-content/uploads/2021/12/malai-kofta-indian-vegetarian-meatballs-curry-traditionally-served-hot-flatbread-tandoori-rumali-roti-naan-traditional-158606665-removebg-preview.png" alt="">
+                <img class="w-96 absolute  -top-5 left-5 max-w-none z-10" src="https://veerji.ca/wp-content/uploads/2021/12/malai-kofta-indian-vegetarian-meatballs-curry-traditionally-served-hot-flatbread-tandoori-rumali-roti-naan-traditional-158606665-removebg-preview.png" alt="">
+                <button class="absolute left-20 w-8 h-8 bg-yellow rounded-full p-2 z-50">
+                    <IconUpload></IconUpload>
+                </button>
               </div>            
             </div>
             <div class="description mt-8">
               <p class="title text-white text-2xl font-extralight dm-serif mb-12">Introduction</p>
-              <p class="description-text text-xl text-orange-50 word-space-3">
+              <p class="description-text text-xl text-orange-50 word-space-3" contenteditable="true">
                 Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.
               </p>
             </div>
@@ -39,7 +44,12 @@
 
           <div class="instruction_frame pt-8" ref="instruction_frame">
             <div class="instruction mt-8">
-              <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="instruction_title">Method</p>
+              <div class="flex justify-between mb-12 w-40">
+                <p class="text-white text-2xl font-extralight dm-serif " ref="instruction_title">Method</p>
+                <button class="w-8 h-8 bg-yellow rounded-full p-2">
+                    <IconAdd></IconAdd>                    
+                </button>
+              </div>
               <div class="instruction-block-container h90screen overflow-auto">
                 <InstructionComponent
                   class="mb-8" 
@@ -52,15 +62,6 @@
                 </InstructionComponent>
               </div>
               
-            </div>
-          </div>
-
-          <div class="gallery_frame pt-24" ref="gallery_frame">
-            <div class="gallery mt-8 ">
-              <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="gallery_title">Gallery</p>
-              <div class="">
-                <ImageGallery :images="images"></ImageGallery>
-              </div>
             </div>
           </div>
 
@@ -79,7 +80,12 @@
           <div
             :class="{hidden : (rightMode != 1) && (rightMode != 4)}" 
             class="p-16 pt-12 slide-left">
-            <p class="title text-slate-700 text-3xl dm-serif mb-12">Ingredients</p>
+            <div class="flex items-center justify-between mb-12">
+                <p class="title text-slate-700 text-3xl dm-serif">Ingredients</p>
+                <button class="w-8 h-8 bg-yellow rounded-full p-2">
+                    <IconAdd></IconAdd>                    
+                </button>
+            </div>
             <div class="insideContainer  h-5/6 overflow-y-auto">
               <div v-for="(item,index) in ingredients" :key="index" class="checkbox_ingredient flex mb-8 items-start">
                 <IngredientCheckbox :item="index"></IngredientCheckbox>
@@ -103,6 +109,10 @@
               ref="videoplayer"
               @returnCurrentTime="getCurrentTime"
             />
+
+            <div v-if="videoOptions.src == ''" class="mt-20 w-16 h-16 bg-yellow rounded-full p-2 mx-auto cursor-pointer">
+                <IconUpload></IconUpload>
+            </div>
 
           </div>
 
@@ -138,12 +148,6 @@
               :class="{'bg-white': rightMode == 2} ">
               <svg class="w-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18 3H6C3.79086 3 2 4.79086 2 7V17C2 19.2091 3.79086 21 6 21H18C20.2091 21 22 19.2091 22 17V7C22 4.79086 20.2091 3 18 3Z" stroke="#5e5e5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M10.28 8.03994C9.19003 8.42994 9 10.5199 9 12.0399C9 13.5599 9.19003 15.5999 10.28 16.0399C11.37 16.4799 16 13.7499 16 12.0399C16 10.3299 11.44 7.61994 10.28 8.03994Z" stroke="#5e5e5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             </div>
-            <div
-              @click="changeRightMode(3)" 
-              class="comment-menu rounded-lg p-1 cursor-pointer" 
-              :class="{'bg-white': rightMode == 3} ">
-              <svg class="w-8" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 12C5.49988 14.613 6.95512 17.0085 9.2741 18.2127C11.5931 19.4169 14.3897 19.2292 16.527 17.726L19.5 18V12C19.5 8.13401 16.366 5 12.5 5C8.63401 5 5.5 8.13401 5.5 12Z" stroke="#5e5e5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.5 13.25C9.08579 13.25 8.75 13.5858 8.75 14C8.75 14.4142 9.08579 14.75 9.5 14.75V13.25ZM13.5 14.75C13.9142 14.75 14.25 14.4142 14.25 14C14.25 13.5858 13.9142 13.25 13.5 13.25V14.75ZM9.5 10.25C9.08579 10.25 8.75 10.5858 8.75 11C8.75 11.4142 9.08579 11.75 9.5 11.75V10.25ZM15.5 11.75C15.9142 11.75 16.25 11.4142 16.25 11C16.25 10.5858 15.9142 10.25 15.5 10.25V11.75ZM9.5 14.75H13.5V13.25H9.5V14.75ZM9.5 11.75H15.5V10.25H9.5V11.75Z" fill="#5e5e5e"></path> </g></svg>
-            </div>
           </div>
         </div>
 
@@ -158,14 +162,16 @@ import IngredientCheckbox from '@/components/checkboxs/IngredientCheckbox.vue';
 import InstructionComponent from '@/components/recipeComponents/InstructionComponent.vue';
 import UserReviewComponent from '@/components/userComponents/UserReviewComponent.vue';
 import ImageGallery from '@/components/images/ImageGallery.vue';
-import MapComponent from '@/components/maps/MapComponent.vue';
-import FooterComponent from '@/components/FooterComponent.vue';
+import IconEdit from '@/components/icons/IconEdit.vue';
+import IconAdd from '@/components/icons/IconAdd.vue';
+import IconSave from '@/components/icons/IconSave.vue';
 
 
 
 
 
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
+import IconUpload from '@/components/icons/IconUpload.vue';
 
 
 export default {
@@ -183,74 +189,27 @@ export default {
     InstructionComponent,
     UserReviewComponent,
     ImageGallery,
-    MapComponent,
     VideoPlayer,
-    
-  },
+    IconEdit,
+    IconSave,
+    IconAdd,
+    IconUpload
+},
   data() {
     return {
       scrollTimeOut: null,
       current: 1,
       rightMode: 1,
       videoOptions: {
-        src: "https://firebasestorage.googleapis.com/v0/b/recipe-58dab.appspot.com/o/videos%2FS%E1%BB%91t%20tr%E1%BB%99n%20h%E1%BB%A7%20ti%E1%BA%BFu.mp4?alt=media&token=88e95a60-1d51-4fbf-967a-9db765ffd533",
+        src: "",
       },
       instructions: [
-        {
-          order: 1,
-          time: 2,
-        },
-        {
-          time: 10,
-          order: 2,
-        },
-        {
-          time: 25,
-          order: 3,
-        },
-        {
-          time: 35,
-          order: 4,
-        },
-        {
-          time: 45,
-          order: 5,
-        },
-        {
-          time: 52,
-          order: 6,
-        },
       ],
       ingredients: [
         {
-          name: "Cà chua",
-          unit: "quả",
+          name: "Sample",
+          unit: "kg",
           amount: 2,
-        },
-        {
-          name: "Cá hồi",
-          unit: "gram",
-          amount: 500,
-        },
-        {
-          name: "Củ cải trắng",
-          unit: "củ",
-          amount: 5,
-        },
-        {
-          name: "Trứng gà",
-          unit: "quả",
-          amount: 5,
-        },
-        {
-          name: "Hạt tiêu",
-          unit: "gram",
-          amount: 20,
-        },
-        {
-          name: "Mì sợi",
-          unit: "gram",
-          amount: 500,
         },
       ],
       reviews: [
@@ -317,12 +276,6 @@ export default {
                 el.scrollIntoView({behavior: 'smooth'});
               }
             break;
-          case 3:
-              el = this.$refs.gallery_frame;
-              if (el) {
-                el.scrollIntoView({behavior: 'smooth'});
-              }
-            break;
         
           default:
             break;
@@ -333,12 +286,7 @@ export default {
         this.rightMode = 1;
       } else if(this.isFullyInViewport(this.$refs.instruction_title)) {
         this.rightMode = 2;
-      } else if(this.isFullyInViewport(this.$refs.gallery_title)) {
-        this.rightMode = 3;
-      } else if(this.isFullyInViewport(this.$refs.map_frame)) {
-        this.rightMode = 4;
       }
-
     },
     isFullyInViewport(element) {
       var elementRect = element.getBoundingClientRect();
