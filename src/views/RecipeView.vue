@@ -1,11 +1,13 @@
 <template>
     <div 
-      class="body flex h-screen overflow-auto py-8" ref="recipeview"
+      class="body black-gradient flex h-screen overflow-auto py-8" ref="recipeview"
     >
       <div class="content-left w-2/3 pl-16  item">
         <div class="navbar flex items-center">
-          <svg class="hambugericon w-12 mr-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Menu_Alt_03"> <path id="Vector" d="M5 17H13M5 12H19M5 7H13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
-          <h1 class="logo text-4xl font-medium text-white mr-12 dm-serif">Recipes.</h1>
+          <router-link to="/" class="flex items-center">
+            <img class="h-12 mr-2" src="/images/recipe-favicon-white.png" alt="">
+            <h1 class="logo text-4xl font-medium text-white mr-12 dm-serif">Recipes.</h1>
+          </router-link>
           <div class="searchbar rounded-lg w-2/3 h-16 mx-4 flex items-center cursor-pointer hover:bg-slate-200">
             <span class="pl-12 pt-1 text-2xl font-bold text-slate-700">Tìm kiếm</span>
           </div>
@@ -62,16 +64,7 @@
             </div>
           </div>
 
-          <div class="map_frame pt-24 h80screen" ref="map_frame">
-            <div class="map mt-8 w-full h-full">
-              <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="map_title">Map</p>
-              <div class="w-full h-full">
-                <MapComponent cass="w-full h-full"></MapComponent>
-              </div>
-            </div>
-          </div>
-
-          <div class="w-full h90screen">
+          <div class="w-full h-80">
 
           </div>
 
@@ -151,12 +144,6 @@
               :class="{'bg-white': rightMode == 3} ">
               <svg class="w-8" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 12C5.49988 14.613 6.95512 17.0085 9.2741 18.2127C11.5931 19.4169 14.3897 19.2292 16.527 17.726L19.5 18V12C19.5 8.13401 16.366 5 12.5 5C8.63401 5 5.5 8.13401 5.5 12Z" stroke="#5e5e5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.5 13.25C9.08579 13.25 8.75 13.5858 8.75 14C8.75 14.4142 9.08579 14.75 9.5 14.75V13.25ZM13.5 14.75C13.9142 14.75 14.25 14.4142 14.25 14C14.25 13.5858 13.9142 13.25 13.5 13.25V14.75ZM9.5 10.25C9.08579 10.25 8.75 10.5858 8.75 11C8.75 11.4142 9.08579 11.75 9.5 11.75V10.25ZM15.5 11.75C15.9142 11.75 16.25 11.4142 16.25 11C16.25 10.5858 15.9142 10.25 15.5 10.25V11.75ZM9.5 14.75H13.5V13.25H9.5V14.75ZM9.5 11.75H15.5V10.25H9.5V11.75Z" fill="#5e5e5e"></path> </g></svg>
             </div>
-            <div
-              @click="changeRightMode(4)"
-              class="image-menu rounded-lg p-1 cursor-pointer" 
-              :class="{'bg-white': rightMode == 4} ">
-              <svg class="w-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2639 15.9375L12.5958 14.2834C11.7909 13.4851 11.3884 13.086 10.9266 12.9401C10.5204 12.8118 10.0838 12.8165 9.68048 12.9536C9.22188 13.1095 8.82814 13.5172 8.04068 14.3326L4.04409 18.2801M14.2639 15.9375L14.6053 15.599C15.4112 14.7998 15.8141 14.4002 16.2765 14.2543C16.6831 14.126 17.12 14.1311 17.5236 14.2687C17.9824 14.4251 18.3761 14.8339 19.1634 15.6514L20 16.4934M14.2639 15.9375L18.275 19.9565M18.275 19.9565C17.9176 20 17.4543 20 16.8 20H7.2C6.07989 20 5.51984 20 5.09202 19.782C4.71569 19.5903 4.40973 19.2843 4.21799 18.908C4.12796 18.7313 4.07512 18.5321 4.04409 18.2801M18.275 19.9565C18.5293 19.9256 18.7301 19.8727 18.908 19.782C19.2843 19.5903 19.5903 19.2843 19.782 18.908C20 18.4802 20 17.9201 20 16.8V16.4934M4.04409 18.2801C4 17.9221 4 17.4575 4 16.8V7.2C4 6.0799 4 5.51984 4.21799 5.09202C4.40973 4.71569 4.71569 4.40973 5.09202 4.21799C5.51984 4 6.07989 4 7.2 4H16.8C17.9201 4 18.4802 4 18.908 4.21799C19.2843 4.40973 19.5903 4.71569 19.782 5.09202C20 5.51984 20 6.0799 20 7.2V16.4934M17 8.99989C17 10.1045 16.1046 10.9999 15 10.9999C13.8954 10.9999 13 10.1045 13 8.99989C13 7.89532 13.8954 6.99989 15 6.99989C16.1046 6.99989 17 7.89532 17 8.99989Z" stroke="#5e5e5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-            </div>
           </div>
         </div>
 
@@ -173,6 +160,7 @@ import UserReviewComponent from '@/components/userComponents/UserReviewComponent
 import ImageGallery from '@/components/images/ImageGallery.vue';
 import MapComponent from '@/components/maps/MapComponent.vue';
 import FooterComponent from '@/components/FooterComponent.vue';
+
 
 
 
@@ -384,10 +372,7 @@ export default {
 
 <style scoped>
 
-.body {
-  background: rgb(86,94,116);
-  background: linear-gradient(151deg, rgba(86,94,116,1) 0%, rgba(21,28,45,1) 79%);
-}
+
 
 .content-right {
   border-radius: 6%;

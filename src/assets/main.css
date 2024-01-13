@@ -23,9 +23,12 @@
 
 :root {
 	--yellow: #FCBE84;
+	--slate: #FBFBFB;
+	--red: #DA254E;
 }
 
 #app {
+	width: 100%;
 	font-family: 'Nunito Sans', sans-serif;
 }
 
@@ -33,8 +36,39 @@
 	font-family: 'DM Serif Display', serif;
 }
 
+.black-gradient {
+	background: rgb(86,94,116);
+	background: linear-gradient(151deg, rgba(86,94,116,1) 0%, rgba(21,28,45,1) 79%);
+}
+
 .yellow {
 	color: var(--yellow);
+}
+
+.red {
+	color: var(--red)
+}
+
+.bg-red {
+	background-color: var(--red)
+}
+
+.bg-yellow {
+	background-color: var(--yellow)
+}
+
+.centered-axis-x {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.slate {
+	color: var(--slate)
+}
+
+.header {
+	
 }
 
 .h70screen {
