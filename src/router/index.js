@@ -7,6 +7,7 @@ import SearchView from '@/views/SearchView.vue'
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import RecipeViewLayout from '@/layouts/RecipeViewLayout.vue'
+import StoreView from '@/views/StoreView.vue'
 
 
 
@@ -38,13 +39,22 @@ const router = createRouter({
       component: SearchView,
     },
     {
-      path: '/recipeView',
+      path: '/store/:id',
+      name: 'storeView',
+      meta: {
+        layout: MainLayout,
+      },
+      component: StoreView,
+    },
+    {
+      path: '/recipe/:id',
       name: 'recipeView',
       meta: {
         layout: RecipeViewLayout,
       },
       component: RecipeView,
     },
+
   ]
 })
 

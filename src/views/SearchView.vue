@@ -18,7 +18,7 @@
         <ul class="list-display mt-16">
             <li 
                 v-for="i in 10" :key="i">
-                <RouterLink to="/recipeview">
+                <RouterLink :to="'/recipe/'+i">
                     <div class="rounded-3xl bg-gray-100 relative flex justify-center flex-col h-64">
                         <img class="rounded-full w-full p-8" src="https://static.vecteezy.com/system/resources/previews/027/536/034/non_2x/restaurant-food-restaurant-food-top-view-ai-generative-free-png.png" alt="">
                         <div class="rounded-lg absolute -bottom-1 -right-1 h-10 w-32 bg-white flex items-center justify-center">
