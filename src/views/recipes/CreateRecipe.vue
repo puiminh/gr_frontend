@@ -28,14 +28,14 @@
                 </div>
               </div>
               <div class="image-holder relative">
-                <img class="w-96 absolute  -top-5 left-5 max-w-none z-10" src="https://veerji.ca/wp-content/uploads/2021/12/malai-kofta-indian-vegetarian-meatballs-curry-traditionally-served-hot-flatbread-tandoori-rumali-roti-naan-traditional-158606665-removebg-preview.png" alt="">
-                <button class="absolute left-20 w-8 h-8 bg-yellow rounded-full p-2 z-50">
+                <img class="absolute  -top-5 left-10 rounded-full object-cover max-w-80 h-80 z-10" :src="imageLink" alt="">
+                <button @click="openImageModal" class="absolute left-20 w-8 h-8 bg-yellow rounded-full p-2 z-50">
                     <IconUpload></IconUpload>
                 </button>
               </div>            
             </div>
-            <div class="description mt-8">
-              <p class="title text-white text-2xl font-extralight dm-serif mb-12">Introduction</p>
+            <div class="description mt-12">
+              <p class="title text-white text-2xl font-extralight dm-serif mb-14">Introduction</p>
               <p class="description-text text-xl text-orange-50 word-space-3" contenteditable="true">
                 Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.
               </p>
@@ -101,19 +101,17 @@
           <div
             :class="{hidden : rightMode != 2}"
             class="p-16 h-full -mt-8 min-w-5/6 slide-left">
+            <div @click="openVideoModal" class="absolute z-10 top-0 mt-20 w-8 h-8 bg-yellow rounded-full p-2 mx-auto cursor-pointer">
+              <IconUpload></IconUpload>
+            </div>
             <!-- <p class="title text-slate-700 text-3xl dm-serif mb-6">Video</p> -->
             <VideoPlayer 
-              class="max-h-screen" 
+              class="h-full" 
               :options="videoOptions" 
               :instructions="instructions"
               ref="videoplayer"
               @returnCurrentTime="getCurrentTime"
             />
-
-            <div v-if="videoOptions.src == ''" class="mt-20 w-16 h-16 bg-yellow rounded-full p-2 mx-auto cursor-pointer">
-                <IconUpload></IconUpload>
-            </div>
-
           </div>
 
           <div
@@ -165,6 +163,9 @@ import ImageGallery from '@/components/images/ImageGallery.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
 import IconAdd from '@/components/icons/IconAdd.vue';
 import IconSave from '@/components/icons/IconSave.vue';
+import ImageModal from '@/components/modals/ImageModal.vue';
+import VideoModal from '@/components/modals/VideoModal.vue';
+
 
 
 
@@ -172,6 +173,7 @@ import IconSave from '@/components/icons/IconSave.vue';
 
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
 import IconUpload from '@/components/icons/IconUpload.vue';
+import { openModal, closeModal } from 'jenesius-vue-modal';
 
 
 export default {
@@ -188,18 +190,19 @@ export default {
     IngredientCheckbox,
     InstructionComponent,
     UserReviewComponent,
-    ImageGallery,
     VideoPlayer,
     IconEdit,
     IconSave,
     IconAdd,
-    IconUpload
+    IconUpload,
+    ImageModal
 },
   data() {
     return {
       scrollTimeOut: null,
       current: 1,
       rightMode: 1,
+      imageLink: 'https://veerji.ca/wp-content/uploads/2021/12/malai-kofta-indian-vegetarian-meatballs-curry-traditionally-served-hot-flatbread-tandoori-rumali-roti-naan-traditional-158606665-removebg-preview.png',
       videoOptions: {
         src: "",
       },
@@ -226,24 +229,28 @@ export default {
           avatar: "..."
         },
       ],
-      images: [
-        {
-          src: "https://img.freepik.com/free-photo/tasty-burger-isolated-white-background-fresh-hamburger-fastfood-with-beef-cheese_90220-1063.jpg?size=338&ext=jpg&ga=GA1.1.1412446893.1704931200&semt=sph",
-          author: "Alan Smithsonian"
-        },
-        {
-          src: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
-          author: "Alan Smithsonian"
-        },
-        {
-          src: "https://i0.wp.com/post.healthline.com/wp-content/uploads/2020/07/1296x728-header.jpg?w=1155&h=1528",
-          author: "Alan Smithsonian"
-        },
-      ]
-
     };
   },
   methods: {
+    async openImageModal() {
+            const modal = await openModal(ImageModal, {imagePropLink: this.imageLink})
+
+            modal.on('passImageLink', link => {
+                console.log(link);
+                this.imageLink = link;
+            }) 
+    },
+    async openVideoModal() {
+            const modal = await openModal(VideoModal)
+
+            modal.on('passVideoLink', link => {
+                console.log("Get link from parent: ",link);
+                this.videoOptions.src = link;
+                // this.$refs.videoplayer.changeVideoSrc(link);
+
+                closeModal();
+            }) 
+    },
     jumpToTimeParent (time) { 
       this.$refs.videoplayer.jumpToTimeVideo(time);
     },
@@ -375,7 +382,11 @@ export default {
     opacity: 1;
   }
 }
-
-
+::v-deep(.widget__modal-container__item) {
+  z-index: 50;
+}
+.modal-container {
+  z-index: 50;
+}
 
 </style>

@@ -87,6 +87,13 @@
 	word-spacing: 3px;
 }
 
+.widget__modal-container__item {
+	z-index: 50;
+}
+.modal-container {
+	z-index: 50;
+}
+
 a,
 .green {
 

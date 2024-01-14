@@ -26,11 +26,11 @@
                 </div>
               </div>
               <div class="image-holder relative">
-                <img class="w-96 absolute  -top-5 left-5 max-w-none z-50" src="https://veerji.ca/wp-content/uploads/2021/12/malai-kofta-indian-vegetarian-meatballs-curry-traditionally-served-hot-flatbread-tandoori-rumali-roti-naan-traditional-158606665-removebg-preview.png" alt="">
+                <img class="w-96 absolute  -top-5 left-10 rounded-full object-cover max-w-80 h-80 z-50" src="https://veerji.ca/wp-content/uploads/2021/12/malai-kofta-indian-vegetarian-meatballs-curry-traditionally-served-hot-flatbread-tandoori-rumali-roti-naan-traditional-158606665-removebg-preview.png" alt="">
               </div>            
             </div>
-            <div class="description mt-8">
-              <p class="title text-white text-2xl font-extralight dm-serif mb-12">Introduction</p>
+            <div class="description mt-12">
+              <p class="title text-white text-2xl font-extralight dm-serif mb-14">Introduction</p>
               <p class="description-text text-xl text-orange-50 word-space-3">
                 Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.
               </p>
@@ -97,7 +97,7 @@
             class="p-16 h-full -mt-8 min-w-5/6 slide-left">
             <!-- <p class="title text-slate-700 text-3xl dm-serif mb-6">Video</p> -->
             <VideoPlayer 
-              class="max-h-screen" 
+              class="h-full" 
               :options="videoOptions" 
               :instructions="instructions"
               ref="videoplayer"

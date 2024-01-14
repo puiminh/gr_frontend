@@ -140,6 +140,10 @@ export default {
     },
   },
   methods: {
+    changeVideoSrc(link) {
+      this.$refs.video.setAttribute('src',link)
+      console.log("change video link", link);
+    },
     jumpToTimeVideo(seconds) {
       if (this.$refs.video) {
         this.$refs.video.currentTime = seconds;

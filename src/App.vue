@@ -8,7 +8,7 @@
 
 <template>
   <component :is="$route.meta.layout"></component>
-  <widget-container-modal />
+  <widget-container-modal/>
 </template>
 
 <style scoped>
