@@ -296,7 +296,6 @@ export default {
       }
       this.current = currentOrder;
 
-      console.log(this.current);
     },
     changeRightMode(value) {
       this.rightMode = value;
@@ -339,7 +338,6 @@ export default {
       var elementRect = element.getBoundingClientRect();
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-      console.log(element, elementRect.top, elementRect.bottom, viewportHeight);
       return (
         elementRect.top >= 0 &&
         elementRect.bottom - viewportHeight <= 0
@@ -359,7 +357,6 @@ export default {
         }, delay)
       }
     }
-    console.log(this.$refs.recipeview);
     this.$refs.recipeview.addEventListener('scroll', debounce(this.handleScroll, 100));
   }
 };

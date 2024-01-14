@@ -2,13 +2,16 @@
     <div>
         <div
           :class="{current : current==instruction.order}" 
-          class="instruction_step flex items-center cursor-pointer p-4 m-2" 
+          class="instruction_step flex items-center justify-between cursor-pointer p-4 m-2" 
           @click="jumpToTimeIC"
           ref="instruction"
         >
-            <p class="step uppercase title text text-lg yellow font-mono mr-2 self-start mt-2">step {{instruction.order}} </p>
-            <p class="instruction-text text-xl text-orange-50 word-space-3">
-              Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.
+            <p class="step uppercase title text text-medium yellow font-mono mr-2 self-start mt-2">step {{instruction.order}} </p>
+            <p 
+              class="instruction-text text-xl text-orange-50 word-space-3"
+              :contenteditable="edit"
+            >
+              {{instruction.description ? instruction.description :  defaultIns}}
             </p>
             <p class="step uppercase title text text-medium text-slate-200 font-mono mr-6 self-start mt-2"> {{timeFormat}} </p>
         </div>
@@ -16,6 +19,11 @@
 </template>
 <script>
 export default {
+  data () {
+    return {
+      defaultIns: 'Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.'
+    }
+  },
   watch: {
     current(newValue) {
       if (newValue==this.instruction.order) {
@@ -29,7 +37,7 @@ export default {
       this.$emit('jumpToTimeParent', this.instruction.time);
     },
   },
-  props: ['instruction', 'current'],
+  props: ['instruction', 'current', 'edit'],
   computed: {
     timeFormat() {
       const minutes = Math.floor(this.instruction.time / 60);

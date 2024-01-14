@@ -46,7 +46,7 @@
             <div class="instruction mt-8">
               <div class="flex justify-between mb-12 w-40">
                 <p class="text-white text-2xl font-extralight dm-serif " ref="instruction_title">Method</p>
-                <button class="w-8 h-8 bg-yellow rounded-full p-2">
+                <button @click="addStep" class="w-8 h-8 bg-yellow rounded-full p-2">
                     <IconAdd></IconAdd>                    
                 </button>
               </div>
@@ -57,6 +57,7 @@
                   :key="instruction.order" 
                   :instruction="instruction"
                   :current="current"
+                  :edit="true"
                   @jumpToTimeParent="jumpToTimeParent"
                 >
                 </InstructionComponent>
@@ -82,7 +83,7 @@
             class="p-16 pt-12 slide-left">
             <div class="flex items-center justify-between mb-12">
                 <p class="title text-slate-700 text-3xl dm-serif">Ingredients</p>
-                <button class="w-8 h-8 bg-yellow rounded-full p-2">
+                <button @click="openIngredientModal" class="w-8 h-8 bg-yellow rounded-full p-2">
                     <IconAdd></IconAdd>                    
                 </button>
             </div>
@@ -91,7 +92,10 @@
                 <IngredientCheckbox :item="index"></IngredientCheckbox>
                 <div class="flex justify-between w-5/6 items-center">
                   <p class="text text-lg text-slate-600 ml-8 font-bold">{{ item.name }} </p>
-                  <p class="text text-base text-slate-400 font-medium">{{item.amount}} {{item.unit}}</p>
+                  <div class="flex">
+                    <p class="text text-base text-slate-400 font-medium mr-2" :contenteditable="true">{{item.amount || 0}} </p>
+                    <p class="text text-base text-slate-400 font-medium"> {{item.unit}}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -174,6 +178,7 @@ import VideoModal from '@/components/modals/VideoModal.vue';
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
 import IconUpload from '@/components/icons/IconUpload.vue';
 import { openModal, closeModal } from 'jenesius-vue-modal';
+import FilterModal from '@/components/modals/FilterModal.vue';
 
 
 export default {
@@ -209,11 +214,6 @@ export default {
       instructions: [
       ],
       ingredients: [
-        {
-          name: "Sample",
-          unit: "kg",
-          amount: 2,
-        },
       ],
       reviews: [
         {
@@ -232,24 +232,37 @@ export default {
     };
   },
   methods: {
-    async openImageModal() {
-            const modal = await openModal(ImageModal, {imagePropLink: this.imageLink})
+    async openIngredientModal () {
+      const preSelect = this.ingredients.map(e => e.id)
+      const modal = await openModal(FilterModal, {preSelect: preSelect})
 
-            modal.on('passImageLink', link => {
-                console.log(link);
-                this.imageLink = link;
-            }) 
+      modal.on('passData', data => {
+          this.ingredients = data;
+          closeModal();
+      })
+    },
+    addStep () {
+      this.instructions.push({
+          order: this.instructions.length+1,
+          time: 0,
+      },)
+    },
+    async openImageModal() {
+      const modal = await openModal(ImageModal, {imagePropLink: this.imageLink})
+
+      modal.on('passImageLink', link => {
+          this.imageLink = link;
+      }) 
     },
     async openVideoModal() {
-            const modal = await openModal(VideoModal)
+      const modal = await openModal(VideoModal)
 
-            modal.on('passVideoLink', link => {
-                console.log("Get link from parent: ",link);
-                this.videoOptions.src = link;
-                // this.$refs.videoplayer.changeVideoSrc(link);
+      modal.on('passVideoLink', link => {
+          this.videoOptions.src = link;
+          // this.$refs.videoplayer.changeVideoSrc(link);
 
-                closeModal();
-            }) 
+          closeModal();
+      }) 
     },
     jumpToTimeParent (time) { 
       this.$refs.videoplayer.jumpToTimeVideo(time);
@@ -265,7 +278,6 @@ export default {
       }
       this.current = currentOrder;
 
-      console.log(this.current);
     },
     changeRightMode(value) {
       this.rightMode = value;
@@ -299,7 +311,6 @@ export default {
       var elementRect = element.getBoundingClientRect();
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-      console.log(element, elementRect.top, elementRect.bottom, viewportHeight);
       return (
         elementRect.top >= 0 &&
         elementRect.bottom - viewportHeight <= 0
@@ -319,7 +330,6 @@ export default {
         }, delay)
       }
     }
-    console.log(this.$refs.recipeview);
     this.$refs.recipeview.addEventListener('scroll', debounce(this.handleScroll, 100));
   }
 };
