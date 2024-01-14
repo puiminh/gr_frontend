@@ -7,7 +7,9 @@ import SearchView from '@/views/SearchView.vue'
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import RecipeViewLayout from '@/layouts/RecipeViewLayout.vue'
-import StoreView from '@/views/StoreView.vue'
+import StoreView from '@/views/stores/StoreView.vue'
+import CreateStore from '@/views/stores/CreateStore.vue'
+
 import CreateRecipeVue from '@/views/recipes/CreateRecipe.vue'
 
 
@@ -46,6 +48,14 @@ const router = createRouter({
         layout: MainLayout,
       },
       component: StoreView,
+    },
+    {
+      path: '/create-store',
+      name: 'create-store',
+      meta: {
+        layout: MainLayout,
+      },
+      component: CreateStore,
     },
     {
       path: '/recipe/:id',

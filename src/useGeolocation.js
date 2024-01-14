@@ -15,5 +15,7 @@ export function useGeolocation() {
     if (watcher) navigator.geolocation.clearWatch(watcher)
   })
 
+  console.log(coords);
+
   return { coords, isSupported }
 }

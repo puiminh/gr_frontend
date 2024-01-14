@@ -26,6 +26,8 @@
 	--slate: #FBFBFB;
 	--red: #DA254E;
 }
+input {border:0;outline:0;}
+input:focus {outline:none;}
 
 #app {
 	width: 100%;

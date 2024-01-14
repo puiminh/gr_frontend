@@ -2,13 +2,11 @@
     <GMapMap ref="mapRef" :center="center" :zoom="18" map-type-id="terrain" style="width: 100%; height: 100%">
         <GMapMarker
           :key="index"
-          v-for="(m, index) in markers"
-          :icon="m.icon"
+          v-for="(m, index) in stores"
+          :icon="icon[0]"
           :position="m.position"
           :clickable="true"
-          :draggable="true"
           :disableDefaultUI="true"
-          @click="getDistance(m.id, m.position)"
         >
           <GMapInfoWindow
             :opened="selectedMarkerId == m.id"
@@ -23,7 +21,13 @@
             <InfoWindow :data="m"></InfoWindow>
           </GMapInfoWindow>
         </GMapMarker>
-        <GMapPolyline :options="options" />
+
+        <!-- <GMapMarker
+        :position="current"
+        :clickable="true"
+        :disableDefaultUI="true">
+
+        </GMapMarker> -->
     </GMapMap>
   </template>
   <script>
@@ -31,111 +35,43 @@
   import { toRaw } from 'vue';
   import axios from 'axios'
   import InfoWindow from './InfoWindow.vue';
+  import data from '@/db.json'
+  import IconCurrent from '../icons/IconCurrent.vue';
   
   export default {
+      computed: {
+
+      },
+      mounted() {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                this.current = {lat: position.coords.latitude, lng: position.coords.longitude}
+                console.log(this.current);
+            },
+            error => {
+                console.log(error.message);
+            },
+        )
+
+        console.log(this.stores);
+      },
+      props: ['stores', 'center'],
       data() {
-          const { coords } = useGeolocation();
-          const foodvendor = './images/food.png';
-          const localmarket = './images/market.png';
-          const store247 = './images/247.png';
-          const supermarket = './images/store.png';
           return {
               KEY: 'AIzaSyAu94igMGdWyK9JSVIKwM-e-M9vzZtsTWI',
               selectedMarkerId: -1,
-              coords,
               distance: 0,
-              center: { lat: 21.0070115, lng: 105.8414017 },
-              options: {},
-              markers: [
-                  {
-                      id: 0,
-                      name: 'Chợ nhỏ',
-                      des: 'Khu chợ nhỏ gần ký túc xá',
-                      img: 'https://static2.yan.vn/YanNews/2167221/201708/20170818-021910-tri_0018_1200x795.png',
-                      icon: localmarket,
-                      position: {
-                          lat: 21.0050115,
-                          lng: 105.8414017,
-                      },
-                  },
-                  {
-                      id: 1,
-                      name: 'Siêu thị',
-                      des: 'Siêu thị với đầy ắp đồ',
-                      img: 'https://cdnmedia.baotintuc.vn/Upload/pTMF1jgWpbjY1m8G1xWUsg/files/2023/01/sieuthi29Tet/samtet09.JPG',
-                      icon: supermarket,
-                      position: {
-                          lat: 21.0060115,
-                          lng: 105.8414017,
-                      },
-                  },
-                  {
-                      id: 2,
-                      name: 'Hàng rong',
-                      des: 'Hàng rong cạnh cổng trường',
-                      img: 'https://lawnet.vn/uploads/image/2019/11/02/030831370.jpg',
-                      icon: foodvendor,
-                      position: {
-                          lat: 21.0060115,
-                          lng: 105.8455017,
-                      },
-                  },
-                  {
-                      id: 3,
-                      name: 'Cửa hàng tiện lợi',
-                      des: 'Cửa hàng tiện lợi 24/7',
-                      img: 'https://simg.zalopay.com.vn/zlp-website/assets/cua_hang_tien_loi_circle_k_22ca86b5d5.jpg',
-                      icon: store247,
-                      position: {
-                          lat: 21.0060115,
-                          lng: 105.8404017,
-                      },
-                  },
-                  {
-                      id: 4,
-                      name: 'Chợ nhỏ',
-                      des: 'Khu chợ nhỏ gần ký túc xá',
-                      img: 'https://static2.yan.vn/YanNews/2167221/201708/20170818-021910-tri_0018_1200x795.png',
-                      icon: localmarket,
-                      position: {
-                          lat: 21.0000115,
-                          lng: 105.8414017,
-                      },
-                  },
-                  {
-                      id: 5,
-                      name: 'Siêu thị',
-                      des: 'Siêu thị với đầy ắp đồ',
-                      img: 'https://cdnmedia.baotintuc.vn/Upload/pTMF1jgWpbjY1m8G1xWUsg/files/2023/01/sieuthi29Tet/samtet09.JPG',
-                      icon: supermarket,
-                      position: {
-                          lat: 21.0020115,
-                          lng: 105.8414017,
-                      },
-                  },
-                  {
-                      id: 6,
-                      name: 'Hàng rong',
-                      des: 'Hàng rong cạnh cổng trường',
-                      img: 'https://lawnet.vn/uploads/image/2019/11/02/030831370.jpg',
-                      icon: foodvendor,
-                      position: {
-                          lat: 21.0060115,
-                          lng: 105.8405017,
-                      },
-                  },
-                  {
-                      id: 7,
-                      name: 'Cửa hàng tiện lợi',
-                      des: 'Cửa hàng tiện lợi 24/7',
-                      img: 'https://simg.zalopay.com.vn/zlp-website/assets/cua_hang_tien_loi_circle_k_22ca86b5d5.jpg',
-                      icon: store247,
-                      position: {
-                          lat: 21.0090115,
-                          lng: 105.8404017,
-                      },
-                  },
-              ],
+              current: { lat: 0, lng: 0 },
+              icon : [
+                {
+                    url: "https://cdn-icons-png.flaticon.com/512/8422/8422894.png",
+                    scaledSize: {width: 50, height: 50},
+                    labelOrigin: {x: 0, y: 0}
+                },
+                './images/food.png',
+                './images/247.png',
+                './images/store.png'
+              ]
           };
       },
       methods: {
@@ -166,15 +102,10 @@
               });
           }
       },
-      components: { InfoWindow },
+      components: { InfoWindow, IconCurrent },
   }
   </script>
 
 <style>
-
-.vue-map-container {
-    width: 100%;
-    height: 100%;
-}
 
 </style>
