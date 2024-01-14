@@ -8,15 +8,13 @@ import data from './icons.json'
 const GOOGLE_MAPS_API_KEY = 'AIzaSyAu94igMGdWyK9JSVIKwM-e-M9vzZtsTWI'
 
 export default {
-  props: ['stores', 'center'],
   watch: {
     otherPos(newValue) {
-      console.log(newValue);
     }
   },
 
 
-  setup(props) {
+  setup() {
     const { coords } = useGeolocation()
     const currPos = computed(() => ({
       lat: coords.value.latitude,
@@ -29,73 +27,53 @@ export default {
 
     let map = ref(null)
     let clickListener = null
+    let marker = ref(null)
 
     onMounted(async () => {
       await loader.load()
-      let dS = new google.maps.DirectionsService();
-      let dD = new google.maps.DirectionsRenderer();
       map.value = new google.maps.Map(mapDiv.value, {
-        center: props.center,
+        center: currPos.value,
         zoom: 15,
       })
+
+      let current = createMarker(currPos.value.lat, currPos.value.lng, 0);
+      current.setMap(map.value)
+
       clickListener = map.value.addListener(
         'click',
         ({ latLng: { lat, lng } }) => {
           (otherPos.value = { lat: lat(), lng: lng() })
-          console.log(otherPos);
+          
+          if (marker.value != null) {
+            marker.value.setMap(null)
+            marker.value = null
+          } 
+          marker.value = createMarker(otherPos.value.lat, otherPos.value.lng, 1);
+          marker.value.setMap(map.value)
         }
       )
-
-      console.log(props.stores);
-
-      props.stores.forEach(element => {
-        createMarker(element.location.lat, element.location.lng, element.type)        
-      });
-
-      createMarker(currPos.value.lat, currPos.value.lng, 0);
-
-      let request = {
-        origin: currPos.value,
-        destination: props.center,
-        travelMode: "DRIVING",
-      }
-
-      dS.route(request, function(result, status) {
-        if (status == "OK") {
-          console.log(result);
-
-          dD.setDirections(result);
-        } else {
-          console.log(status);
-        }
-      })
-      dD.setMap(map.value)
-
-
-
     })
+    function createMarker (lat, lng, iconType) {
+      return new google.maps.Marker({
+          position: new google.maps.LatLng(lat, lng),
+          icon: data.icons[iconType]
+      });
+    };
     onUnmounted(async () => {
       if (clickListener) clickListener.remove()
     })
 
-    let line = null
-    watch([map, currPos, otherPos], () => {
-      if (line) line.setMap(null)
-      if (map.value && otherPos.value != null)
-        line = new google.maps.Polyline({
-          path: [currPos.value, otherPos.value],
-          map: map.value
-        })
-    })
+    // let line = null
+    // watch([map, currPos, otherPos], () => {
+    //   if (line) line.setMap(null)
+    //   if (map.value && otherPos.value != null)
+    //     line = new google.maps.Polyline({
+    //       path: [currPos.value, otherPos.value],
+    //       map: map.value
+    //     })
+    // })
 
-    function createMarker (lat, lng, iconType) {
-      console.log(data);
-      new google.maps.Marker({
-          position: new google.maps.LatLng(lat, lng),
-          map: map.value,
-          icon: data.icons[iconType]
-      });
-    };
+
 
     const haversineDistance = (pos1, pos2) => {
       const R = 3958.8 // Radius of the Earth in miles

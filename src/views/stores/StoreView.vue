@@ -47,7 +47,7 @@
             </div>
             <MapComponent
                 :stores="storeList" 
-                :center="store.position"
+                :center="store.location"
                 class="w-1/2 h-full shadow-lg"
             ></MapComponent>
             
@@ -67,12 +67,12 @@ export default {
         return {
             keyword: '',
             store: {
-                type: 0,
-                position: {
+                type: 1,
+                location: {
                     lat: 21.0226,
                     lng: 105.798466
-                }
-            }
+                },
+            },
         }
     },
     components: {

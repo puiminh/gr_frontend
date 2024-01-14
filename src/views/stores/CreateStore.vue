@@ -12,7 +12,7 @@
                 <IconAdd class="h-6 w-6"></IconAdd>
             </button>
             <button
-                @click="openIngredientModal" 
+                @click="save" 
                 class="hover:drop-shadow-md bg-green-600 w-40 h-16 rounded-r-full absolute -bottom-8 left-1/2 flex items-center justify-between px-6">
                 <p class="text-white font-bold text-lg">Save</p>
                 <IconSave class="h-6 w-6"></IconSave>
@@ -58,9 +58,8 @@
             </div>
             <div class="w-1/2 h-full shadow-lg relative">
                 <MapComponent
-                    :stores="storeList" 
-                    :center="store.position"
                     class="w-full h-full"
+                    ref="MapComponent"
                 ></MapComponent>
             </div>
         </div>
@@ -68,7 +67,7 @@
 </template>
 <script>
 import StarsRatingDisplay from "@/components/stars/StarsRatingDisplay.vue"
-import MapComponent from "@/components/maps/MapComponent.vue";
+import MapComponent from "@/components/maps/CreateStoreMapComponent.vue";
 import ImageUploadCover from "@/components/images/ImageUploadCover.vue";
 import ImageModal from "@/components/modals/ImageModal.vue";
 import { closeModal, openModal } from "jenesius-vue-modal";
@@ -79,6 +78,10 @@ import IconSave from "@/components/icons/IconSave.vue";
 
 export default {
     methods: {
+        save() {
+            console.log(this.$refs.MapComponent.otherPos);
+            
+        },
         async openImageModal() {
             const modal = await openModal(ImageModal, {imagePropLink: this.imageCoverLink})
             modal.on('passImageLink', link => {
@@ -104,13 +107,6 @@ export default {
         return {
             ingredients: [],
             keyword: '',
-            store: {
-                type: 0,
-                position: {
-                    lat: 21.0226,
-                    lng: 105.798466
-                },
-            },
             imageCoverLink: '',
             imageCoverLinkDefault: '/images/grocerybackground.jpg'
         }
