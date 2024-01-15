@@ -19,12 +19,12 @@
 import { openModal } from 'jenesius-vue-modal';
 import IconEdit from '../icons/IconEdit.vue';
 import StarsRatingDisplay from '../stars/StarsRatingDisplay.vue';
-import RecipeReviewModal from '../modals/RecipeReviewModal.vue';
+import StoreReviewModal from '../modals/StoreReviewModal.vue';
 
 export default {
   methods: {
     async openReviewModal() {
-      const modal = await openModal(RecipeReviewModal, {predata: this.review, mode: 1})
+      const modal = await openModal(StoreReviewModal, {predata: this.review, mode: 1})
 
       modal.on('passData', data => {
           this.reviews.push(data);

@@ -178,7 +178,7 @@ import VideoModal from '@/components/modals/VideoModal.vue';
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
 import IconUpload from '@/components/icons/IconUpload.vue';
 import { openModal, closeModal } from 'jenesius-vue-modal';
-import FilterModal from '@/components/modals/FilterModal.vue';
+import IngredientSelectModal from '@/components/modals/IngredientSelectModal.vue';
 
 
 export default {
@@ -234,7 +234,7 @@ export default {
   methods: {
     async openIngredientModal () {
       const preSelect = this.ingredients.map(e => e.id)
-      const modal = await openModal(FilterModal, {preSelect: preSelect})
+      const modal = await openModal(IngredientSelectModal, {preSelect: preSelect})
 
       modal.on('passData', data => {
           this.ingredients = data;

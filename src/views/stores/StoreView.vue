@@ -32,9 +32,9 @@
             </li>
         </ul>
 
-        <div class="max-w-screen-xl w-full h-96 flex justify-between mt-24">
-            <div class="w-1/2 flex items-center">
-                <div class="flex flex-col gap-5">
+        <div class="max-w-screen-xl w-full min-h-96 h-screen flex justify-between mt-24">
+            <div class="w-1/2 mr-12 flex flex-col  divide-y-4">
+                <div class="flex flex-col gap-5 h-1/4">
                     <h1 class="text-4xl font-bold text-slate-900">Siêu thị BigC Hà Đông</h1>
                     <p class="text-medium font-semibold text-slate-600">Số 1, Đại Cồ Việt, Bách Khoa, Hai Bà Trưng, Hà Nội</p>
                     <div class="flex">
@@ -43,7 +43,22 @@
                     </div>
                 </div>
 
-
+                <div class="h-3/4 pt-12">
+                    <div class="mb-12 justify-between flex items-end">
+                    <p class="title text-slate-700 text-2xl dm-serif">Reviews</p>
+                    <p @click="openReviewModal" class="text-slate-400 text-medium font-semibold mb-1 underline-offset-2 underline cursor-pointer">Write a review</p>
+                    </div>
+                    <div class="insideContainer h-5/6 overflow-y-auto">
+                    <UserReviewStoreComponent 
+                        v-for="(review,index) in reviews" 
+                        :key="review"
+                        :review="review"
+                        :index="index"
+                        class="pr-6 mb-12"
+                    >
+                    </UserReviewStoreComponent>
+                    </div>
+                </div>
             </div>
             <MapComponent
                 :stores="storeList" 
@@ -57,7 +72,19 @@
 <script>
 import StarsRatingDisplay from "@/components/stars/StarsRatingDisplay.vue"
 import MapComponent from "@/components/maps/MapComponent.vue";
+import UserReviewStoreComponent from "@/components/userComponents/UserReviewStoreComponent.vue";
+import { openModal } from "jenesius-vue-modal";
+import StoreReviewModal from "@/components/modals/StoreReviewModal.vue";
 export default {
+    methods: {
+        async openReviewModal(predata = null) {
+            const modal = await openModal(StoreReviewModal, {predata: predata})
+
+            modal.on('passData', data => {
+                this.reviews.push(data);
+            }) 
+        },
+    },
     computed: {
         storeList() {
             return [{...this.store}]
@@ -73,11 +100,31 @@ export default {
                     lng: 105.798466
                 },
             },
+            reviews: [
+                {
+                user: {
+                    name: "Alan Smit",
+                    avatar: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
+                },
+                comment: "Lorem ipsum dolor sit amet consectetur adipiscing elit, odio pulvinar mollis fames habitant lacus, ut nunc fusce justo est placerat.",
+                rating: 4,
+                
+                },
+                {
+                user: {
+                    name: "Alan Smith 2",
+                    avatar: "https://www.toonsmag.com/wp-content/uploads/2023/04/Bart-Simpson-cartoon-686x1024.png"
+                },
+                comment: "Lorem ipsum dolor sit amet consectetur adipiscing elit",
+                rating: 3,
+                },
+            ],
         }
     },
     components: {
         MapComponent,
         StarsRatingDisplay,
+        UserReviewStoreComponent
     }
 }
 </script>

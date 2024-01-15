@@ -11,7 +11,7 @@
                   @click="handleClickUserDropdown" 
                   type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                   <span class="sr-only">Open user menu</span>
-                  <img class="w-8 h-8 rounded-full" src="" alt="user photo">
+                  <img class="w-8 h-8 rounded-full object-cover" :src="user.avatar" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div 
@@ -20,21 +20,19 @@
                   id="user-dropdown">
       
                   <div class="px-4 py-3">
-                    <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                    <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                    <span class="block text-sm text-gray-900 dark:text-white">{{user.name}}</span>
+                    <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{user.email}}</span>
                   </div>
                   <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
-                      <router-link to="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</router-link>
+                      <p @click="openBookmark" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Bookmark</p>
                     </li>
                     <li>
-                      <router-link to="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</router-link>
+                      <p @click="openProfile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</p>
                     </li>
+                   
                     <li>
-                      <router-link to="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</router-link>
-                    </li>
-                    <li>
-                      <router-link to="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</router-link>
+                      <p @click="signOut" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</p>
                     </li>
                   </ul>
                 </div>
@@ -79,15 +77,33 @@
     </div>
 </template>
 <script>
+import { openModal } from 'jenesius-vue-modal';
+import UserInfoModal from './modals/UserInfoModal.vue';
+
 export default {
   methods: {
     handleClickUserDropdown () { 
       this.openUserDropdown = !this.openUserDropdown;
     },
+    async openProfile() {
+      await openModal(UserInfoModal, {predata: this.user})
+    },
+    openBookmark() {
+
+    },
+    signOut() {
+
+    }
   },
   data () {
     return {
       openUserDropdown: false,
+      user: {
+        first_name: "Minh",
+        last_name: "Bui",
+        email: "abc@gmail.com",
+        avatar: "https://www.paratime.vn/wp-content/uploads/2019/09/timestudio.vn-corporate-headshot-pricing-01.jpg",
+      }
     }
   },
   computed: {

@@ -12,42 +12,52 @@
       </svg>
       <div class="comment-stars">
       
-        <input class="comment-stars-input" type="radio" name="rating" value="5" id="rating-5">
+        <input
+        :checked="stars==5"  
+        @change="handleRatingChange(5)"
+        class="comment-stars-input" type="radio" name="rating5" :value="5" id="rating-5">
         <label class="comment-stars-view" for="rating-5"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="4.5" id="rating-4.5" checked="checked"> <label class="comment-stars-view is-half" for="rating-4.5"><svg class="icon icon-star-half">
-            <use xlink:href="#icon-star-half"></use>
-          </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="4" id="rating-4"> <label class="comment-stars-view" for="rating-4"><svg class="icon icon-star">
+        <input
+        :checked="stars>=4"  
+        @change="handleRatingChange(4)"
+        class="comment-stars-input" type="radio" name="rating4" :value="4" id="rating-4"> <label class="comment-stars-view" for="rating-4"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="3.5" id="rating-3.5"> <label class="comment-stars-view is-half" for="rating-3.5"><svg class="icon icon-star-half">
-            <use xlink:href="#icon-star-half"></use>
-          </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="3" id="rating-3"> <label class="comment-stars-view" for="rating-3"><svg class="icon icon-star">
+        <input
+        :checked="stars>=3"  
+        @change="handleRatingChange(3)"
+        class="comment-stars-input" type="radio" name="rating3" :value="3" id="rating-3"> <label class="comment-stars-view" for="rating-3"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="2.5" id="rating-2.5"> <label class="comment-stars-view is-half" for="rating-2.5"><svg class="icon icon-star-half">
-            <use xlink:href="#icon-star-half"></use>
-          </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="2" id="rating-2"> <label class="comment-stars-view" for="rating-2"><svg class="icon icon-star">
+        <input
+        :checked="stars>=2"  
+        @change="handleRatingChange(2)"
+        class="comment-stars-input" type="radio" name="rating2" :value="2" id="rating-2"> <label class="comment-stars-view" for="rating-2"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
           </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="1.5" id="rating-1.5"> <label class="comment-stars-view is-half" for="rating-1.5"><svg class="icon icon-star-half">
-            <use xlink:href="#icon-star-half"></use>
-          </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="1" id="rating-1"> <label class="comment-stars-view" for="rating-1"><svg class="icon icon-star">
+        <input
+        :checked="stars>=1" 
+        @change="handleRatingChange(1)"
+        class="comment-stars-input" type="radio" name="rating1" :value="1" id="rating-1"> <label class="comment-stars-view" for="rating-1"><svg class="icon icon-star">
             <use xlink:href="#icon-star"></use>
-          </svg></label>
-        <input class="comment-stars-input" type="radio" name="rating" value="0.5" id="rating-0.5"> <label class="comment-stars-view is-half" for="rating-0.5"><svg class="icon icon-star-half">
-            <use xlink:href="#icon-star-half"></use>
           </svg></label>
       </div>
     </div>
 </template>
 <script>
 export default {
+  methods: {
+    handleRatingChange(e) {
+      this.stars = e;
+    }
+  },
+  data () {
+    return {
+      stars: 3,
+    }
+  },
     
 }
 </script>
@@ -76,7 +86,7 @@ export default {
   ~ .comment-stars-view:hover
   ~ .comment-stars-view
   svg {
-  fill: #ffd560;
+  fill: #fdcb9c;
 }
 
 .comment-stars-view {
@@ -100,7 +110,7 @@ export default {
 
 .comment-stars-view:hover svg,
 .comment-stars-view:hover ~ .comment-stars-view svg {
-  fill: #ffd560;
+  fill: #fdc795;
 }
 
 </style>

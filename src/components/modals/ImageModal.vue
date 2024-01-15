@@ -69,6 +69,11 @@ export default {
     watch: {
       imageLink() {
         this.passImageLinkMethod()
+      },
+      imagePropLink(newValue) {
+        this.fileName = 'file.png';
+        this.imageLink = newValue;
+        this.active = true;
       }
     }
     ,
@@ -156,15 +161,6 @@ export default {
                 this.images = response.data.hits.map((e)=>{
                   return e.previewURL
                 })
-                // this.images = response.data.hits.map((e) => {
-                //     if (e.previewLink && !e.previewLink[0].link.includes("mp4") && !e.previewLink[0].link.includes("gif")) {
-                //         console.log(e.previewLink[0].link);
-                //         return e.previewLink[0].link;
-                //     }
-                //     else {
-                //         return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTKS8sgnBMSLmsUMhsuoKM94dLEb61aboXs6wc0zwu&s";
-                //     }
-                // });
             })
                 .catch(function (error) {
                 console.log(error);
@@ -175,8 +171,7 @@ export default {
         }
     },
     mounted() {
-      console.log(this.imagePropLink);
-      if (this.imagePropLink) {
+      if (this.imagePropLink != '') {
         this.fileName = 'file.png';
         this.imageLink = this.imagePropLink;
         this.active = true;

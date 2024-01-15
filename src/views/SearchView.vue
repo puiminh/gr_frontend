@@ -39,13 +39,13 @@
 <script>
 import {openModal} from "jenesius-vue-modal";
 import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
-import FilterModal from '@/components/modals/FilterModal.vue';
+import IngredientSelectModal from '@/components/modals/IngredientSelectModal.vue';
 
 export default {
   methods: {
     openFilter () {
         let props = {title: "Hello"};
-        openModal(FilterModal, props)
+        openModal(IngredientSelectModal, props)
     },
   },
     components: { StarsRatingDisplay }

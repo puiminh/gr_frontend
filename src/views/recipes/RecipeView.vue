@@ -109,11 +109,15 @@
           <div
             :class="{hidden : rightMode != 3}"
             class="p-16 pt-12 slide-left">
-            <p class="title text-slate-700 text-3xl dm-serif mb-12">Reviews</p>
+            <div class="mb-12 justify-between flex items-end">
+              <p class="title text-slate-700 text-3xl dm-serif">Reviews</p>
+              <p @click="openReviewModal" class="text-slate-400 text-medium font-semibold mb-1 underline-offset-2 underline cursor-pointer">Write a review</p>
+            </div>
             <div class="insideContainer h-5/6 overflow-y-auto">
               <UserReviewComponent 
-                v-for="(review,index) in 5" 
-                :key="index"
+                v-for="(review,index) in reviews" 
+                :key="review"
+                :review="review"
                 :index="index"
                 class="pr-6 mb-12"
               >
@@ -164,6 +168,8 @@ import ImageGallery from '@/components/images/ImageGallery.vue';
 
 
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
+import { openModal } from 'jenesius-vue-modal';
+import RecipeReviewModal from '@/components/modals/RecipeReviewModal.vue';
 
 
 export default {
@@ -182,6 +188,7 @@ export default {
     UserReviewComponent,
     ImageGallery,
     VideoPlayer,
+    RecipeReviewModal,
     
   },
   data() {
@@ -252,16 +259,21 @@ export default {
       ],
       reviews: [
         {
-          name: "Alan Smit",
-          comment: "...",
-          rating: 4.3,
-          avatar: "..."
+          user: {
+            name: "Alan Smit",
+            avatar: "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
+          },
+          comment: "Lorem ipsum dolor sit amet consectetur adipiscing elit, odio pulvinar mollis fames habitant lacus, ut nunc fusce justo est placerat.",
+          rating: 4,
+          
         },
         {
-          name: "Alan Smit",
-          comment: "...",
-          rating: 4.3,
-          avatar: "..."
+          user: {
+            name: "Alan Smith 2",
+            avatar: "https://www.toonsmag.com/wp-content/uploads/2023/04/Bart-Simpson-cartoon-686x1024.png"
+          },
+          comment: "Lorem ipsum dolor sit amet consectetur adipiscing elit",
+          rating: 3,
         },
       ],
       images: [
@@ -282,6 +294,14 @@ export default {
     };
   },
   methods: {
+    async openReviewModal(predata = null) {
+      const modal = await openModal(RecipeReviewModal, {predata: predata})
+
+      modal.on('passData', data => {
+          this.reviews.push(data);
+      }) 
+    },
+
     jumpToTimeParent (time) { 
       this.$refs.videoplayer.jumpToTimeVideo(time);
     },

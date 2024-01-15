@@ -71,7 +71,7 @@ import MapComponent from "@/components/maps/CreateStoreMapComponent.vue";
 import ImageUploadCover from "@/components/images/ImageUploadCover.vue";
 import ImageModal from "@/components/modals/ImageModal.vue";
 import { closeModal, openModal } from "jenesius-vue-modal";
-import FilterModal from "@/components/modals/FilterModal.vue";
+import IngredientSelectModal from "@/components/modals/IngredientSelectModal.vue";
 import IconAdd from "@/components/icons/IconAdd.vue";
 import IconSave from "@/components/icons/IconSave.vue";
 
@@ -90,7 +90,7 @@ export default {
         },
         async openIngredientModal () {
             const preSelect = this.ingredients.map(e => e.id)
-            const modal = await openModal(FilterModal, {preSelect: preSelect})
+            const modal = await openModal(IngredientSelectModal, {preSelect: preSelect})
 
             modal.on('passData', data => {
                 this.ingredients = data;
