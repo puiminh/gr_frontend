@@ -88,7 +88,6 @@ export default {
   },
   computed: {
     displayValue() {
-        console.log(this.roundToHalf(this.stars));
         return this.roundToHalf(this.stars);
     }
   },
@@ -119,6 +118,10 @@ input, label {
 
 .comment-stars-view svg {
   margin: 0 5px;
+}
+
+.comment-stars.small svg {
+  margin: 0 2px;
 }
 
 .comment-stars-input:checked ~ .comment-stars-view svg {

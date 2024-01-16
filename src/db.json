@@ -182,13 +182,15 @@
         }
     ],
     
-    "store": [
+    "stores": [
           {
             "id": 0,
             "name": "Chợ nhỏ",
-            "des": "Khu chợ nhỏ gần ký túc xá",
+            "description": "Khu chợ nhỏ gần ký túc xá",
             "img": "https://static2.yan.vn/YanNews/2167221/201708/20170818-021910-tri_0018_1200x795.png",
-            "icon": "localmarket",
+            "type": 2,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 3,
             "position": {
               "lat": 21.0050115,
               "lng": 105.8414017
@@ -197,9 +199,11 @@
           {
             "id": 1,
             "name": "Siêu thị",
-            "des": "Siêu thị với đầy ắp đồ",
+            "description": "Siêu thị với đầy ắp đồ",
             "img": "https://cdnmedia.baotintuc.vn/Upload/pTMF1jgWpbjY1m8G1xWUsg/files/2023/01/sieuthi29Tet/samtet09.JPG",
-            "icon": "supermarket",
+            "type": 1,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 2.5,
             "position": {
               "lat": 21.0060115,
               "lng": 105.8414017
@@ -208,9 +212,11 @@
           {
             "id": 2,
             "name": "Hàng rong",
-            "des": "Hàng rong cạnh cổng trường",
+            "description": "Hàng rong cạnh cổng trường",
             "img": "https://lawnet.vn/uploads/image/2019/11/02/030831370.jpg",
-            "icon": "foodvendor",
+            "type": 2,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 5,
             "position": {
               "lat": 21.0060115,
               "lng": 105.8455017
@@ -218,21 +224,25 @@
           },
           {
             "id": 3,
-            "name": "Cửa hàng tiện lợi",
-            "des": "Cửa hàng tiện lợi 24/7",
-            "img": "https://simg.zalopay.com.vn/zlp-website/assets/cua_hang_tien_loi_circle_k_22ca86b5d5.jpg",
-            "icon": "store247",
+            "name": "Vinmart Bách Khoa",
+            "description": "Vinmart",
+            "img": "https://lawnet.vn/uploads/image/2019/11/02/030831370.jpg",
+            "type": 3,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 3,
             "position": {
               "lat": 21.0060115,
-              "lng": 105.8404017
+              "lng": 105.8455017
             }
           },
           {
             "id": 4,
             "name": "Chợ nhỏ",
-            "des": "Khu chợ nhỏ gần ký túc xá",
+            "description": "Khu chợ nhỏ gần ký túc xá",
             "img": "https://static2.yan.vn/YanNews/2167221/201708/20170818-021910-tri_0018_1200x795.png",
-            "icon": "localmarket",
+            "type": 2,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 4,
             "position": {
               "lat": 21.0000115,
               "lng": 105.8414017
@@ -241,9 +251,11 @@
           {
             "id": 5,
             "name": "Siêu thị",
-            "des": "Siêu thị với đầy ắp đồ",
+            "description": "Siêu thị với đầy ắp đồ",
             "img": "https://cdnmedia.baotintuc.vn/Upload/pTMF1jgWpbjY1m8G1xWUsg/files/2023/01/sieuthi29Tet/samtet09.JPG",
-            "icon": "supermarket",
+            "type": 1,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 3,
             "position": {
               "lat": 21.0020115,
               "lng": 105.8414017
@@ -252,9 +264,11 @@
           {
             "id": 6,
             "name": "Hàng rong",
-            "des": "Hàng rong cạnh cổng trường",
+            "description": "Hàng rong cạnh cổng trường",
             "img": "https://lawnet.vn/uploads/image/2019/11/02/030831370.jpg",
-            "icon": "foodvendor",
+            "type": 2,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 3,
             "position": {
               "lat": 21.0060115,
               "lng": 105.8405017
@@ -263,9 +277,11 @@
           {
             "id": 7,
             "name": "Cửa hàng tiện lợi",
-            "des": "Cửa hàng tiện lợi 24/7",
+            "description": "Cửa hàng tiện lợi 24/7",
             "img": "https://simg.zalopay.com.vn/zlp-website/assets/cua_hang_tien_loi_circle_k_22ca86b5d5.jpg",
-            "icon": "store247",
+            "type": 2,
+            "address": "Số 1 Đại Cồ Việt",
+            "rating": 4.5,
             "position": {
               "lat": 21.0090115,
               "lng": 105.8404017

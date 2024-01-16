@@ -1,22 +1,24 @@
 <template>
-    <div class="flex">
-        <img :src="data.img" alt="">
-        <center>
-            <h1>{{ data.name }}</h1>
-            <p>{{ data.des }}</p>
-        </center>
+    <div class="min-w-40 flex flex-col gap-2">
+        <h1 class="text-lg font-bold text-black self-center">{{ data.name }}</h1>
+        <div class="flex justify-between">
+            <p class="w-3/4 truncate  text-medium font-semibold text-slate-600">{{ data.address }}</p>
+            <p class="">{{ data.distance }} km</p>
+        </div>
+        <StarsRatingDisplay class=" self-start -ml-0.5" :small="true" :stars="data.rating" :index="data.id"></StarsRatingDisplay>
     </div>
 </template>
 
 <script>
+import StarsRatingDisplay from '../stars/StarsRatingDisplay.vue';
+
 
 export default {
     props: ['data'],
     data() {
-        return {
-
-        }
-    }
+        return {};
+    },
+    components: { StarsRatingDisplay }
 }
 </script>
 
