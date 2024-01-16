@@ -30,6 +30,9 @@
                     <li>
                       <p @click="openProfile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</p>
                     </li>
+                    <li>
+                      <p @click="managerStore" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Manager Stores</p>
+                    </li>
                    
                     <li>
                       <p @click="signOut" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</p>
@@ -89,10 +92,13 @@ export default {
       await openModal(UserInfoModal, {predata: this.user})
     },
     openBookmark() {
-
+      this.$router.push('/bookmarks');
     },
     signOut() {
 
+    },
+    managerStore() {
+      this.$router.push('/manage-stores ');
     }
   },
   data () {

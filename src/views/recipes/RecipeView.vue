@@ -79,7 +79,13 @@
           <div
             :class="{hidden : (rightMode != 1) && (rightMode != 4)}" 
             class="p-16 pt-12 slide-left">
-            <p class="title text-slate-700 text-3xl dm-serif mb-12">Ingredients</p>
+            <div class="flex items-center gap-4 mb-12">
+                <p class="title text-slate-700 text-3xl dm-serif">Ingredients</p>
+                <button @click="toTheMap" class=" bg-green-500 hover:bg-green-600 rounded-full p-2">
+                    <IconCart class="w-4 h-4"></IconCart>                   
+                    <!-- <p class="text-white font-bold">Buy</p> -->
+                </button>
+            </div>
             <div class="insideContainer  h-5/6 overflow-y-auto">
               <div v-for="(item,index) in ingredients" :key="index" class="checkbox_ingredient flex mb-8 items-start">
                 <IngredientCheckbox :item="index"></IngredientCheckbox>
@@ -162,6 +168,7 @@ import IngredientCheckbox from '@/components/checkboxs/IngredientCheckbox.vue';
 import InstructionComponent from '@/components/recipeComponents/InstructionComponent.vue';
 import UserReviewComponent from '@/components/userComponents/UserReviewComponent.vue';
 import ImageGallery from '@/components/images/ImageGallery.vue';
+import IconCart from '@/components/icons/IconCart.vue';
 
 
 
@@ -170,9 +177,13 @@ import ImageGallery from '@/components/images/ImageGallery.vue';
 import VideoPlayer from '@/components/videos/VideoPlayer.vue';
 import { openModal } from 'jenesius-vue-modal';
 import RecipeReviewModal from '@/components/modals/RecipeReviewModal.vue';
-
+import { useIngredientStore } from '@/stores/ingredient';
+import { mapActions, mapState } from 'pinia';
 
 export default {
+  computed: {
+    ...mapState(useIngredientStore, ['getIngredients']),
+  },
   watch: {
     rightMode(newValue) {
       if (newValue != 2) {
@@ -189,6 +200,7 @@ export default {
     ImageGallery,
     VideoPlayer,
     RecipeReviewModal,
+    IconCart,
     
   },
   data() {
@@ -227,34 +239,34 @@ export default {
       ],
       ingredients: [
         {
-          name: "Cà chua",
-          unit: "quả",
-          amount: 2,
+            "id": 22,
+            "name": "Rau cải xanh",
+            "unit": "gram",
+            "image": "kale.jpg"
         },
         {
-          name: "Cá hồi",
-          unit: "gram",
-          amount: 500,
+            "id": 23,
+            "name": "Mì ống",
+            "unit": "gram",
+            "image": "penne-pasta.jpg"
         },
         {
-          name: "Củ cải trắng",
-          unit: "củ",
-          amount: 5,
+            "id": 24,
+            "name": "Gia vị cay",
+            "unit": "gram",
+            "image": "spicy.jpg"
         },
         {
-          name: "Trứng gà",
-          unit: "quả",
-          amount: 5,
+            "id": 25,
+            "name": "Sữa đặc có đường",
+            "unit": "ml",
+            "image": "sweetened-condensed-milk.jpg"
         },
         {
-          name: "Hạt tiêu",
-          unit: "gram",
-          amount: 20,
-        },
-        {
-          name: "Mì sợi",
-          unit: "gram",
-          amount: 500,
+            "id": 26,
+            "name": "Bột nghệ",
+            "unit": "gram",
+            "image": "turmeric.jpg"
         },
       ],
       reviews: [
@@ -294,6 +306,13 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useIngredientStore, ['assignIngredients']),
+
+    toTheMap() {
+      this.assignIngredients(this.ingredients);
+      this.$router.push('/map')
+    },
+
     async openReviewModal(predata = null) {
       const modal = await openModal(RecipeReviewModal, {predata: predata})
 

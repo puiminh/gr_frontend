@@ -75,6 +75,7 @@ import MapComponent from "@/components/maps/MapComponent.vue";
 import UserReviewStoreComponent from "@/components/userComponents/UserReviewStoreComponent.vue";
 import { openModal } from "jenesius-vue-modal";
 import StoreReviewModal from "@/components/modals/StoreReviewModal.vue";
+
 export default {
     methods: {
         async openReviewModal(predata = null) {
