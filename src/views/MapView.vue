@@ -56,7 +56,7 @@
                 <router-link :to="'/store/'+store.id" class="text-2xl font-bold text-black hover:underline-offset-1 hover:underline">{{ store.name }}</router-link>
                 <div class="flex justify-between">
                     <p class="w-3/4 truncate  text-medium font-semibold text-slate-600">{{ store.address }}</p>
-                    <p class="">4 km</p>
+                    <p class="">{{ store.distance }} km</p>
                 </div>
                 <StarsRatingDisplay class=" self-start -ml-1" :small="true" :stars="store.rating" :index="store.id + '-' + store.id"></StarsRatingDisplay>
         
@@ -105,6 +105,18 @@ export default {
 
             this.coords.lat = lat;
             this.coords.lng = lng;
+
+            this.stores = data.stores.map(store => {
+                const distance = this.getDistanceFromLatLonInKm(
+                    this.coords.lat,
+                    this.coords.lng,
+                    store.position.lat,
+                    store.position.lng
+                );
+
+                // Thêm khoảng cách vào đối tượng cửa hàng
+                return { ...store, distance };
+            });
         };
 
         const error = (err) => {
@@ -116,17 +128,7 @@ export default {
 
         this.getDistanceMaxtrix(this.stores);
 
-        this.stores = data.stores.map(store => {
-            const distance = this.getDistanceFromLatLonInKm(
-                this.coords.lat,
-                this.coords.lng,
-                store.position.lat,
-                store.position.lng
-            );
 
-            // Thêm khoảng cách vào đối tượng cửa hàng
-            return { ...store, distance };
-        });
     },
     data() {
         return {
@@ -142,7 +144,7 @@ export default {
             options: {},
             stores: data.stores,
             icons: icon.icons,
-            ingredients: data.ingredients,
+            ingredients: [],
 
             
         };
@@ -197,7 +199,7 @@ export default {
                 ; 
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
             var d = R * c; // Distance in km
-            return d;
+            return d.toFixed(2);
         }
 
     },
