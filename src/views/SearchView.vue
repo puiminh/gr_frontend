@@ -25,8 +25,19 @@
                 <RouterLink :to="'/recipe/'+i">
                     <div class="rounded-3xl bg-gray-100 relative flex justify-center flex-col h-64">
                         <img class="rounded-full w-full p-8" src="https://static.vecteezy.com/system/resources/previews/027/536/034/non_2x/restaurant-food-restaurant-food-top-view-ai-generative-free-png.png" alt="">
-                        <div class="rounded-lg absolute -bottom-1 -right-1 h-10 w-32 bg-white flex items-center justify-center">
-                            <span class="font-extrabold">100% Match</span>
+                        
+                        <div
+                            class="slide-up rounded-lg absolute bottom-10 -right-1 h-20 w-32 bg-white  text-red-600 flex flex-col items-center justify-center p-4 shadow-lg"
+                            :class="{hidden : hoverItemId != i}"
+                        >
+                            <p class="font-bold">Đùi gà</p>
+                            <p class="font-bold">Hành tây</p>
+                        </div>
+                        <div
+                            @mouseover="hoverItemId = i" 
+                            @mouseleave="hoverItemId = -1" 
+                            class="rounded-lg absolute -bottom-1 -right-1 h-10 w-32 bg-white flex items-center justify-center">
+                            <span class="font-bold">Need <span class="font-extrabold text-orange-500">1</span> more</span>
                         </div>
                     </div>
                     <div class="flex flex-col items-start mt-4 ml-4">
@@ -49,6 +60,7 @@ export default {
     data () {
         return {
             ingredients: [],
+            hoverItemId: -1,
         }
     },
     methods: {
@@ -82,5 +94,24 @@ ul {
 	grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
 	max-width: 100%;
 	width: 100%;
+}
+
+.slide-up {
+    animation: slideUp 0.2s ease-in-out; /* Độ dài và chế độ animation */
+}
+
+.insideContainer {
+    max-height: 70%;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 </style>

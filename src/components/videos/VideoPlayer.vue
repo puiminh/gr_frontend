@@ -65,7 +65,7 @@
         </button>
       </div>
     </div>
-    <video id="video" :src="options.src" ref="video" 
+    <video id="video" :src="src" ref="video" 
           @click="togglePlay"
           @timeupdate="handleTimeUpdate"
           @play="handlePlay"
@@ -129,12 +129,10 @@ export default {
       },
       required: true
     },
-    options: { 
-      type: Object,
+    src: { 
+      type: String,
       default() {
-        return {
-          src: "https://firebasestorage.googleapis.com/v0/b/recipe-58dab.appspot.com/o/videos%2FS%E1%BB%91t%20tr%E1%BB%99n%20h%E1%BB%A7%20ti%E1%BA%BFu.mp4?alt=media&token=88e95a60-1d51-4fbf-967a-9db765ffd533" 
-        }
+        return "https://firebasestorage.googleapis.com/v0/b/recipe-58dab.appspot.com/o/videos%2FS%E1%BB%91t%20tr%E1%BB%99n%20h%E1%BB%A7%20ti%E1%BA%BFu.mp4?alt=media&token=88e95a60-1d51-4fbf-967a-9db765ffd533"
       },
       required: true
     },

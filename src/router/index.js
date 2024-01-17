@@ -11,7 +11,7 @@ import StoreView from '@/views/stores/StoreView.vue'
 import CreateStore from '@/views/stores/CreateStore.vue'
 
 import CreateRecipeVue from '@/views/recipes/CreateRecipe.vue'
-import BookmarkViewVue from '@/views/BookmarkView.vue'
+import BookmarkViewVue from '@/views/manages/BookmarkManageView.vue'
 import ManageStoreViewVue from '@/views/stores/ManageStoreView.vue'
 import SignInView from '@/views/SignInView.vue'
 import SignUpView from '@/views/SignUpView.vue'
@@ -20,6 +20,8 @@ import { useAuthStore } from '@/stores/auth';
 
 
 import NoneLayoutVue from '@/layouts/NoneLayout.vue'
+import UpdateRecipeViewVue from '@/views/recipes/UpdateRecipeView.vue'
+import ContentManageViewVue from '@/views/manages/ContentManageView.vue'
 
 
 const router = createRouter({
@@ -71,6 +73,15 @@ const router = createRouter({
       component: ManageStoreViewVue
     },
     {
+      path: '/manage-contents',
+      name: 'manage-contents',
+      meta: {
+        requiresAuth: 1,
+        layout: MainLayout,
+      },
+      component: ContentManageViewVue
+    },
+    {
       path: '/map',
       name: 'map',
       meta: {
@@ -90,7 +101,7 @@ const router = createRouter({
     },
     {
       path: '/store/:id',
-      name: 'storeView',
+      name: 'store-view',
       meta: {
         requiresAuth: 0,
         layout: MainLayout,
@@ -108,7 +119,7 @@ const router = createRouter({
     },
     {
       path: '/recipe/:id',
-      name: 'recipeView',
+      name: 'recipe-view',
       meta: {
         requiresAuth: 1,
         layout: RecipeViewLayout,
@@ -123,6 +134,15 @@ const router = createRouter({
         layout: RecipeViewLayout,
       },
       component: CreateRecipeVue,
+    },
+    {
+      path: '/update-recipe/:id',
+      name: 'update-recipe',
+      meta: {
+        requiresAuth: 1,
+        layout: RecipeViewLayout,
+      },
+      component: UpdateRecipeViewVue,
     },
 
   ]

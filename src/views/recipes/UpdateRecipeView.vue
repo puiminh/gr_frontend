@@ -3,7 +3,7 @@
       class="body black-gradient flex h-screen overflow-auto py-8" ref="recipeview"
     >
         <button
-          @click="createRecipe"   
+          @click="updateRecipe"   
           class="fixed z-50 bottom-4 left-4 p-4 bg-green-600 drop-shadow-xl rounded-full">
             <IconSave class="w-6 h-6"></IconSave>
         </button>
@@ -26,11 +26,11 @@
                   @input="recipe.name = $event.target.innerText"
                   contenteditable="true" 
                   class="title text-7xl text-white mt-4 dm-serif" 
-                  ref="overview_title">Your meal's name</p>
+                  ref="overview_title"> {{ recipe.name }} </p>
 
                 <div class="flex items-center gap-4 mt-8 bg-slate-800 cursor-not-allowed">
-                  <StarsRatingDisplay :stars="4.3" class="flex align-start -ml-2"></StarsRatingDisplay>
-                  <p class="text-slate-400 font-bold text-sm font-mono">4.3 out of 5</p>
+                  <StarsRatingDisplay :stars="recipe.rating" class="flex align-start -ml-2"></StarsRatingDisplay>
+                  <p class="text-slate-400 font-bold text-sm font-mono">{{ recipe.rating }} out of 5</p>
                 </div>
               </div>
               <div class="image-holder relative">
@@ -47,7 +47,7 @@
               <p 
                 @input="recipe.description = $event.target.innerText"
                 class="description-text text-xl text-orange-50 word-space-3" contenteditable="true">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.
+                {{ recipe.description }}
               </p>
             </div>
           </div>
@@ -227,18 +227,31 @@ export default {
     };
   },
   methods: {
-    createRecipe() {
-      this.recipe.author = this.currentUser.id;
+    fetchData() {
+      let that = this;
+      api.get('/recipes/detail/'+ this.$route.params.id).then(function (response) {
+              console.log(response.data);
+              that.recipe = response.data.recipe;
+              that.steps = response.data.recipe.steps;
+              that.ingredients = response.data.recipe.ingredients;
+
+          })
+          .catch(function (error) {
+              console.error(error);
+          })
+    },
+
+    updateRecipe() {
       this.recipe.steps = this.$refs.steps?.map((e)=> e.childInstruction)
       this.recipe.ingredients = this.ingredients;
       console.log(toRaw(this.recipe));
 
-      api.post('/recipes/', this.recipe).then((response) => {
+      api.put('/recipes/'+ this.$route.params.id, this.recipe).then((response) => {
         console.log(response.data);
 
 
         if (response.data.success) {
-          this.$toast.success('Recipe has been created!')
+          this.$toast.success('Recipe has been updated!')
           this.$router.push('/recipe/' + response.data.recipeId)
         }
 
@@ -346,7 +359,19 @@ export default {
       }
     }
     this.$refs.recipeview.addEventListener('scroll', debounce(this.handleScroll, 100));
-  }
+  },
+  created() {
+      // watch the params of the route to fetch the data again
+      this.$watch(
+        () => this.$route.params,
+        () => {
+          this.fetchData()
+        },
+        // fetch the data when the view is created and the data is
+        // already being observed
+        { immediate: true }
+      )
+   },
 };
 </script>
 

@@ -21,7 +21,6 @@
         </div>
       <div class="relative">
         <GMapMap
-            :key="updateKey"
             class="w-full h80screen"
             ref="mapRef" :center="center" :zoom="18" map-type-id="terrain" >
             <GMapMarker 
@@ -168,9 +167,6 @@ export default {
         };
     },
     methods: {
-        forceUpdate() {
-            this.updateKey += 1;
-        },
         async openIngredientModal () {
             const preSelect = this.ingredients.map(e => e.id)
 

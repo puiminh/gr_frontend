@@ -18,21 +18,22 @@
           <div class="overview_frame pt-12" ref="overview_frame">
             <div class="flex">
               <div class="w-2/3 flex flex-col">
-                <p class="author text-xl yellow">Julian Nguyen</p>
-                <p class="title text-7xl text-white mt-4 dm-serif" ref="overview_title">Chicken Tikka Masala</p>
+                <p class="author text-xl yellow">{{recipe.author_name}}</p>
+                <p class="title text-7xl text-white mt-4 dm-serif" ref="overview_title">{{recipe.name}}</p>
                 <div class="flex items-center gap-4 mt-8">
-                  <StarsRatingDisplay :stars="4.3" class="flex align-start -ml-2"></StarsRatingDisplay>
-                  <p class="text-slate-400 font-bold text-sm font-mono">4.3 out of 5</p>
+                  <StarsRatingDisplay :stars="recipe.rating" class="flex align-start -ml-2"></StarsRatingDisplay>
+                  <p class="text-slate-400 font-bold text-sm font-mono">{{ recipe.rating }} out of 5</p>
                 </div>
               </div>
               <div class="image-holder relative">
-                <img class="w-96 absolute  -top-5 left-10 rounded-full object-cover max-w-80 h-80 z-50" src="https://veerji.ca/wp-content/uploads/2021/12/malai-kofta-indian-vegetarian-meatballs-curry-traditionally-served-hot-flatbread-tandoori-rumali-roti-naan-traditional-158606665-removebg-preview.png" alt="">
+                <img class="w-96 absolute  -top-5 left-10 rounded-full object-cover max-w-80 h-80 z-50" 
+                  :src="recipe.image" alt="">
               </div>            
             </div>
             <div class="description mt-12">
               <p class="title text-white text-2xl font-extralight dm-serif mb-14">Introduction</p>
               <p class="description-text text-xl text-orange-50 word-space-3">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.
+                {{ recipe.description }}
               </p>
             </div>
           </div>
@@ -43,7 +44,7 @@
               <div class="instruction-block-container h90screen overflow-auto">
                 <InstructionComponent
                   class="mb-8" 
-                  v-for="(instruction) in instructions" 
+                  v-for="(instruction) in steps" 
                   :key="instruction.order" 
                   :instruction="instruction"
                   :current="current"
@@ -104,8 +105,8 @@
             <!-- <p class="title text-slate-700 text-3xl dm-serif mb-6">Video</p> -->
             <VideoPlayer 
               class="h-full" 
-              :options="videoOptions" 
-              :instructions="instructions"
+              :src="recipe.video" 
+              :instructions="steps"
               ref="videoplayer"
               @returnCurrentTime="getCurrentTime"
             />
@@ -154,6 +155,11 @@
               :class="{'bg-white': rightMode == 3} ">
               <svg class="w-8" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 12C5.49988 14.613 6.95512 17.0085 9.2741 18.2127C11.5931 19.4169 14.3897 19.2292 16.527 17.726L19.5 18V12C19.5 8.13401 16.366 5 12.5 5C8.63401 5 5.5 8.13401 5.5 12Z" stroke="#5e5e5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.5 13.25C9.08579 13.25 8.75 13.5858 8.75 14C8.75 14.4142 9.08579 14.75 9.5 14.75V13.25ZM13.5 14.75C13.9142 14.75 14.25 14.4142 14.25 14C14.25 13.5858 13.9142 13.25 13.5 13.25V14.75ZM9.5 10.25C9.08579 10.25 8.75 10.5858 8.75 11C8.75 11.4142 9.08579 11.75 9.5 11.75V10.25ZM15.5 11.75C15.9142 11.75 16.25 11.4142 16.25 11C16.25 10.5858 15.9142 10.25 15.5 10.25V11.75ZM9.5 14.75H13.5V13.25H9.5V14.75ZM9.5 11.75H15.5V10.25H9.5V11.75Z" fill="#5e5e5e"></path> </g></svg>
             </div>
+            <div
+              @click="bookmark" 
+              class="comment-menu rounded-lg p-1 cursor-pointer" >
+              <IconHeart class="w-7" :checked="true"></IconHeart>
+            </div>
           </div>
         </div>
 
@@ -169,6 +175,8 @@ import InstructionComponent from '@/components/recipeComponents/InstructionCompo
 import UserReviewComponent from '@/components/userComponents/UserReviewComponent.vue';
 import ImageGallery from '@/components/images/ImageGallery.vue';
 import IconCart from '@/components/icons/IconCart.vue';
+import IconHeart from '@/components/icons/IconHeart.vue';
+
 
 
 
@@ -179,6 +187,7 @@ import { openModal } from 'jenesius-vue-modal';
 import RecipeReviewModal from '@/components/modals/RecipeReviewModal.vue';
 import { useIngredientStore } from '@/stores/ingredient';
 import { mapActions, mapState } from 'pinia';
+import api from "@/services/api"; 
 
 export default {
   computed: {
@@ -189,7 +198,7 @@ export default {
       if (newValue != 2) {
         this.$refs.videoplayer.forcePause();
       }
-    }
+    },
   },
   components: {
     // VideoPlayer,
@@ -201,7 +210,7 @@ export default {
     VideoPlayer,
     RecipeReviewModal,
     IconCart,
-    
+    IconHeart,
   },
   data() {
     return {
@@ -211,7 +220,8 @@ export default {
       videoOptions: {
         src: "https://firebasestorage.googleapis.com/v0/b/recipe-58dab.appspot.com/o/videos%2FS%E1%BB%91t%20tr%E1%BB%99n%20h%E1%BB%A7%20ti%E1%BA%BFu.mp4?alt=media&token=88e95a60-1d51-4fbf-967a-9db765ffd533",
       },
-      instructions: [
+      recipe: {},
+      steps: [
         {
           order: 1,
           time: 2,
@@ -307,7 +317,23 @@ export default {
   },
   methods: {
     ...mapActions(useIngredientStore, ['assignIngredients']),
+    bookmark() {
 
+    },
+    fetchData() {
+      let that = this;
+      api.get('/recipes/detail/'+ this.$route.params.id).then(function (response) {
+              console.log(response.data);
+              that.recipe = response.data.recipe;
+              that.steps = response.data.recipe.steps;
+              that.ingredients = response.data.recipe.ingredients;
+              that.reviews = response.data.recipe.reviews;
+
+          })
+          .catch(function (error) {
+              console.error(error);
+          })
+    },
     toTheMap() {
       this.assignIngredients(this.ingredients);
       this.$router.push('/map')
@@ -326,7 +352,7 @@ export default {
     },
     getCurrentTime(time) {
       let currentOrder = 1;
-      for (const instruction of this.instructions) {
+      for (const instruction of this.steps) {
         if (time >= instruction.time) {
           currentOrder = instruction.order;
         } else {
@@ -397,7 +423,19 @@ export default {
       }
     }
     this.$refs.recipeview.addEventListener('scroll', debounce(this.handleScroll, 100));
-  }
+  },
+  created() {
+      // watch the params of the route to fetch the data again
+      this.$watch(
+        () => this.$route.params,
+        () => {
+          this.fetchData()
+        },
+        // fetch the data when the view is created and the data is
+        // already being observed
+        { immediate: true }
+      )
+    },
 };
 </script>
 

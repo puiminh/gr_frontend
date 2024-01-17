@@ -3,182 +3,152 @@
         {
             "id": 1,
             "name": "Cà rốt",
-            "unit": "gram",
-            "image": "carrot.jpg"
+            "unit": "gram"
         },
         {
             "id": 2,
             "name": "Trứng gà",
-            "unit": "quả",
-            "image": "egg.jpg"
+            "unit": "quả"
         },
         {
             "id": 3,
             "name": "Bắp cải",
-            "unit": "gram",
-            "image": "cabbage.jpg"
+            "unit": "gram"
         },
         {
             "id": 4,
             "name": "Nước cốt dừa",
-            "unit": "ml",
-            "image": "coconut-milk.jpg"
+            "unit": "ml"
         },
         {
             "id": 5,
             "name": "Bơ",
-            "unit": "gram",
-            "image": "avocado.jpg"
+            "unit": "gram"
         },
         {
             "id": 6,
             "name": "Thịt gà",
-            "unit": "gram",
-            "image": "chicken.jpg"
+            "unit": "gram"
         },
         {
             "id": 7,
             "name": "Hành tây",
-            "unit": "gram",
-            "image": "onion.jpg"
+            "unit": "gram"
         },
         {
             "id": 8,
             "name": "Nấm mèo",
-            "unit": "gram",
-            "image": "shiitake-mushroom.jpg"
+            "unit": "gram"
         },
         {
             "id": 9,
             "name": "Cá hồi",
-            "unit": "gram",
-            "image": "salmon.jpg"
+            "unit": "gram"
         },
         {
             "id": 10,
             "name": "Bún gạo",
-            "unit": "gram",
-            "image": "rice-noodles.jpg"
+            "unit": "gram"
         },
         {
             "id": 11,
             "name": "Nước mắm",
-            "unit": "ml",
-            "image": "fish-sauce.jpg"
+            "unit": "ml"
         },
         {
             "id": 12,
             "name": "Bột cacao",
-            "unit": "gram",
-            "image": "cocoa-powder.jpg"
+            "unit": "gram"
         },
         {
             "id": 13,
             "name": "Ớt đỏ",
-            "unit": "quả",
-            "image": "red-chili.jpg"
+            "unit": "quả"
         },
         {
             "id": 14,
             "name": "Sả",
-            "unit": "gram",
-            "image": "lemongrass.jpg"
+            "unit": "gram"
         },
         {
             "id": 15,
             "name": "Rau mùi",
-            "unit": "gram",
-            "image": "cilantro.jpg"
+            "unit": "gram"
         },
         {
             "id": 16,
             "name": "Sò điệp",
-            "unit": "gram",
-            "image": "scallop.jpg"
+            "unit": "gram"
         },
         {
             "id": 17,
             "name": "Rau bina",
-            "unit": "gram",
-            "image": "basil.jpg"
+            "unit": "gram"
         },
         {
             "id": 18,
             "name": "Nước tương",
-            "unit": "ml",
-            "image": "soy-sauce.jpg"
+            "unit": "ml"
         },
         {
             "id": 19,
             "name": "Cà chua",
-            "unit": "quả",
-            "image": "tomato.jpg"
+            "unit": "quả"
         },
         {
             "id": 20,
             "name": "Bột nở",
-            "unit": "gram",
-            "image": "five-spice.jpg"
+            "unit": "gram"
         },
         {
             "id": 21,
             "name": "Hạt óc chó",
-            "unit": "gram",
-            "image": "mixed-nuts.jpg"
+            "unit": "gram"
         },
         {
             "id": 22,
             "name": "Rau cải xanh",
-            "unit": "gram",
-            "image": "kale.jpg"
+            "unit": "gram"
         },
         {
             "id": 23,
             "name": "Mì ống",
-            "unit": "gram",
-            "image": "penne-pasta.jpg"
+            "unit": "gram"
         },
         {
             "id": 24,
             "name": "Gia vị cay",
-            "unit": "gram",
-            "image": "spicy.jpg"
+            "unit": "gram"
         },
         {
             "id": 25,
             "name": "Sữa đặc có đường",
-            "unit": "ml",
-            "image": "sweetened-condensed-milk.jpg"
+            "unit": "ml"
         },
         {
             "id": 26,
             "name": "Bột nghệ",
-            "unit": "gram",
-            "image": "turmeric.jpg"
+            "unit": "gram"
         },
         {
             "id": 27,
             "name": "Tảo spirulina",
-            "unit": "gram",
-            "image": "spirulina.jpg"
+            "unit": "gram"
         },
         {
             "id": 28,
             "name": "Dầu hào",
-            "unit": "ml",
-            "image": "oyster-sauce.jpg"
+            "unit": "ml"
         },
         {
             "id": 29,
             "name": "Hạt dẻ cười",
-            "unit": "gram",
-            "image": "sunflower-seeds.jpg"
+            "unit": "gram"
         },
         {
             "id": 30,
             "name": "Măng tây",
-            "unit": "gram",
-            "image": "asparagus.jpg"
+            "unit": "gram"
         }
     ],
     

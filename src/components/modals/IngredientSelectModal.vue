@@ -42,12 +42,20 @@
     </div>
 </template>
 <script>
-import data from '@/db.json'
 import IconV from '../icons/IconV.vue';
 import IconDelete from '../icons/IconDelete.vue';
 import IconSave from '../icons/IconSave.vue';
+import api from "@/services/api"; 
 
 export default {
+    data() {
+        return {
+            defaultImg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5umr6GHRZJ8zoRpboUE40KS4pGNQ965_xRg&usqp=CAU',
+            ingredients: [],
+            selected: this.preSelect,
+            keyword: '',
+        }
+    },
   watch: {
   },
   computed: {
@@ -86,23 +94,37 @@ export default {
     passData() {
         const selectedIngredients = this.ingredients.filter(ingredient => this.selected.includes(ingredient.id));
         this.$emit('passData', selectedIngredients);
+    },
+    fetchData() {
+        let that = this;
+        api.get('/ingredients').then(function (response) {
+                console.log(response.data);
+                that.ingredients = response.data.data;
+            })
+            .catch(function (error) {
+                console.error(error);
+            })
     }
   },
-  data() {
-    return {
-        defaultImg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5umr6GHRZJ8zoRpboUE40KS4pGNQ965_xRg&usqp=CAU',
-        ingredients: data.ingredients,
-        selected: this.preSelect,
-        keyword: '',
-    }
-  },
+
   props: ['preSelect'],
   components: {
     IconV,
     IconDelete,
     IconSave,
-  }
-
+  },
+  created() {
+    // watch the params of the route to fetch the data again
+    this.$watch(
+      () => this.$route.params,
+      () => {
+        this.fetchData()
+      },
+      // fetch the data when the view is created and the data is
+      // already being observed
+      { immediate: true }
+    )
+  },
 }
 </script>
 <style scoped>

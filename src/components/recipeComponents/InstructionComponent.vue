@@ -1,19 +1,24 @@
 <template lang="">
     <div>
         <div
-          :class="{current : current==instruction.order}" 
+          :class="{current : current==childInstruction.order}" 
           class="instruction_step flex items-center justify-between cursor-pointer p-4 m-2" 
           @click="jumpToTimeIC"
           ref="instruction"
         >
-            <p class="step uppercase title text text-medium yellow font-mono mr-2 self-start mt-2">step {{instruction.order}} </p>
+            <p class="step uppercase title text text-medium yellow font-mono mr-2 self-start mt-2">step {{childInstruction.order}} </p>
             <p 
               class="instruction-text text-xl text-orange-50 word-space-3"
               :contenteditable="edit"
+              @input="childInstruction.description = $event.target.innerText"
             >
               {{instruction.description ? instruction.description :  defaultIns}}
             </p>
-            <p class="step uppercase title text text-medium text-slate-200 font-mono mr-6 self-start mt-2"> {{timeFormat}} </p>
+            <p class="step uppercase title text text-medium text-slate-200 font-mono mr-6 self-start mt-2"
+              @click="promptGetTime"
+            > 
+              {{timeFormat}} 
+            </p>
         </div>
     </div>
 </template>
@@ -21,7 +26,12 @@
 export default {
   data () {
     return {
-      defaultIns: 'Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.'
+      defaultIns: 'Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.',
+      childInstruction: {
+        order: 0,
+        description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit facilisi a, posuere class magna elementum montes feugiat cubilia aliquet. Vel cursus sollicitudin nunc fringilla justo cum urna at potenti pellentesque tincidunt fusce, tellus inceptos morbi nostra metus varius turpis interdum nisl lacus. Porta in non porttitor venenatis suspendisse, cras dis curae.',
+        time: 0,
+      }
     }
   },
   watch: {
@@ -29,19 +39,37 @@ export default {
       if (newValue==this.instruction.order) {
         this.$refs.instruction.scrollIntoView({ behavior : 'smooth' })
       }
+    },
+    instruction(newValue) {
+      this.childInstruction = newValue;
     }
   },
   emits: ['jumpToTimeParent'],
   methods: {
+    promptGetTime() {
+      if (this.edit) {
+        let time = prompt("Input the time (s): ", 0);
+        if (time != null) {
+          this.childInstruction.time = time;
+        }
+      }
+    },
     jumpToTimeIC () { 
       this.$emit('jumpToTimeParent', this.instruction.time);
     },
+    convertTimeFormatToTime(timeString) {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      // Chuyển đổi giờ và phút thành giây và cộng lại
+      const totalSeconds = hours * 3600 + minutes * 60;
+
+      return totalSeconds;
+    }
   },
   props: ['instruction', 'current', 'edit'],
   computed: {
     timeFormat() {
-      const minutes = Math.floor(this.instruction.time / 60);
-      const remainingSeconds = this.instruction.time % 60;
+      const minutes = Math.floor(this.childInstruction.time / 60);
+      const remainingSeconds = this.childInstruction.time % 60;
 
       // Sử dụng padStart để thêm số 0 phía trước nếu cần thiết
       const formattedTime = `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
@@ -49,6 +77,9 @@ export default {
       return formattedTime;
     }
   },
+  mounted() {
+    this.childInstruction = this.instruction;
+  }
 
 }
 </script>

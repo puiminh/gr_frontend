@@ -27,6 +27,9 @@
                   </div>
                   <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
+                      <p @click="openContentManage" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Content</p>
+                    </li>
+                    <li>
                       <p @click="openBookmark" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Bookmark</p>
                     </li>
                     <li>
@@ -113,6 +116,9 @@ export default {
     async openProfile() {
       await openModal(UserInfoModal, {predata: this.user})
     },
+    openContentManage() {
+      this.$router.push('/manage-contents');
+    },
     openBookmark() {
       this.$router.push('/bookmarks');
     },
@@ -121,7 +127,7 @@ export default {
       this.$router.push('/sign-in');
     },
     managerStore() {
-      this.$router.push('/manage-stores ');
+      this.$router.push('/manage-stores');
     }
   },
   data () {
