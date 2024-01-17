@@ -10,7 +10,7 @@
                     <!-- Col -->
                     <div class="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none">
                         <h3 class="py-4 text-2xl text-center text-gray-800 dark:text-white">Login</h3>
-                        <form class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
+                        <div class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
                             <div class="mb-4">
                                 <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="username">
                                     Username
@@ -20,6 +20,7 @@
                                     id="username"
                                     type="username"
                                     placeholder="Username"
+                                    v-model="userLogin.username"
                                 />
                             </div>
                             <div class="mb-4">
@@ -31,6 +32,7 @@
                                     id="password"
                                     type="password"
                                     placeholder="******************"
+                                    v-model="userLogin.password"
                                 />
                                 <!-- <p class="text-xs italic text-red-500">Please choose a password.</p> -->
                             </div>
@@ -38,6 +40,7 @@
                                 <button
                                     class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
                                     type="button"
+                                    @click="login"
                                 >
                                     Login
                                 </button>
@@ -55,7 +58,7 @@
                                     Not have an account? Sign-up now!
                                 </router-link>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,8 +66,39 @@
     </div>
 </template>
 <script>
+import { useAuthStore } from '@/stores/auth';
+import { mapActions } from 'pinia';
 export default {
-
+  methods: {
+    ...mapActions(useAuthStore, ['signIn']),
+    async login() { 
+        const result = await this.signIn(this.userLogin);
+        if (result.success) {
+            this.$toast.open({
+                message: 'Sign-in successful!',
+                type: 'success',
+            })
+            this.$router.push('/');
+            console.log('Login successful. User:', result.user);
+        } 
+            else 
+        {
+            this.$toast.open({
+                message: 'Sign-in failed!',
+                type: 'error',
+            })
+            console.error('Login failed. Error:', result.error);
+        }
+    },
+  },
+  data () {
+    return {
+        userLogin: {
+            username: '',
+            password: '',
+        }
+    }
+  },
 }
 </script>
 <style scoped>

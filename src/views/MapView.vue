@@ -21,9 +21,10 @@
         </div>
       <div class="relative">
         <GMapMap
+            :key="updateKey"
             class="w-full h80screen"
             ref="mapRef" :center="center" :zoom="18" map-type-id="terrain" >
-            <GMapMarker
+            <GMapMarker 
                 :key="index"
                 v-for="(store, index) in stores"
                 :icon="icons[store.type]"
@@ -106,6 +107,9 @@ import { mapState } from 'pinia';
 export default {
     computed: {
         ...mapState(useIngredientStore, ['getIngredients']),
+        updateKey() {
+            return this.$router.name
+        }
     },
     mounted() {
         const success = (position) => {
@@ -128,6 +132,8 @@ export default {
                 // Thêm khoảng cách vào đối tượng cửa hàng
                 return { ...store, distance };
             });
+
+            this.getDistanceMaxtrix(this.stores);
         };
 
         const error = (err) => {
@@ -136,8 +142,7 @@ export default {
 
         // This will open permission popup
         navigator.geolocation.getCurrentPosition(success, error);
-
-        this.getDistanceMaxtrix(this.stores);
+        
 
         if (this.getIngredients) {
                 this.ingredients = this.getIngredients
@@ -160,11 +165,12 @@ export default {
             stores: data.stores,
             icons: icon.icons,
             ingredients: [],
-
-            
         };
     },
     methods: {
+        forceUpdate() {
+            this.updateKey += 1;
+        },
         async openIngredientModal () {
             const preSelect = this.ingredients.map(e => e.id)
 

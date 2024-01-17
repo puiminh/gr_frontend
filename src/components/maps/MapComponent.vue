@@ -1,7 +1,7 @@
 <script>
 /* eslint-disable no-undef */
 import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
-import { useGeolocation } from '@/useGeolocation'
+import { useGeolocation } from '@/services/useGeolocation'
 import { Loader } from '@googlemaps/js-api-loader'
 import data from './icons.json'
 

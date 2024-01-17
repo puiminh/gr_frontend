@@ -6,7 +6,9 @@
                 <img src="/images/recipe-favicon-black.png" class="h-10" alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white dm-serif">Recipes.</span>
             </router-link>
-            <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <div
+              v-if="isAuthenticated" 
+              class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <button
                   @click="handleClickUserDropdown" 
                   type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
@@ -30,12 +32,12 @@
                     <li>
                       <p @click="openProfile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</p>
                     </li>
-                    <li>
+                    <li v-if="user.role == 2">
                       <p @click="managerStore" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Manager Stores</p>
                     </li>
                    
                     <li>
-                      <p @click="signOut" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</p>
+                      <p @click="signoutMethod" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</p>
                     </li>
                   </ul>
                 </div>
@@ -45,6 +47,11 @@
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
                   </svg>
               </button>
+            </div>
+            <div class="bg-blue-600 p-2 rounded-2xl text-white text-bold text-medium flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse" v-else> 
+              <router-link to="/sign-in" >
+                Sign In
+              </router-link>
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
               <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
@@ -82,9 +89,24 @@
 <script>
 import { openModal } from 'jenesius-vue-modal';
 import UserInfoModal from './modals/UserInfoModal.vue';
+import { mapState, mapActions } from 'pinia';
+import { useAuthStore } from '@/stores/auth';
 
 export default {
+  computed: {
+    ...mapState(useAuthStore, ['isAuthenticated','currentUser']),
+    currentRouteName() {
+        return this.$route.name;
+    }
+  },
+  watch: {
+    currentUser() {
+      console.log("currentUser changed");
+    }
+  },
+
   methods: {
+    ...mapActions(useAuthStore, ['signOut']),
     handleClickUserDropdown () { 
       this.openUserDropdown = !this.openUserDropdown;
     },
@@ -94,8 +116,9 @@ export default {
     openBookmark() {
       this.$router.push('/bookmarks');
     },
-    signOut() {
-
+    signoutMethod() {
+      this.signOut();
+      this.$router.push('/sign-in');
     },
     managerStore() {
       this.$router.push('/manage-stores ');
@@ -112,9 +135,9 @@ export default {
       }
     }
   },
-  computed: {
-    currentRouteName() {
-        return this.$route.name;
+  mounted () {
+    if (this.isAuthenticated) {
+      this.user = this.currentUser;
     }
   }
 }

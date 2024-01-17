@@ -16,9 +16,10 @@ import ManageStoreViewVue from '@/views/stores/ManageStoreView.vue'
 import SignInView from '@/views/SignInView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 
+import { useAuthStore } from '@/stores/auth';
+
 
 import NoneLayoutVue from '@/layouts/NoneLayout.vue'
-
 
 
 const router = createRouter({
@@ -28,6 +29,7 @@ const router = createRouter({
       path: '/sign-in',
       name: 'sign-in',
       meta: {
+        requiresAuth: 0,
         layout: NoneLayoutVue,
       },
       component: SignInView
@@ -36,6 +38,7 @@ const router = createRouter({
       path: '/sign-up',
       name: 'sign-up',
       meta: {
+        requiresAuth: 0,
         layout: NoneLayoutVue,
       },
       component: SignUpView
@@ -44,6 +47,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       meta: {
+        requiresAuth: 0,
         layout: MainLayout,
       },
       component: HomeView
@@ -52,6 +56,7 @@ const router = createRouter({
       path: '/bookmarks',
       name: 'bookmars',
       meta: {
+        requiresAuth: 1,
         layout: MainLayout,
       },
       component: BookmarkViewVue
@@ -60,6 +65,7 @@ const router = createRouter({
       path: '/manage-stores',
       name: 'manage-stores',
       meta: {
+        requiresAuth: 2,
         layout: MainLayout,
       },
       component: ManageStoreViewVue
@@ -68,6 +74,7 @@ const router = createRouter({
       path: '/map',
       name: 'map',
       meta: {
+        requiresAuth: 0,
         layout: MainLayout,
       },
       component: MapView,
@@ -76,6 +83,7 @@ const router = createRouter({
       path: '/search',
       name: 'search',
       meta: {
+        requiresAuth: 0,
         layout: MainLayout,
       },
       component: SearchView,
@@ -84,6 +92,7 @@ const router = createRouter({
       path: '/store/:id',
       name: 'storeView',
       meta: {
+        requiresAuth: 0,
         layout: MainLayout,
       },
       component: StoreView,
@@ -92,6 +101,7 @@ const router = createRouter({
       path: '/create-store',
       name: 'create-store',
       meta: {
+        requiresAuth: 2,
         layout: MainLayout,
       },
       component: CreateStore,
@@ -100,6 +110,7 @@ const router = createRouter({
       path: '/recipe/:id',
       name: 'recipeView',
       meta: {
+        requiresAuth: 1,
         layout: RecipeViewLayout,
       },
       component: RecipeView,
@@ -108,6 +119,7 @@ const router = createRouter({
       path: '/create-recipe',
       name: 'create-recipe',
       meta: {
+        requiresAuth: 1,
         layout: RecipeViewLayout,
       },
       component: CreateRecipeVue,
@@ -115,5 +127,36 @@ const router = createRouter({
 
   ]
 })
+
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  //require sign in
+  if (to.matched.some((record) => record.meta.requiresAuth>0)) {
+    if (authStore.isAuthenticated) {
+      next();
+      return;
+    }
+    next("/sign-in");
+  } else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  //require promoter sign in
+  if (to.matched.some((record) => record.meta.requiresAuth>1)) {
+    if (authStore.isPromoter) {
+      next();
+      return;
+    }
+    next("/sign-in");
+  } else {
+    next();
+  }
+});
 
 export default router

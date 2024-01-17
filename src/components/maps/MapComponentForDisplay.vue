@@ -130,4 +130,4 @@ export default {
 
 <template>
   <div ref="mapDiv" style="width: 100%; height: 100%" />
-</template>
+</template>@/services/useGeolocation

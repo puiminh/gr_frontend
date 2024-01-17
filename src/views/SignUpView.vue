@@ -10,7 +10,7 @@
                         <!-- Col -->
                         <div class="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none">
                             <h3 class="py-4 text-2xl text-center text-gray-800 dark:text-white">Create an Account!</h3>
-                            <form class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
+                            <div class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
                                 <div class="mb-4 md:flex md:justify-between">
                                     <div class="mb-4 md:mr-2 md:mb-0">
                                         <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="firstName">
@@ -21,6 +21,7 @@
                                             id="firstName"
                                             type="text"
                                             placeholder="First Name"
+                                            v-model="userRegister.first_name"
                                         />
                                     </div>
                                     <div class="md:ml-2">
@@ -32,8 +33,21 @@
                                             id="lastName"
                                             type="text"
                                             placeholder="Last Name"
+                                            v-model="userRegister.last_name"
                                         />
                                     </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="email">
+                                        Username
+                                    </label>
+                                    <input
+                                        class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        id="username"
+                                        type="username"
+                                        placeholder="Username"
+                                        v-model="userRegister.username"
+                                    />
                                 </div>
                                 <div class="mb-4">
                                     <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="email">
@@ -44,6 +58,7 @@
                                         id="email"
                                         type="email"
                                         placeholder="Email"
+                                        v-model="userRegister.email"
                                     />
                                 </div>
                                 <div class="mb-4 md:flex md:justify-between">
@@ -56,6 +71,7 @@
                                             id="password"
                                             type="password"
                                             placeholder="******************"
+                                            v-model="userRegister.password"
                                         />
                                         <!-- <p class="text-xs italic text-red-500">Please choose a password.</p> -->
                                     </div>
@@ -75,6 +91,7 @@
                                     <button
                                         class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
                                         type="button"
+                                        @click="signupMethod"
                                     >
                                         Register Account
                                     </button>
@@ -92,7 +109,7 @@
                                         Already have an account? Login!
                                     </router-link>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,8 +117,44 @@
         </div>
 </template>
 <script>
+
+import { useAuthStore } from '@/stores/auth';
+import { mapActions } from 'pinia';
 export default {
-    
+    methods: {
+        ...mapActions(useAuthStore, ['signUp']),
+        async signupMethod() { 
+            const result = await this.signUp(this.userRegister);
+            if (result.success) {
+                this.$toast.open({
+                    message: 'Sign-up successful!',
+                    type: 'success',
+                })
+                this.$router.push('/');
+                console.log('Sign-up successful. User:', result.user);
+            } 
+                else 
+            {
+                this.$toast.open({
+                    message: 'Sign-up failed!',
+                    type: 'error',
+                })
+                console.error('Sign-up failed. Error:', result.error);
+            }
+        },
+    },
+    data () {
+        return {
+            userRegister: {
+                username: '',
+                password: '',
+                first_name: '',
+                last_name: '',
+                email: '',
+                avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHcM04W6diLQBzw4Y4pXDhPgovRf7l1cBF0Q&usqp=CAU'
+            }
+        }
+    },
 }
 </script>
 <style scoped>

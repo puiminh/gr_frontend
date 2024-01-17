@@ -3,7 +3,8 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import VueGoogleMaps from 'vue-google-maps-community-fork'
-
+import ToastPlugin from 'vue-toast-notification';;
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 import App from './App.vue'
 import router from './router'
@@ -11,6 +12,7 @@ import router from './router'
 const app = createApp(App)
 
 app.use(createPinia())
+app.use(ToastPlugin);
 app.use(router)
 app.use(VueGoogleMaps, {
     load: {
