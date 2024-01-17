@@ -60,18 +60,18 @@
                     </div>
                 </div>
             </div>
-            <MapComponent
+            <MapComponentForDisplay
                 :stores="storeList" 
-                :center="store.location"
+                :center="store.position"
                 class="w-1/2 h-full shadow-lg"
-            ></MapComponent>
+            ></MapComponentForDisplay>
             
         </div>
     </div>
 </template>
 <script>
 import StarsRatingDisplay from "@/components/stars/StarsRatingDisplay.vue"
-import MapComponent from "@/components/maps/MapComponent.vue";
+import MapComponentForDisplay from "@/components/maps/MapComponentForDisplay.vue";
 import UserReviewStoreComponent from "@/components/userComponents/UserReviewStoreComponent.vue";
 import { openModal } from "jenesius-vue-modal";
 import StoreReviewModal from "@/components/modals/StoreReviewModal.vue";
@@ -88,18 +88,24 @@ export default {
     },
     computed: {
         storeList() {
-            return [{...this.store}]
+            return [this.store]
         }
     },
     data () {
         return {
             keyword: '',
             store: {
-                type: 1,
-                location: {
-                    lat: 21.0226,
-                    lng: 105.798466
-                },
+                id: 0,
+                name: "Chợ nhỏ",
+                description: "Khu chợ nhỏ gần ký túc xá",
+                img: "https://static2.yan.vn/YanNews/2167221/201708/20170818-021910-tri_0018_1200x795.png",
+                type: 2,
+                address: "Số 1 Đại Cồ Việt",
+                rating: 3,
+                position: {
+                lat: 21.0050115,
+                lng: 105.8414017
+                }
             },
             reviews: [
                 {
@@ -123,7 +129,7 @@ export default {
         }
     },
     components: {
-        MapComponent,
+        MapComponentForDisplay,
         StarsRatingDisplay,
         UserReviewStoreComponent
     }
