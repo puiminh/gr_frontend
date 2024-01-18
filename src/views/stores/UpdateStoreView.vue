@@ -12,7 +12,7 @@
                 <IconAdd class="h-6 w-6"></IconAdd>
             </button>
             <button
-                @click="save" 
+                @click="update" 
                 class="hover:drop-shadow-md bg-green-600 w-40 h-16 rounded-r-full absolute -bottom-8 left-1/2 flex items-center justify-between px-6">
                 <p class="text-white font-bold text-lg">Save</p>
                 <IconSave class="h-6 w-6"></IconSave>
@@ -54,17 +54,17 @@
                     <h1 
                         @input="store.name = $event.target.innerText"
                         class="text-4xl font-bold text-slate-900" contenteditable="true">
-                            Your store name...
+                           {{store.name}}
                     </h1>
                     <p
                         @input="store.address = $event.target.innerText"
                         class="text-medium font-semibold text-slate-600" contenteditable="true">
-                            Số 1, Đại Cồ Việt, Bách Khoa, Hai Bà Trưng, Hà Nội
+                           {{store.address}}
                     </p>
                     <p
                         @input="store.description = $event.target.innerText"
                         class="text-medium font-semibold text-slate-600" contenteditable="true">
-                        Lorem ipsum dolor sit amet consectetur adipiscing elit, pharetra aliquet phasellus quisque pulvinar litora venenatis fermentum, est leo nisl accumsan ornare etiam. Senectus potenti in nec facilisis, sapien lacus lobortis.
+                            {{store.description}}
                     </p>
                 </div>
 
@@ -74,6 +74,8 @@
                 <MapComponent
                     class="w-full h-full"
                     ref="MapComponent"
+                    :stores="storeList" 
+                    :center="{lat: Number(store.lat), lng: Number(store.lng)}"
                 ></MapComponent>
             </div>
         </div>
@@ -96,9 +98,7 @@ import api from "@/services/api";
 export default {
     data () {
         return {
-            ingredients: [],
-            keyword: '',
-            image: '',
+            ingredients: [], 
             imageCoverLinkDefault: '/images/grocerybackground.jpg',
             store: {
                 name: '',
@@ -114,7 +114,7 @@ export default {
         }
     },
     methods: {
-        save() {
+        update() {
             this.store.lat = this.$refs.MapComponent.otherPos.lat;
             this.store.lng = this.$refs.MapComponent.otherPos.lng;
             this.store.owner = this.currentUser.id;
@@ -123,11 +123,11 @@ export default {
             
             console.log(toRaw(this.store));
 
-            api.post('/stores/', this.store).then((response) => {
+            api.put('/stores/'+ this.store.id, this.store).then((response) => {
                 console.log(response.data);
                 if (response.data.success) {
-                    this.$toast.success('Store has been created!')
-                    this.$router.push('/store/' + response.data.storeId)
+                    this.$toast.success('Store has been updated!')
+                    this.$router.push('/store/' + this.store.id)
                 }
 
             }).catch((error) => {
@@ -156,6 +156,18 @@ export default {
                 price,
             )
         },
+        fetchData() {
+            let that = this;
+            api.get('/stores/detail/'+ this.$route.params.id).then(function (response) {
+                    console.log(response.data);
+                    that.store = response.data.store;
+                    that.ingredients = response.data.store.ingredients;
+
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+        },
     },
     computed: {
         ...mapState(useAuthStore, ['currentUser']),
@@ -171,7 +183,19 @@ export default {
         ImageModal,
         IconAdd,
         IconSave,
-    }
+    },
+    created() {
+      // watch the params of the route to fetch the data again
+      this.$watch(
+        () => this.$route.params,
+        () => {
+          this.fetchData()
+        },
+        // fetch the data when the view is created and the data is
+        // already being observed
+        { immediate: true }
+      )
+    },
 }
 </script>
 <style scoped>

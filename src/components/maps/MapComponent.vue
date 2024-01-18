@@ -36,7 +36,7 @@ export default {
       let dD = new google.maps.DirectionsRenderer();
       map.value = new google.maps.Map(mapDiv.value, {
         center: props.center,
-        zoom: 15,
+        zoom: 20,
       })
       clickListener = map.value.addListener(
         'click',
@@ -45,8 +45,6 @@ export default {
           console.log(otherPos);
         }
       )
-
-      console.log(props.stores);
 
       props.stores.forEach(element => {
         createMarker(element.location.lat, element.location.lng, element.type)        
@@ -89,12 +87,13 @@ export default {
     })
 
     function createMarker (lat, lng, iconType) {
-      console.log(data);
       new google.maps.Marker({
           position: new google.maps.LatLng(lat, lng),
           map: map.value,
           icon: data.icons[iconType]
       });
+
+      console.log(lat, lng, iconType);
     };
 
     const haversineDistance = (pos1, pos2) => {

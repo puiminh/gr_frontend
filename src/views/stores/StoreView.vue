@@ -1,7 +1,9 @@
 <template lang="">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-8 pb-12">
         <div class="broad flex flex-wrap mx-auto w-fit h-fit relative">
-            <img class="broad-image object-cover" src="/images/grocerybackground.jpg" alt="">
+            <img class="broad-image object-cover" 
+                :src="store.image" 
+                alt="">
             <input to="/search"
               v-model="keyword" 
               placeholder="Search..."  
@@ -10,20 +12,20 @@
 
         <ul class="list-display mt-32">
             <li 
-                v-for="i in 10" :key="i">
+                v-for="ingredient in store.ingredients" :key="ingredient.id">
                 <div>
                     <div class="rounded-3xl bg-gray-100 relative flex justify-center flex-col h-60">
                         <img class="rounded-full h-52 p-8" 
-                            src="https://cdn.pixabay.com/photo/2016/06/11/15/33/broccoli-1450274_640.png" 
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5umr6GHRZJ8zoRpboUE40KS4pGNQ965_xRg&usqp=CAU" 
                             alt="">
                     </div>
                     <div class="flex justify-between items-start mt-4 px-2">
-                        <p class="text-xl font-bold">Súp Lơ</p>
+                        <p class="text-xl font-bold">{{ingredient.name}}</p>
                         <div class="flex items-center">
-                            <p class="text-2xl font-extrabold text-slate-700">23,800</p>
+                            <p class="text-2xl font-extrabold text-slate-700">{{ingredient.price}}</p>
                             <div>
                                 <p class="font-bold text-yellow-500">vnđ</p>
-                                <p class="font-bold -mt-2 text-slate-500">/kg</p>  
+                                <p class="font-bold -mt-2 text-slate-500">{{ingredient.unit}}</p>  
                             </div>
                         </div>
                     </div>
@@ -35,11 +37,13 @@
         <div class="max-w-screen-xl w-full min-h-96 h-screen flex justify-between mt-24">
             <div class="w-1/2 mr-12 flex flex-col  divide-y-4">
                 <div class="flex flex-col gap-5 h-1/4">
-                    <h1 class="text-4xl font-bold text-slate-900">Siêu thị BigC Hà Đông</h1>
-                    <p class="text-medium font-semibold text-slate-600">Số 1, Đại Cồ Việt, Bách Khoa, Hai Bà Trưng, Hà Nội</p>
+                    <h1 class="text-4xl font-bold text-slate-900">{{store.name}}</h1>
+                    <p class="text-medium font-semibold text-slate-600">{{store.address}}</p>
+                    <!-- <p class="text-medium font-semibold text-slate-500">{{store.description}}</p> -->
+
                     <div class="flex">
-                        <StarsRatingDisplay class="-ml-4" :stars="3.5"></StarsRatingDisplay>
-                        <p class="font-bold text-slate-400">3.5 of 5</p>
+                        <StarsRatingDisplay class="-ml-4" :stars="store.rating"></StarsRatingDisplay>
+                        <p class="font-bold text-slate-400">{{store.rating}} of 5</p>
                     </div>
                 </div>
 
@@ -62,7 +66,7 @@
             </div>
             <MapComponentForDisplay
                 :stores="storeList" 
-                :center="store.position"
+                :center="{lat: Number(store.lat), lng: Number(store.lng)}"
                 class="w-1/2 h-full shadow-lg"
             ></MapComponentForDisplay>
             
@@ -75,6 +79,7 @@ import MapComponentForDisplay from "@/components/maps/MapComponentForDisplay.vue
 import UserReviewStoreComponent from "@/components/userComponents/UserReviewStoreComponent.vue";
 import { openModal } from "jenesius-vue-modal";
 import StoreReviewModal from "@/components/modals/StoreReviewModal.vue";
+import api from "@/services/api";
 
 export default {
     methods: {
@@ -84,6 +89,18 @@ export default {
             modal.on('passData', data => {
                 this.reviews.push(data);
             }) 
+        },
+        fetchData() {
+            let that = this;
+            api.get('/stores/detail/'+ this.$route.params.id).then(function (response) {
+                    console.log(response.data);
+                    that.store = response.data.store;
+                    that.reviews = response.data.store.reviews;
+
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
         },
     },
     computed: {
@@ -132,7 +149,19 @@ export default {
         MapComponentForDisplay,
         StarsRatingDisplay,
         UserReviewStoreComponent
-    }
+    },
+    created() {
+      // watch the params of the route to fetch the data again
+      this.$watch(
+        () => this.$route.params,
+        () => {
+          this.fetchData()
+        },
+        // fetch the data when the view is created and the data is
+        // already being observed
+        { immediate: true }
+      )
+    },
 }
 </script>
 <style scoped>

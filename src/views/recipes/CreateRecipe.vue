@@ -243,6 +243,7 @@ export default {
         }
 
       }).catch((error) => {
+        this.$toast.error('Something went wrong!')
         console.error(error);
       })
     },

@@ -12,7 +12,7 @@ import CreateStore from '@/views/stores/CreateStore.vue'
 
 import CreateRecipeVue from '@/views/recipes/CreateRecipe.vue'
 import BookmarkViewVue from '@/views/manages/BookmarkManageView.vue'
-import ManageStoreViewVue from '@/views/stores/ManageStoreView.vue'
+import ManageStoreViewVue from '@/views/manages/ManageStoreView.vue'
 import SignInView from '@/views/SignInView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 
@@ -22,6 +22,7 @@ import { useAuthStore } from '@/stores/auth';
 import NoneLayoutVue from '@/layouts/NoneLayout.vue'
 import UpdateRecipeViewVue from '@/views/recipes/UpdateRecipeView.vue'
 import ContentManageViewVue from '@/views/manages/ContentManageView.vue'
+import UpdateStoreViewVue from '@/views/stores/UpdateStoreView.vue'
 
 
 const router = createRouter({
@@ -116,6 +117,15 @@ const router = createRouter({
         layout: MainLayout,
       },
       component: CreateStore,
+    },
+    {
+      path: '/update-store/:id',
+      name: 'update-store',
+      meta: {
+        requiresAuth: 2,
+        layout: MainLayout,
+      },
+      component: UpdateStoreViewVue,
     },
     {
       path: '/recipe/:id',

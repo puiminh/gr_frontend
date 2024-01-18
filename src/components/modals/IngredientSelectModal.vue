@@ -92,7 +92,13 @@ export default {
         this.selected = [];
     },
     passData() {
-        const selectedIngredients = this.ingredients.filter(ingredient => this.selected.includes(ingredient.id));
+        const selectedIngredients = this.ingredients
+            .filter(ingredient => this.selected.includes(ingredient.id))
+            .map(selectedIngredient => ({
+                ...selectedIngredient,
+                price: 30000,
+                amount: 230,
+            }));
         this.$emit('passData', selectedIngredients);
     },
     fetchData() {

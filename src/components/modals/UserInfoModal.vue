@@ -56,12 +56,29 @@
     </div>
 </template>
 <script>
+import api from '@/services/api';
 import ImageModal from './ImageModal.vue';
+import { useAuthStore } from "@/stores/auth";
+import { mapActions } from 'pinia';
 export default {
     methods: {
+        ...mapActions(useAuthStore, ['changeUser']),
         save() {
             this.user.avatar =  this.$refs.imageModal.imageLink;
             console.log(this.user);
+            
+            api.put('/users/'+ this.user.id, this.user).then((response) => {
+                console.log(response.data);
+                if (response.data.success) {
+                    this.$toast.success('Store has been updated!')
+                    this.changeUser(this.user)
+                }
+
+            }).catch((error) => {
+                this.$toast.error('Something went wrong!')
+                console.error(error);
+            })
+
         },
 
     },

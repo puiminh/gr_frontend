@@ -4,7 +4,7 @@
         <div class="flex items-center justify-between w-full">
             <div class="">
                 <h1 class="text-3xl text-slate-900 font-extrabold">Recipe Results</h1>
-                <p class="text-slate-600 text-lg font-bold">326 recipes found</p>
+                <p class="text-slate-600 text-lg font-bold">{{ recipes.length }} recipes found</p>
             </div>
 
             <div class="">
@@ -21,28 +21,34 @@
 
         <ul class="list-display mt-16">
             <li 
-                v-for="i in 10" :key="i">
-                <RouterLink :to="'/recipe/'+i">
+                v-for="recipe in recipes" :key="recipe.id">
+                <RouterLink :to="'/recipe/'+recipe.id">
                     <div class="rounded-3xl bg-gray-100 relative flex justify-center flex-col h-64">
                         <img class="rounded-full w-full p-8" src="https://static.vecteezy.com/system/resources/previews/027/536/034/non_2x/restaurant-food-restaurant-food-top-view-ai-generative-free-png.png" alt="">
                         
                         <div
-                            class="slide-up rounded-lg absolute bottom-10 -right-1 h-20 w-32 bg-white  text-red-600 flex flex-col items-center justify-center p-4 shadow-lg"
-                            :class="{hidden : hoverItemId != i}"
+                            v-if="recipe.missingAmount"
+                            class="slide-up rounded-lg absolute bottom-10 -right-1 h-fit w-32 bg-white  text-red-600 flex flex-col items-center justify-center p-4 shadow-lg"
+                            :class="{hidden : hoverItemId != recipe.id}"
                         >
-                            <p class="font-bold">Đùi gà</p>
-                            <p class="font-bold">Hành tây</p>
+                            <p v-for="(ingredient,index) in recipe.missingIngredients" :key="index" class="font-bold">{{ingredient}}</p>
                         </div>
-                        <div
-                            @mouseover="hoverItemId = i" 
+                        <div 
+                            v-if="recipe.missingAmount"
+                            @mouseover="hoverItemId = recipe.id" 
                             @mouseleave="hoverItemId = -1" 
                             class="rounded-lg absolute -bottom-1 -right-1 h-10 w-32 bg-white flex items-center justify-center">
-                            <span class="font-bold">Need <span class="font-extrabold text-orange-500">1</span> more</span>
+                            <span class="font-bold">Need <span class="font-extrabold text-orange-500">{{recipe.missingAmount}}</span> more</span>
+                        </div>
+                        <div 
+                            v-else                            
+                            class="rounded-lg absolute -bottom-1 -right-1 h-10 w-32 bg-white flex items-center justify-center">
+                            <span class="font-bold">Ready to <span class="font-extrabold text-orange-500">Cook!</span> </span>
                         </div>
                     </div>
                     <div class="flex flex-col items-start mt-4 ml-4">
-                        <p class="text-lg font-extrabold">Miso Soup</p>
-                        <StarsRatingDisplay class="-ml-3 mt-2" :stars="4.3" :index="i" :small="true"></StarsRatingDisplay>
+                        <p class="text-lg font-extrabold">{{recipe.name}}</p>
+                        <StarsRatingDisplay class="-ml-3 mt-2" :stars="recipe.rating" :index="recipe.id" :small="true"></StarsRatingDisplay>
                     </div>
                 </RouterLink>
 
@@ -55,12 +61,14 @@
 import {closeModal, openModal} from "jenesius-vue-modal";
 import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
 import IngredientSelectModal from '@/components/modals/IngredientSelectModal.vue';
+import api from "@/services/api";
 
 export default {
     data () {
         return {
             ingredients: [],
             hoverItemId: -1,
+            recipes: [],
         }
     },
     methods: {
@@ -73,6 +81,51 @@ export default {
                     closeModal();
                 })
             },
+            fetchData() {
+                let that = this;
+                api.get('/recipes').then(function (response) {
+                        console.log(response.data);
+                        that.recipes = response.data.recipes;
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    })
+            },
+            match() {
+                let that = this;
+                const ingredientIdsArray = this.ingredients.map(ingredient => ingredient.id);
+                const ingredientIdsString = ingredientIdsArray.join(',');
+
+                api.get('/recipes/match?ingredientIds=' + ingredientIdsString).then(function (response) {
+                        console.log(response.data);
+                        that.recipes = response.data.recipes;
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    })
+            }
+    },
+    watch: {
+        ingredients(newValue) {
+            if (newValue.length > 0) {
+                this.match();   
+            } else {
+                this.fetchData()
+            }
+            
+        }
+    },
+    created() {
+        // watch the params of the route to fetch the data again
+        this.$watch(
+        () => this.$route.params,
+        () => {
+            this.fetchData()
+        },
+        // fetch the data when the view is created and the data is
+        // already being observed
+        { immediate: true }
+        )
     },
     components: { StarsRatingDisplay }
 }

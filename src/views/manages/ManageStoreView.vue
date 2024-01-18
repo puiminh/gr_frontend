@@ -1,7 +1,10 @@
 <template lang="">
-    <div class="max-w-screen-xl mx-auto">
-        <div class="">
-            <p class="font-bold text-2xl mb-12">Your store</p>
+    <div class="max-w-screen-xl mx-auto mb-40">
+        <div class="flex mb-12 items-center gap-6">
+            <p class="font-bold text-2xl">Your store</p>
+            <router-link to="/create-store" class="block bg-blue-600 p-2 text-white text-sm font-bold h-fit rounded-full">
+                Add
+            </router-link>
         </div>
         <div class="">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -85,8 +88,9 @@ export default {
                 api.delete('/stores/'+id).then(function (response) {
                         if (response.data.success) {
                             that.$toast.success('Delete store Successfully')
+                            that.stores = that.stores.filter((store) => store.id !== id);
                         }
-                        that.stores = that.stores.filter((store) => store.id !== id);
+                        
                         
                     })
                     .catch(function (error) {

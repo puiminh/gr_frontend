@@ -246,13 +246,13 @@ export default {
       this.recipe.ingredients = this.ingredients;
       console.log(toRaw(this.recipe));
 
-      api.put('/recipes/'+ this.$route.params.id, this.recipe).then((response) => {
+      api.put('/recipes/'+ this.recipe.id, this.recipe).then((response) => {
         console.log(response.data);
 
 
         if (response.data.success) {
           this.$toast.success('Recipe has been updated!')
-          this.$router.push('/recipe/' + response.data.recipeId)
+          this.$router.push('/recipe/' + this.recipe.id)
         }
 
       }).catch((error) => {

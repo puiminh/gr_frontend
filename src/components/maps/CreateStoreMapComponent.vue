@@ -8,13 +8,14 @@ import data from './icons.json'
 const GOOGLE_MAPS_API_KEY = 'AIzaSyAu94igMGdWyK9JSVIKwM-e-M9vzZtsTWI'
 
 export default {
+  props: ['center', 'stores'],
   watch: {
     otherPos(newValue) {
     }
   },
 
 
-  setup() {
+  setup(props) {
     const { coords } = useGeolocation()
     const currPos = computed(() => ({
       lat: coords.value.latitude,
@@ -32,31 +33,34 @@ export default {
     onMounted(async () => {
       await loader.load()
       map.value = new google.maps.Map(mapDiv.value, {
-        center: currPos.value,
+        center: props.center ? props.center : currPos.value,
         zoom: 15,
       })
 
-      let current = createMarker(currPos.value.lat, currPos.value.lng, 0);
-      current.setMap(map.value)
+      console.log(props.stores);
+      if (props.stores) {
+        props.stores.forEach(element => {
+          createMarker(Number(element.lat), Number(element.lng), element.type)        
+        });
+      }
+
+      createMarker(currPos.value.lat, currPos.value.lng, 0);
 
       clickListener = map.value.addListener(
         'click',
         ({ latLng: { lat, lng } }) => {
           (otherPos.value = { lat: lat(), lng: lng() })
           
-          if (marker.value != null) {
-            marker.value.setMap(null)
-            marker.value = null
-          } 
           marker.value = createMarker(otherPos.value.lat, otherPos.value.lng, 1);
-          marker.value.setMap(map.value)
         }
       )
     })
     function createMarker (lat, lng, iconType) {
+      console.log(lat, lng, data.icons[iconType]);
       return new google.maps.Marker({
           position: new google.maps.LatLng(lat, lng),
-          icon: data.icons[iconType]
+          icon: data.icons[iconType],
+          map: map.value
       });
     };
     onUnmounted(async () => {

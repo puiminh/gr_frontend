@@ -57,6 +57,10 @@ export const useAuthStore = defineStore('auth', {
           console.error('Error during sign up:', error.response ? error.response.data.message : error.message);
           return { success: false, error: error.response ? error.response.data.message : error.message };
         }
+    },
+    changeUser(user) {
+      this.user = user;
+      saveUserToLocalStorage(this.user);
     }
 
   },

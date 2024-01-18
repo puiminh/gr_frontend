@@ -7,7 +7,7 @@
               :key="index"
               v-for="(store, index) in stores"
               :icon="icons[store.type]"
-              :position="store.position"
+              :position="{lat: Number(store.lat), lng: Number(store.lng)}"
               :disableDefaultUI="true"
               @click="handleMarkerClick(store.id)"
           >
