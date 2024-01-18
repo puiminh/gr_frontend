@@ -17,15 +17,34 @@
     </div>
 </template>
 <script>
+import api from '@/services/api';
 import IconSave from '../icons/IconSave.vue';
 import StarsRating from '../stars/StarsRating.vue';
+import { mapState } from 'pinia';
+import { useAuthStore } from '@/stores/auth';
 
 export default {
     props: ['predata', 'mode'],
+    computed: {
+        ...mapState(useAuthStore, ['currentUser']),
+    },
     methods: {
         save () {
             this.review.rating = this.$refs.rating.stars 
+            this.review.user_id = this.currentUser.id
+            this.review.store_id = this.$route.params.id
             console.log(this.review);
+            api.post('/store-reviews/', this.review).then((response) => {
+                console.log(response.data);
+                if (response.data.success) {
+                    this.$toast.success('Review has been created!')
+                    this.$router.go(0)
+                }
+
+            }).catch((error) => {
+                this.$toast.error('Something went wrong!')
+                console.error(error);
+            })
         },
     },
     data () {
@@ -34,6 +53,8 @@ export default {
             review: {
                 comment: '',
                 rating: 0,
+                user_id: 0,
+                store_id: 0,
             },
         }
     },

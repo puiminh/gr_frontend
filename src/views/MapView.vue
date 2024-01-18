@@ -22,12 +22,12 @@
       <div class="relative">
         <GMapMap
             class="w-full h80screen"
-            ref="mapRef" :center="center" :zoom="18" map-type-id="terrain" >
+            ref="mapRef" :center="center" :zoom="16" map-type-id="terrain" >
             <GMapMarker 
                 :key="index"
                 v-for="(store, index) in stores"
                 :icon="icons[store.type]"
-                :position="store.position"
+                :position="{lat: Number(store.lat), lng: Number(store.lng)}"
                 :disableDefaultUI="true"
                 @click="handleMarkerClick(store.id)"
             >
@@ -55,28 +55,28 @@
         <div
             v-for="(store) in stores"
             :key="store.id"
-            class="hidden store-info slide-down w-80 h-96 bg-white drop-shadow-lg absolute top-6 left-5 p-6"
+            class="hidden store-info slide-down w-80 bg-white drop-shadow-lg absolute top-6 left-5 p-6"
             :class="{'!block' : selectedMarkerId==store.id}"
         >
-            <div class="flex flex-col mb-8">
+            <div class="flex flex-col mb-8 gap-4">
                 <router-link :to="'/store/'+store.id" class="text-2xl font-bold text-black hover:underline-offset-1 hover:underline">{{ store.name }}</router-link>
-                <div class="flex justify-between">
+                
+                <img class="w-full h-24 object-cover" :src="store.image" alt="">
+                <!-- <div class="flex justify-between">
                     <p class="w-3/4 truncate  text-medium font-semibold text-slate-600">{{ store.address }}</p>
-                    <p class="">{{ store.distance }} km</p>
-                </div>
-                <StarsRatingDisplay class=" self-start -ml-1" :small="true" :stars="store.rating" :index="store.id + '-' + store.id"></StarsRatingDisplay>
-        
+                    <p class="w-1/4 self-end">{{ store.distance }} km</p>
+                </div> -->
             </div>
     
-            <div class="insideContainer  h-full overflow-y-auto">
-                <div v-for="(item,index) in ingredients" :key="index" class="checkbox_ingredient flex mb-4 items-start justify-start">
+            <div class="insideContainer  h-72 overflow-y-auto">
+                <div v-for="(item,index) in store.ingredients" :key="index" class="checkbox_ingredient flex mb-4 items-start justify-start">
                     <div class="flex justify-between w-full items-center pr-4">
                         <p class="text text-lg text-slate-600 font-bold">{{ item.name }} </p>
                         <div class="flex items-center">
-                            <p class="text-xl font-extrabold text-slate-700">23,800</p>
+                            <p class="text-xl font-extrabold text-slate-700 mr-1"> {{formatMoneyVND(item.price)}} </p>
                             <div>
                                 <p class="font-bold text-yellow-500">vnđ</p>
-                                <p class="font-bold -mt-2 text-slate-500">/kg</p>  
+                                <p class="font-bold -mt-2 text-slate-500"> {{item.unit}} </p>  
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,6 @@ import { useGeolocation } from '@vueuse/core'
 import { toRaw } from 'vue';
 import axios from 'axios'
 import InfoWindow from '../components/maps/InfoWindow.vue';
-import data from '@/db.json'
 import icon from '@/components/maps/icons.json';
 import IngredientCheckbox from '@/components/checkboxs/IngredientCheckbox.vue';
 import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
@@ -102,12 +101,24 @@ import { closeModal, openModal } from 'jenesius-vue-modal';
 import IngredientSelectModal from '@/components/modals/IngredientSelectModal.vue';
 import { useIngredientStore } from '@/stores/ingredient';
 import { mapState } from 'pinia';
+import api from '@/services/api';
+import { formatMoneyVND } from '@/services/helper'
 
 export default {
     computed: {
         ...mapState(useIngredientStore, ['getIngredients']),
         updateKey() {
             return this.$router.name
+        }
+    },
+    watch: {
+        ingredients(newValue) {
+            if (newValue.length > 0) {
+                this.filter();   
+            } else {
+                this.fetchData()
+            }
+            
         }
     },
     mounted() {
@@ -120,19 +131,11 @@ export default {
             this.coords.lat = lat;
             this.coords.lng = lng;
 
-            this.stores = data.stores.map(store => {
-                const distance = this.getDistanceFromLatLonInKm(
-                    this.coords.lat,
-                    this.coords.lng,
-                    store.position.lat,
-                    store.position.lng
-                );
-
-                // Thêm khoảng cách vào đối tượng cửa hàng
-                return { ...store, distance };
-            });
-
-            this.getDistanceMaxtrix(this.stores);
+            this.center = {
+                lat: lat,
+                lng: lng,
+            }
+            // this.getDistanceMaxtrix(this.stores);
         };
 
         const error = (err) => {
@@ -146,8 +149,21 @@ export default {
         if (this.getIngredients) {
                 this.ingredients = this.getIngredients
         }
-
-
+    },
+    created() {
+        // watch the params of the route to fetch the data again
+        this.$watch(
+        () => this.$route.params,
+        () => {
+            if (!this.getIngredients) {
+                this.fetchData()
+            }
+            
+        },
+        // fetch the data when the view is created and the data is
+        // already being observed
+        { immediate: true }
+        )
     },
     data() {
         return {
@@ -161,12 +177,42 @@ export default {
             center: { lat: 21.0070115, lng: 105.8414017 },
             showSidewindow: false,
             options: {},
-            stores: data.stores,
+            stores: [],
             icons: icon.icons,
             ingredients: [],
         };
     },
     methods: {
+        formatMoneyVND: formatMoneyVND,
+        fetchData() {
+                let that = this;
+                api.get('/stores').then(function (response) {
+                        console.log(response.data);
+                        that.stores = response.data.stores;
+                        that.caculateDistanceForStores()
+
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    })
+                
+        },
+
+        filter() {
+            let that = this;
+            const ingredientIdsArray = this.ingredients.map(ingredient => ingredient.id);
+            const ingredientIdsString = ingredientIdsArray.join(',');
+
+            api.get('/stores/filter?ingredientIds=' + ingredientIdsString).then(function (response) {
+                    console.log(response.data);
+                    that.stores = response.data.stores;
+                    that.caculateDistanceForStores()
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+        },
+
         async openIngredientModal () {
             const preSelect = this.ingredients.map(e => e.id)
 
@@ -177,10 +223,23 @@ export default {
                 closeModal();
             })
         },
+        caculateDistanceForStores() {
+            let that = this;
+            this.stores = this.stores.map(store => {
+                const distance = this.getDistanceFromLatLonInKm(
+                    that.coords.lat,
+                    that.coords.lng,
+                    store.lat,
+                    store.lng
+                );
+
+                // Thêm khoảng cách vào đối tượng cửa hàng
+                return { ...store, distance };
+            });
+        },
 
         handleMarkerClick(id) {
             this.selectedMarkerId = id;
-
         },
         getDistanceMaxtrix(stores) {
             const destinations = stores.map(store => `${store.position.lat},${store.position.lng}`).join('|');

@@ -11,7 +11,7 @@
             <p class="text-base text-slate-700 font-semibold mt-4">
               {{review.comment}}
             </p>
-            <IconEdit @click="openReviewModal" class="absolute p-2 w-8 bg-red-300 right-0 -bottom-2 rounded-full cursor-pointer hover:shadow-md"></IconEdit>
+            <!-- <IconEdit @click="openReviewModal" class="absolute p-2 w-8 bg-red-300 right-0 -bottom-2 rounded-full cursor-pointer hover:shadow-md"></IconEdit> -->
         </div>
     </div>
 </template>

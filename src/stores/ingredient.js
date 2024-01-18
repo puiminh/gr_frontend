@@ -17,6 +17,7 @@ export const useIngredientStore = defineStore('ingredient', {
       this.ingredients.push(ingredient)
     },
     assignIngredients(ingredients) {
+
       this.ingredients = ingredients
     }
   },

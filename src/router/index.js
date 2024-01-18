@@ -23,6 +23,9 @@ import NoneLayoutVue from '@/layouts/NoneLayout.vue'
 import UpdateRecipeViewVue from '@/views/recipes/UpdateRecipeView.vue'
 import ContentManageViewVue from '@/views/manages/ContentManageView.vue'
 import UpdateStoreViewVue from '@/views/stores/UpdateStoreView.vue'
+import MainLayoutVue from '@/layouts/MainLayout.vue'
+import AdminRecipesViewVue from '@/views/admin/AdminRecipesView.vue'
+import AdminStoresViewVue from '@/views/admin/AdminStoresView.vue'
 
 
 const router = createRouter({
@@ -155,6 +158,26 @@ const router = createRouter({
       component: UpdateRecipeViewVue,
     },
 
+
+    {
+      path: '/admin/recipes',
+      name: 'admin-recipes',
+      meta: {
+        requiresAuth: 3,
+        layout: MainLayoutVue,
+      },
+      component: AdminRecipesViewVue,
+    },
+    {
+      path: '/admin/stores',
+      name: 'admin-stores',
+      meta: {
+        requiresAuth: 3,
+        layout: MainLayoutVue,
+      },
+      component: AdminStoresViewVue,
+    },
+
   ]
 })
 
@@ -163,7 +186,7 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   //require sign in
-  if (to.matched.some((record) => record.meta.requiresAuth>0)) {
+  if (to.matched.some((record) => record.meta.requiresAuth==1)) {
     if (authStore.isAuthenticated) {
       next();
       return;
@@ -178,8 +201,23 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   //require promoter sign in
-  if (to.matched.some((record) => record.meta.requiresAuth>1)) {
+  if (to.matched.some((record) => record.meta.requiresAuth==2)) {
     if (authStore.isPromoter) {
+      next();
+      return;
+    }
+    next("/sign-in");
+  } else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  //require promoter sign in
+  if (to.matched.some((record) => record.meta.requiresAuth==3)) {
+    if (authStore.isAdmin) {
       next();
       return;
     }

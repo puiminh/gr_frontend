@@ -1,10 +1,7 @@
 <template lang="">
     <div class="max-w-screen-xl mx-auto mb-40">
         <div class="flex mb-12 items-center gap-6">
-            <p class="font-bold text-2xl">Your Recipe</p>
-            <router-link to="/create-recipe" class="block bg-blue-600 p-2 text-white text-sm font-bold h-fit rounded-full">
-                Add
-            </router-link>
+            <p class="font-bold text-2xl">All stores</p>
         </div>
         <div class="">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -15,10 +12,10 @@
                                 <span class="sr-only">Image</span>
                             </th>
                             <th scope="col" class="font-bold px-6 py-3">
-                                Recipe'name
+                                Store'name
                             </th>
-                            <th scope="col" class="font-bold px-6 py-3 w-2/3">
-                                Description
+                            <th scope="col" class="font-bold px-6 py-3 w-1/3">
+                                Address
                             </th>
                             <th scope="col" class="font-bold px-6 py-3 w-1/5">
                                 Action
@@ -27,24 +24,24 @@
                     </thead>
                     <transition-group name="fade" tag="tbody">
                         <tr 
-                            v-for="recipe in recipes"
-                            :key="recipe.id"
-                            :class="{active : deletedId == recipe.id}"
+                            v-for="store in stores"
+                            :key="store.id"
+                            :class="{active : deletedId == store.id}"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td class="p-4">
-                                <img :src="recipe.image" class="w-16 md:w-32 max-w-full max-h-full mx-auto" alt="Apple Watch">
+                                <img :src="store.image" class="w-16 md:w-32 max-w-full max-h-full mx-auto" alt="Apple Watch">
                             </td>
                             <td class="px-6 py-4 w-fit min-w-40">
-                                <router-link :to="'/recipe/'+recipe.id" class="font-semibold text-gray-900 dark:text-white hover:underline">
-                                    {{recipe.name}}
+                                <router-link :to="'/store/'+store.id" class="font-semibold text-gray-900 dark:text-white hover:underline">
+                                    {{store.name}}
                                 </router-link>
                             </td>
                             <td class="px-6 py-4">
-                                {{recipe.description}}
+                                {{store.address}}
                             </td>
                             <td class="px-6 py-4">
-                                <router-link :to="'/update-recipe/'+recipe.id" class="block font-bold text-yellow-500 dark:text-red-500 hover:underline">Edit</router-link>
-                                <button @click="deleteRecipe(recipe.id)" class="block font-bold text-red-500 dark:text-red-500 hover:underline">Delete</button>
+                                <router-link :to="'/update-store/'+store.id" class="block font-bold text-yellow-500 dark:text-red-500 hover:underline">Edit</router-link>
+                                <button @click="deletestore(store.id)" class="block font-bold text-red-500 dark:text-red-500 hover:underline">Delete</button>
 
                             </td>
                         </tr>
@@ -64,7 +61,7 @@ import { mapState } from 'pinia';
 export default {
     data () {
         return {
-            recipes: [],
+            stores: [],
             deletedId: -1,
         }
     },
@@ -74,22 +71,23 @@ export default {
     methods: {
         fetchData() {
             let that = this;
-            api.get('/recipes/author/' + this.currentUser.id).then(function (response) {
+            api.get('/stores').then(function (response) {
                     console.log(response.data);
-                    that.recipes = response.data.recipes;
+                    that.stores = response.data.stores;
                 })
                 .catch(function (error) {
                     console.error(error);
                 })
         },
-        deleteRecipe(id) {
+        deletestore(id) {
             let that = this;
-            if(confirm("Are you sure you want to delete this recipe")) {
-                api.delete('/recipes/'+id).then(function (response) {
+            if(confirm("Are you sure you want to delete this store")) {
+                api.delete('/stores/'+id).then(function (response) {
                         if (response.data.success) {
-                            that.$toast.success('Delete Recipe Successfully')
-                            that.recipes = that.recipes.filter((recipe) => recipe.id !== id);
+                            that.$toast.success('Delete store Successfully')
+                            that.stores = that.stores.filter((store) => store.id !== id);
                         }
+                        
                         
                     })
                     .catch(function (error) {

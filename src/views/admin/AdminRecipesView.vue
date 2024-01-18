@@ -1,10 +1,7 @@
 <template lang="">
     <div class="max-w-screen-xl mx-auto mb-40">
         <div class="flex mb-12 items-center gap-6">
-            <p class="font-bold text-2xl">Your Recipe</p>
-            <router-link to="/create-recipe" class="block bg-blue-600 p-2 text-white text-sm font-bold h-fit rounded-full">
-                Add
-            </router-link>
+            <p class="font-bold text-2xl">All Recipes</p>
         </div>
         <div class="">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -74,7 +71,7 @@ export default {
     methods: {
         fetchData() {
             let that = this;
-            api.get('/recipes/author/' + this.currentUser.id).then(function (response) {
+            api.get('/recipes/').then(function (response) {
                     console.log(response.data);
                     that.recipes = response.data.recipes;
                 })

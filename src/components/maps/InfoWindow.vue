@@ -3,9 +3,9 @@
         <h1 class="text-lg font-bold text-black self-center">{{ data.name }}</h1>
         <div class="flex justify-between">
             <p class="w-3/4 truncate  text-medium font-semibold text-slate-600">{{ data.address }}</p>
-            <p class="w-1/4">{{ data.distance }} km</p>
+            <p class="w-1/4 text-end">{{ data.distance }} km</p>
         </div>
-        <StarsRatingDisplay class=" self-start -ml-0.5" :small="true" :stars="data.rating" :index="data.id"></StarsRatingDisplay>
+        <StarsRatingDisplay class=" self-center -ml-0.5" :small="true" :stars="data.rating" :index="data.id"></StarsRatingDisplay>
     </div>
 </template>
 

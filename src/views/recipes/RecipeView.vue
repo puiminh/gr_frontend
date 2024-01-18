@@ -336,6 +336,7 @@ export default {
     },
     toTheMap() {
       this.assignIngredients(this.ingredients);
+      console.log(this.ingredients);
       this.$router.push('/map')
     },
 
