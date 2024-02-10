@@ -37,7 +37,7 @@
         <div class="max-w-screen-xl w-full min-h-96 h-screen flex justify-between mt-24">
             <div class="w-1/2 mr-12 flex flex-col  divide-y-4">
                 <div class="flex flex-col gap-5 h-1/4">
-                    <h1 class="text-4xl font-bold text-slate-900">{{store.name}}</h1>
+                    <h1 class="text-4xl font-bold text-slate-900">{{store.name}} <span @click="getDirection" class="text-slate-500 text-sm font-medium underline cursor-pointer">Get direction</span></h1>
                     <p class="text-medium font-semibold text-slate-600">{{store.address}}</p>
                     <!-- <p class="text-medium font-semibold text-slate-500">{{store.description}}</p> -->
 
@@ -102,6 +102,10 @@ export default {
                     console.error(error);
                 })
         },
+        getDirection() {
+            let destination = this.store.lat + ',' + this.store.lng
+            window.open(`https://www.google.com/maps/dir/21.0044531,105.8468822/${destination}/am=t/`)
+        }
     },
     computed: {
         storeList() {

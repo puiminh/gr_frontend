@@ -19,18 +19,18 @@
             <div class="flex">
               <div class="w-2/3 flex flex-col">
                 <p class="author text-xl yellow">{{recipe.author_name}}</p>
-                <p class="title text-7xl text-white mt-4 dm-serif" ref="overview_title">{{recipe.name}}</p>
-                <div class="flex items-center gap-4 mt-8">
+                <p class="title text-7xl text-white mt-6 dm-serif" ref="overview_title">{{recipe.name}}</p>
+                <div class="flex items-center gap-5 mt-8">
                   <StarsRatingDisplay :stars="recipe.rating" class="flex align-start -ml-2"></StarsRatingDisplay>
                   <p class="text-slate-400 font-bold text-sm font-mono">{{ recipe.rating }} out of 5</p>
                 </div>
               </div>
               <div class="image-holder relative">
-                <img class="w-96 absolute  -top-5 left-10 rounded-full object-cover max-w-80 h-80 z-50" 
+                <img class="w-96 absolute  -top-12 left-10 rounded-full object-cover max-w-80 h-80 z-50" 
                   :src="recipe.image" alt="">
               </div>            
             </div>
-            <div class="description mt-12">
+            <div class="description mt-10">
               <p class="title text-white text-2xl font-extralight dm-serif mb-14">Introduction</p>
               <p class="description-text text-xl text-orange-50 word-space-3">
                 {{ recipe.description }}
@@ -57,12 +57,12 @@
           </div>
 
           <div class="gallery_frame pt-24" ref="gallery_frame">
-            <div class="gallery mt-8 ">
+            <!-- <div class="gallery mt-8 ">
               <p class="text-white text-2xl font-extralight dm-serif mb-12" ref="gallery_title">Gallery</p>
               <div class="">
                 <ImageGallery :images="images"></ImageGallery>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="w-full h-80">

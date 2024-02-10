@@ -23,8 +23,9 @@
             <li 
                 v-for="recipe in recipes" :key="recipe.id">
                 <RouterLink :to="'/recipe/'+recipe.id">
-                    <div class="rounded-3xl bg-gray-100 relative flex justify-center flex-col h-64">
-                        <img class="rounded-full w-full p-8" src="https://static.vecteezy.com/system/resources/previews/027/536/034/non_2x/restaurant-food-restaurant-food-top-view-ai-generative-free-png.png" alt="">
+                    <div class="rounded-3xl bg-gray-100 relative flex justify-center flex-col py-4">
+                        <img class="rounded-full w-1/2 self-center" 
+                            :src="recipe.image" alt="">
                         
                         <div
                             v-if="recipe.missingAmount"
@@ -144,7 +145,7 @@ ul {
 	padding: 0;
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+	grid-template-columns: 23% 23% 23% 23%;
 	max-width: 100%;
 	width: 100%;
 }
