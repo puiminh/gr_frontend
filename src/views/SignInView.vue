@@ -84,7 +84,7 @@ export default {
             else 
         {
             this.$toast.open({
-                message: 'Sign-in failed!',
+                message: 'Sign-in failed! ' + result.error,
                 type: 'error',
             })
             console.error('Login failed. Error:', result.error);
