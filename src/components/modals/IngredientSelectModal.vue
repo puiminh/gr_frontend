@@ -105,7 +105,7 @@ export default {
         let that = this;
         api.get('/ingredients').then(function (response) {
                 console.log(response.data);
-                that.ingredients = response.data.data;
+                that.ingredients = response.data.ingredients;
             })
             .catch(function (error) {
                 console.error(error);

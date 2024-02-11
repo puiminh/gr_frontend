@@ -26,6 +26,7 @@ import UpdateStoreViewVue from '@/views/stores/UpdateStoreView.vue'
 import MainLayoutVue from '@/layouts/MainLayout.vue'
 import AdminRecipesViewVue from '@/views/admin/AdminRecipesView.vue'
 import AdminStoresViewVue from '@/views/admin/AdminStoresView.vue'
+import AdminIngredientsViewVue from '@/views/admin/AdminIngredientsView.vue'
 
 
 const router = createRouter({
@@ -176,6 +177,15 @@ const router = createRouter({
         layout: MainLayoutVue,
       },
       component: AdminStoresViewVue,
+    },
+    {
+      path: '/admin/ingredients',
+      name: 'admin-ingredients',
+      meta: {
+        requiresAuth: 3,
+        layout: MainLayoutVue,
+      },
+      component: AdminIngredientsViewVue,
     },
 
   ]
