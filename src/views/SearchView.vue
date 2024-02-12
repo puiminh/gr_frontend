@@ -55,6 +55,12 @@
 
             </li>
         </ul>
+
+        <PaginationComponent
+            :total-pages="totalPages"
+            :current-page="currentPage"
+            @pagechanged="onPageChange"
+        ></PaginationComponent>
         
     </div>
 </template>
@@ -63,6 +69,7 @@ import {closeModal, openModal} from "jenesius-vue-modal";
 import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
 import IngredientSelectModal from '@/components/modals/IngredientSelectModal.vue';
 import api from "@/services/api";
+import PaginationComponent from "@/components/PaginationComponent.vue";
 
 export default {
     data () {
@@ -70,9 +77,16 @@ export default {
             ingredients: [],
             hoverItemId: -1,
             recipes: [],
+            currentPage: 1,
+            totalPages: 1,
         }
     },
     methods: {
+            onPageChange (e) {
+                console.log("PAGE CHANGE: ", e);
+                this.currentPage = e;
+                this.fetchData(e)
+            },
             async openIngredientModal () {
                 const preSelect = this.ingredients?.map(e => e.id)
                 const modal = await openModal(IngredientSelectModal, {preSelect: preSelect})
@@ -82,11 +96,14 @@ export default {
                     closeModal();
                 })
             },
-            fetchData() {
+            fetchData(page = 1) {
                 let that = this;
-                api.get('/recipes').then(function (response) {
+                api.get('/recipes?page='+page).then(function (response) {
                         console.log(response.data);
                         that.recipes = response.data.recipes;
+
+                        that.currentPage = Number(response.data.meta.currentPage) ;
+                        that.totalPages = Number(response.data.meta.totalPages);
                     })
                     .catch(function (error) {
                         console.error(error);
@@ -128,7 +145,7 @@ export default {
         { immediate: true }
         )
     },
-    components: { StarsRatingDisplay }
+    components: { StarsRatingDisplay, PaginationComponent }
 }
 </script>
 <style scoped>
