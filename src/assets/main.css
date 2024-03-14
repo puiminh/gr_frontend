@@ -23,6 +23,7 @@
 
 :root {
 	--yellow: #FCBE84;
+	--orange: #F79F1A;
 	--slate: #FBFBFB;
 	--red: #DA254E;
 }
@@ -58,6 +59,10 @@ input:focus, textarea {outline:none;}
 
 .bg-yellow {
 	background-color: var(--yellow)
+}
+
+.bg-orange {
+	background-color: var(--orange);
 }
 
 .centered-axis-x {

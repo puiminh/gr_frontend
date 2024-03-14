@@ -27,11 +27,21 @@ import MainLayoutVue from '@/layouts/MainLayout.vue'
 import AdminRecipesViewVue from '@/views/admin/AdminRecipesView.vue'
 import AdminStoresViewVue from '@/views/admin/AdminStoresView.vue'
 import AdminIngredientsViewVue from '@/views/admin/AdminIngredientsView.vue'
+import LandingView from '@/views/LandingView.vue'
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/landing',
+      name: 'landing',
+      meta: {
+        requiresAuth: 0,
+        layout: MainLayout,
+      },
+      component: LandingView
+    },
     {
       path: '/sign-in',
       name: 'sign-in',
