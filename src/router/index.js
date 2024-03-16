@@ -28,11 +28,21 @@ import AdminRecipesViewVue from '@/views/admin/AdminRecipesView.vue'
 import AdminStoresViewVue from '@/views/admin/AdminStoresView.vue'
 import AdminIngredientsViewVue from '@/views/admin/AdminIngredientsView.vue'
 import LandingView from '@/views/LandingView.vue'
+import View from '@/views/recipes/View.vue'
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/view',
+      name: 'view',
+      meta: {
+        requiresAuth: 0,
+        layout: MainLayout,
+      },
+      component: View,
+    },
     {
       path: '/landing',
       name: 'landing',
@@ -65,7 +75,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         requiresAuth: 0,
-        layout: MainLayout,
+        layout: NoneLayoutVue,
       },
       component: HomeView
     },

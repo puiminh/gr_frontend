@@ -1,23 +1,68 @@
 <template>
-  <div>
-    <div class="broad flex flex-wrap mx-auto w-fit h-fit relative mb-40">
-      <img class="broad-image object-cover" src="/images/cookingbackground4.jpg" alt="">
-      <div class="absolute bottom-24 left-1/2">
-        <p class="text-slate-200 font-serif font-semibold text-2xl word-space-3 pt-6">What are you<br>cooking today?</p>
-        <p class="text-slate-300 text-base text-right mt-2">Let's see...</p>
+  <div class="flex w-full h-full">
+    <div class="left-bar bg-white w-1/5 pt-8 flex flex-col">
+      <LogoDefault class="mb-10 mx-auto"></LogoDefault>
+
+      <div class="flex flex-col gap-4 pl-12">
+        <div class="menu-item flex items-center gap-4 relative">
+          <IconDashboard :checked="true" class="h-8"></IconDashboard>
+          <h2 class=" font-bold text-slate-800 text-lg">Explore</h2>
+          <div class="w-1 h-full absolute right-0 bg-black"></div>
+        </div>
+        <div class="menu-item flex items-center gap-4 relative">
+          <IconHeart :checked="false" class="h-8"></IconHeart>
+          <h2 class="font-semibold text-slate-600 text-lg">Favorites</h2>
+        </div>
+        <div class="menu-item flex items-center gap-4 relative">
+          <IconMap :checked="false" class="h-8"></IconMap>
+          <h2 class="font-semibold text-slate-600 text-lg">Store</h2>
+        </div>
+        <div class="menu-item flex items-center gap-4 relative">
+          <IconSetting :checked="false" class="h-8"></IconSetting>
+          <h2 class="font-semibold text-slate-600 text-lg">Setting</h2>
+        </div>
       </div>
-      <router-link to="/search" class="bg-yellow w-1/4 h-16 rounded-full absolute -bottom-8 centered-axis-x flex items-center justify-between px-6 drop-shadow-lg">
-        <p class="text-slate-800 font-medium text-lg">Search for recipes...</p>
-        <svg class="w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#5e5e5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-      </router-link>
+
+      <div class="relative flex flex-col items-center mb-4 h-full">
+        <img class="z-10 absolute -top-2 h-52 left-12" src="/images/cooking1.webp" alt="">
+        <div class="absolute flex flex-col bottom-0 pt-12 pb-6 px-8 rounded-2xl bg-orange font-bold text-white text-lg">
+          <p>Share your <span class="font-extrabold">Recipes</span> <br></p> 
+          <p>with the whole world</p> 
+
+          <button class="mt-4 orange bg-white font-bold px-3 py-2 rounded-xl mx-auto">Upload Now</button>
+        </div>
+      </div>
+
+
     </div>
-    
+    <div class="content w-4/5 flex">
+      <div class="middle-content bg-lightGray w-3/4">
+      </div>
+      <div class="right-bar bg-white w-1/4">
+      </div>
+    </div>
+
   </div>
 </template>
 <script>
+import LogoDefault from '@/components/barComponents/LogoDefault.vue';
+import IconDashboard from '@/components/icons/IconDashboard.vue';
+import IconHeart from '@/components/icons/IconHeart.vue';
+import IconProfile from '@/components/icons/IconProfile.vue';
+import IconSetting from '@/components/icons/IconSetting.vue';
+import IconMap from '@/components/icons/IconMap.vue';
+
+
+
 export default {
 
   components: {
+    LogoDefault,
+    IconDashboard,
+    IconHeart,
+    IconProfile,
+    IconSetting,
+    IconMap,
   }
 
   

@@ -26,6 +26,7 @@
 	--orange: #F79F1A;
 	--slate: #FBFBFB;
 	--red: #DA254E;
+	--lightGray: #FAF9FB;
 }
 input {border:0;outline:0;}
 input:focus, textarea {outline:none;}
@@ -61,6 +62,10 @@ input:focus, textarea {outline:none;}
 	background-color: var(--yellow)
 }
 
+.orange {
+	color: var(--orange)
+}
+
 .bg-orange {
 	background-color: var(--orange);
 }
@@ -73,6 +78,14 @@ input:focus, textarea {outline:none;}
 
 .slate {
 	color: var(--slate)
+}
+
+.lightGray {
+	color: var(--lightGray)
+}
+
+.bg-lightGray {
+	background-color: var(--lightGray)
 }
 
 .header {
