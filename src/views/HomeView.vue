@@ -1,20 +1,6 @@
 <template>
   <div class="flex w-full h-full">
 
-            <div
-              class="flex items-center absolute right-0 top-0">
-                <button type="button" class="flex text-sm bg-white border-2 border-gray-400 rounded-full">
-                  <IconSetting class="w-8"></IconSetting>
-
-                </button>
-                <button
-                  type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                  <img class="w-8 h-8 rounded-full object-cover" :src="user.avatar" alt="user photo">
-                </button>
-                  
-
-
-            </div>
 
     <div class="left-bar bg-white w-1/6 pt-8 flex flex-col">
       <LogoDefault class="mb-10 mx-auto"></LogoDefault>
@@ -38,18 +24,25 @@
           <h2 class=" font-bold text-slate-600 ">Store</h2>
         </div>
         <div class="menu-item flex items-center gap-4 relative">
-          <IconSetting :checked="false" class="h-6"></IconSetting>
-          <h2 class=" font-bold text-slate-600 ">Setting</h2>
+          <IconSetting :checked="false" class="h-7"></IconSetting>
+          <h2 class=" font-bold text-slate-600 ">Account</h2>
         </div>
       </div>
 
       <div class="flex flex-col items-center mb-4 mt-auto relative">
-          <img style="transform: translate(-50%, 0);" class="z-10 absolute -top-36 h-48 left-1/2" src="/images/cooking3.webp" alt="">
-        <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-md">
+          <img style="transform: translate(-50%, 0);" class="z-10 absolute -top-36 upload-box left-1/2" src="/images/cooking3.webp" alt="">
+        <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-md upload-box">
           <p>Share your <span class="font-extrabold">Recipes</span> <br></p> 
           <p>with the whole world</p> 
 
-          <button class="mt-4 orange bg-white font-bold px-3 py-2 rounded-xl mx-auto">Upload Now</button>
+          <div class="flex items-center mt-4">
+            <button class="orange bg-white font-bold px-3 py-2 rounded-xl mx-auto">Go to Workspace</button>
+            <button
+                    type="button" class="h-min bg-gray-800 rounded-full ring-4 ring-white">
+                    <img class="w-8 h-8 rounded-full object-cover" :src="user.avatar" alt="user photo">
+            </button>
+          </div>
+
         </div>
       </div>
 
@@ -104,6 +97,7 @@ import IconSearch from '@/components/icons/IconSearch.vue';
 import IconExplore from '@/components/icons/IconExplore.vue';
 import { mapState, mapActions } from 'pinia';
 import { useAuthStore } from '@/stores/auth';
+import IconLogout from '@/components/icons/IconLogout.vue';
 
 
 
@@ -157,7 +151,8 @@ export default {
     IconSetting,
     IconMap,
     IconSearch,
-    IconExplore
+    IconExplore,
+    IconLogout,
   },
   mounted () {
     if (this.isAuthenticated) {
@@ -176,5 +171,8 @@ export default {
   clip-path: polygon(0 0, 100% 35%, 100% 100%, 0% 100%);
 }
 
+.upload-box {
+  width: calc(100% - 3rem);
+}
 
 </style>
