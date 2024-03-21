@@ -5,33 +5,33 @@
     <div class="left-bar bg-white w-1/6 pt-8 flex flex-col">
       <LogoDefault class="mb-10 mx-auto"></LogoDefault>
 
-      <div class="flex flex-col gap-4 pl-12">
-        <div class="menu-item flex items-center gap-4 relative">
-          <IconDashboard :checked="true" class="h-6"></IconDashboard>
+      <div class="flex flex-col gap-4 pl-12 text-lg">
+        <div class="menu-item py-1 flex items-center gap-4 relative">
+          <IconDashboard :checked="true" class="h-8"></IconDashboard>
           <h2 class="  font-bold text-slate-800 ">Home</h2>
-          <div class="w-1 h-full absolute right-0 bg-black"></div>
+          <div class="w-1 h-full absolute right-0 bg-orange"></div>
         </div>
-        <div class="menu-item flex items-center gap-4 relative">
-          <IconExplore :checked="false" class="h-6"></IconExplore>
+        <div class="menu-item py-1 flex items-center gap-4 relative">
+          <IconExplore :checked="false" class="h-8"></IconExplore>
           <h2 class="  font-bold text-slate-600 ">Explore</h2>
         </div>
-        <div class="menu-item flex items-center gap-4 relative">
-          <IconHeart :checked="false" class="h-6"></IconHeart>
+        <div class="menu-item py-1 flex items-center gap-4 relative">
+          <IconHeart :checked="false" class="h-8"></IconHeart>
           <h2 class=" font-bold text-slate-600 ">Favorites</h2>
         </div>
-        <div class="menu-item flex items-center gap-4 relative">
-          <IconMap :checked="false" class="h-6"></IconMap>
+        <div class="menu-item py-1 flex items-center gap-4 relative">
+          <IconMap :checked="false" class="h-8"></IconMap>
           <h2 class=" font-bold text-slate-600 ">Store</h2>
         </div>
-        <div class="menu-item flex items-center gap-4 relative">
-          <IconSetting :checked="false" class="h-7"></IconSetting>
+        <div class="menu-item py-1 flex items-center gap-4 relative">
+          <IconSetting :checked="false" class="h-8"></IconSetting>
           <h2 class=" font-bold text-slate-600 ">Account</h2>
         </div>
       </div>
 
       <div class="flex flex-col items-center mb-4 mt-auto relative">
           <img style="transform: translate(-50%, -70%);" class="z-10 absolute upload-box left-1/2" src="/images/cooking3.webp" alt="">
-        <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-md xl:text-lg upload-box">
+        <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-lg upload-box">
           <p>Share your <span class="font-extrabold">Recipes</span> <br> with the whole world</p>  
 
           <div class="flex items-center mt-4">
@@ -139,12 +139,27 @@
 
 
       </div>
-      <div class="bg-white w-1/4 h-screen py-8 flex justify-center">
+      <div class="bg-white w-1/4 h-screen py-8 flex flex-col justify-between mx-6">
         <div class="">
-          <div class="flex gap-3 items-center pb-4 border-b-2 border-slate-300">
+          <div class="flex gap-3 pb-4 items-center">
             <IconDocumentation class="h-8 orange"></IconDocumentation>
-            <p class="font-extrabold text-xl orange">Recipe Preview</p>
+            <p class="font-extrabold text-lg leading-5 self-end">Recipe Preview</p>
           </div>
+          <div class="w-3/4 h-0.5 right-0 bg-slate-200"></div>
+
+          <div class="flex flex-col items-center gap-4 my-6">
+            <img class="rounded-xl" :src="recipes[1].image" alt="">
+            <h1 class="text-xl font-extrabold ">{{recipes[1].name}}</h1>
+
+            <p class="text-lg font-semibold text-slate-700">
+              {{ recipes[1].description }}
+            </p>
+          </div>
+        </div>
+        <div class="">
+            <CookButtonComponet></CookButtonComponet>
+
+            <FavoriteButton></FavoriteButton>
         </div>
       </div>
     </div>
@@ -168,6 +183,9 @@ import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
 import IconChef from '@/components/icons/IconChef.vue';
 import IconTime from '@/components/icons/IconTime.vue';
 import IconDocumentation from '@/components/icons/IconDocumentation.vue';
+import CookButton from '@/components/recipeComponents/CookButton.vue';
+import IconCook from '@/components/icons/IconCook.vue';
+import FavoriteButton from '@/components/recipeComponents/FavoriteButton.vue';
 
 
 
@@ -229,7 +247,10 @@ export default {
     StarsRatingDisplay,
     IconChef,
     IconTime,
-    IconDocumentation
+    IconDocumentation,
+    CookButtonComponet: CookButton,
+    IconCook,
+    FavoriteButton
 },
   mounted () {
     if (this.isAuthenticated) {

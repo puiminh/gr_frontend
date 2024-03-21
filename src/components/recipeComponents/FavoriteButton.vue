@@ -1,0 +1,39 @@
+<template>
+
+    <div class='large-font text-center top-20'>
+        <ion-icon name="heart">
+          <div class='red-bg'></div>
+        </ion-icon>
+      </div>
+</template>
+
+<style>
+
+.large-font{    
+    font-size:xxx-large;
+  }
+  .top-20{
+    position:relative;
+    top:20vh;
+  }
+  ion-icon.active{
+    animation:like 0.5s 1;
+    fill:red;
+    stroke:none;
+  }
+  ion-icon{
+    fill:transparent;
+    stroke:black;
+    stroke-width:30;
+    transition:all 0.5s;
+  }
+  
+  
+  @-webkit-keyframes like {
+    0%   { transform: scale(1); }
+    90%   { transform: scale(1.2); }
+    100% { transform: scale(1.1); }
+  }
+
+
+</style>

@@ -7,7 +7,7 @@
 export default {
   props: {
   },
-    props: ['checked']
+
 }
 </script>
 <style lang="">
