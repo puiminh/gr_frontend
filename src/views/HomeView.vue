@@ -31,9 +31,8 @@
 
       <div class="flex flex-col items-center mb-4 mt-auto relative">
           <img style="transform: translate(-50%, -70%);" class="z-10 absolute upload-box left-1/2" src="/images/cooking3.webp" alt="">
-        <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-md upload-box">
-          <p>Share your <span class="font-extrabold">Recipes</span> <br></p> 
-          <p>with the whole world</p> 
+        <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-md xl:text-lg upload-box">
+          <p>Share your <span class="font-extrabold">Recipes</span> <br> with the whole world</p>  
 
           <div class="flex items-center mt-4">
             <button class="orange bg-white font-bold px-3 py-2 rounded-xl mx-auto">Workspace</button>
@@ -48,7 +47,7 @@
 
 
     </div>
-    <div class="content w-4/5 flex h-screen overflow-auto">
+    <div class="content w-5/6 flex h-screen overflow-auto">
       <div class="bg-lightGray w-3/4 px-8 h-screen overflow-y-auto overflow-x-hidden">
           
           <!-- Search Bar -->
@@ -76,7 +75,7 @@
 
           <section class="mt-6 ">
             <h1 class="font-extrabold mb-6 text-xl">Categories</h1>
-            <div class="grid grid-cols-4 gap-4 ">
+            <div class="grid grid-cols-4 xl:grid-cols-6 gap-4 ">
               
               <div class="flex items-center justify-center relative">
                 <img class="w-full h-16 brightness-50 object-cover rounded-xl" src="/images/breakfast.jpg" alt="">
@@ -105,18 +104,33 @@
           <section class="mt-6">
             <h1 class="font-extrabold mb-6 text-xl">Popular Recipes</h1>
 
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-3 xl:grid-cols-3 gap-6">
               <div 
                   v-for="recipe in recipes" :key="recipe.id">
-                  <RouterLink :to="'/recipe/'+recipe.id">
-                      <div class="flex justify-center flex-col h-96">
-                          <img class="h-full w-full object-cover rounded-xl" 
+                  <div class="cursor-pointer">
+                      <div class="flex flex-col h-96 bg-white shadow-sm rounded-xl ">
+                        <div class="h-72 w-full overflow-hidden rounded-t-xl">
+                          <img class="h-full w-full object-cover rounded-t-xl transition ease-in-out delay-50 hover:scale-110 duration-300 " 
                               :src="recipe.image" alt="">
+                        </div>
+
+                          <div class="px-4 py-2">
+                            <p class="text-lg font-extrabold my-2">{{recipe.name}}</p>
+
+                            <div class="flex justify-between  ">
+                              <div class="flex gap-2">
+                                <IconTime class="h-6"></IconTime>
+                                <p class="font-bold text-slate-500">1 hour 20 minutes</p>
+                              </div>
+                              <div class="flex gap-2">
+                                <IconChef class="h-6"></IconChef>
+                                <p class="font-bold text-slate-500">Easy</p>
+                              </div>
+                            </div>
+
+                          </div>
                       </div>
-                      <div class="">
-                          <p class="text-xl font-semibold my-3">{{recipe.name}}</p>
-                      </div>
-                  </RouterLink>
+                    </div>
       
                 </div>
             </div>
@@ -125,10 +139,11 @@
 
 
       </div>
-      <div class="bg-white w-1/4 h-screen">
-        <div class="grid-cols-2">
-          <div class="">
-
+      <div class="bg-white w-1/4 h-screen py-8 flex justify-center">
+        <div class="">
+          <div class="flex gap-3 items-center pb-4 border-b-2 border-slate-300">
+            <IconDocumentation class="h-8 orange"></IconDocumentation>
+            <p class="font-extrabold text-xl orange">Recipe Preview</p>
           </div>
         </div>
       </div>
@@ -150,6 +165,10 @@ import { useAuthStore } from '@/stores/auth';
 import IconLogout from '@/components/icons/IconLogout.vue';
 import data from '../db.json'
 import StarsRatingDisplay from '@/components/stars/StarsRatingDisplay.vue';
+import IconChef from '@/components/icons/IconChef.vue';
+import IconTime from '@/components/icons/IconTime.vue';
+import IconDocumentation from '@/components/icons/IconDocumentation.vue';
+
 
 
 
@@ -208,7 +227,10 @@ export default {
     IconExplore,
     IconLogout,
     StarsRatingDisplay,
-  },
+    IconChef,
+    IconTime,
+    IconDocumentation
+},
   mounted () {
     if (this.isAuthenticated) {
       this.user = this.currentUser;
