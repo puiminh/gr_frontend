@@ -156,9 +156,8 @@
             </p>
           </div>
         </div>
-        <div class="">
+        <div class="flex justify-around">
             <CookButtonComponet></CookButtonComponet>
-
             <FavoriteButton></FavoriteButton>
         </div>
       </div>
