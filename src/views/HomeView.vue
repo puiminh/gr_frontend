@@ -150,7 +150,7 @@
           <div class="flex flex-col items-center gap-4 my-6">
             <img class="rounded-xl" :src="recipes[1].image" alt="">
             <h1 class="text-xl font-extrabold ">{{recipes[1].name}}</h1>
-
+            <TagList></TagList>
             <p class="text-lg font-semibold text-slate-700">
               {{ recipes[1].description }}
             </p>
@@ -185,6 +185,7 @@ import IconDocumentation from '@/components/icons/IconDocumentation.vue';
 import CookButton from '@/components/recipeComponents/CookButton.vue';
 import IconCook from '@/components/icons/IconCook.vue';
 import FavoriteButton from '@/components/recipeComponents/FavoriteButton.vue';
+import TagList from '@/components/recipeComponents/TagList.vue';
 
 
 
@@ -249,7 +250,8 @@ export default {
     IconDocumentation,
     CookButtonComponet: CookButton,
     IconCook,
-    FavoriteButton
+    FavoriteButton,
+    TagList,
 },
   mounted () {
     if (this.isAuthenticated) {
