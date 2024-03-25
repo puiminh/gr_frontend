@@ -115,7 +115,7 @@
                         </div>
 
                           <div class="px-4 py-2">
-                            <p class="text-lg font-extrabold my-2">{{recipe.name}}</p>
+                            <p class="text-xl font-extrabold my-2">{{recipe.name}}</p>
 
                             <div class="flex justify-between  ">
                               <div class="flex gap-2">
@@ -156,9 +156,10 @@
             </p>
           </div>
         </div>
-        <div class="flex justify-around">
-            <CookButtonComponet></CookButtonComponet>
-            <FavoriteButton></FavoriteButton>
+        <div class="flex justify-between gap-2">
+            <IngredientButton class="w-1/3"></IngredientButton>
+            <CookButtonComponet class="flex-shrink-0"></CookButtonComponet>
+            <FavoriteButton class="w-1/3"></FavoriteButton>
         </div>
       </div>
     </div>
@@ -185,6 +186,8 @@ import IconDocumentation from '@/components/icons/IconDocumentation.vue';
 import CookButton from '@/components/recipeComponents/CookButton.vue';
 import IconCook from '@/components/icons/IconCook.vue';
 import FavoriteButton from '@/components/recipeComponents/FavoriteButton.vue';
+import IngredientButton from '@/components/recipeComponents/IngredientButton.vue';
+
 import TagList from '@/components/recipeComponents/TagList.vue';
 
 
@@ -251,6 +254,7 @@ export default {
     CookButtonComponet: CookButton,
     IconCook,
     FavoriteButton,
+    IngredientButton,
     TagList,
 },
   mounted () {

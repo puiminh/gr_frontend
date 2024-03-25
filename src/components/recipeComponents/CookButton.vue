@@ -1,5 +1,5 @@
 <template>
-    <button class="button-57 rounded-xl text-xl p-3" role="button"><span class="text">Cook Now!</span><span class="text-xl">Go to Recipe→ </span></button>
+    <button class="button-57 rounded-xl text-lg p-2" role="button"><span class="text">Cook Now!</span><span class="text-xl">Go to Recipe→ </span></button>
 </template>
 
 <style scoped>
@@ -23,7 +23,7 @@
     position: relative;
     transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
     z-index: 10;
-    font-weight: 800;
+    font-weight: 700;
   }
   
   .button-57 span:last-child {
@@ -37,8 +37,8 @@
     top: 50%;
     left: 50%;
     transform: translateY(225%) translateX(-50%);
-    height: 28px;
-    line-height: 28px;
+    height: 20px;
+    line-height: 20px;
   }
   
   .button-57:after {
@@ -64,7 +64,7 @@
     transform: translateX(-50%) translateY(-100%);
     opacity: 1;
     transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
-    font-weight: 800;
+    font-weight: 700;
   }
 </style>
 
