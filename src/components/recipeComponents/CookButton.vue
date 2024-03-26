@@ -1,5 +1,5 @@
 <template>
-    <button class="button-57 rounded-xl text-lg p-2" role="button"><span class="text">Cook Now!</span><span class="text-xl">Go to Recipe→ </span></button>
+    <button class="button-57 rounded-xl text-xl p-3" role="button"><span class="text">Cook Now!</span><span class="text-xl">Go to Recipe→ </span></button>
 </template>
 
 <style scoped>
@@ -13,7 +13,7 @@
     text-decoration: none;
     cursor: pointer;
     background: orange;
-    border: 3px solid orange;
+    border: 2px solid orange;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -37,8 +37,7 @@
     top: 50%;
     left: 50%;
     transform: translateY(225%) translateX(-50%);
-    height: 20px;
-    line-height: 20px;
+    line-height: 24px;
   }
   
   .button-57:after {

@@ -140,14 +140,25 @@
 
       </div>
       <div class="bg-white w-1/4 h-screen py-8 flex flex-col justify-between mx-6">
-        <div class="">
-          <div class="flex gap-3 pb-4 items-center">
-            <IconDocumentation class="h-8 orange"></IconDocumentation>
-            <p class="font-extrabold text-lg leading-5 self-end">Recipe Preview</p>
-          </div>
-          <div class="w-3/4 h-0.5 right-0 bg-slate-200"></div>
+        <div class="relative">
+          <div class="flex gap-3 items-center justify-between">
+            <div>
+              <div class="flex gap-3">
+                <IconDocumentation class="h-8 orange"></IconDocumentation>
+                <p class="font-extrabold text-lg leading-5 self-end">Recipe Preview</p>                
+              </div>
+              <!-- <div class="w-40 h-0.5 mt-4 bg-slate-200"></div> -->
+            </div>
 
-          <div class="flex flex-col items-center gap-4 my-6">
+
+            <div class="flex flex-col items-center">
+              <img class="border-2 border-white rounded-xl w-8 h-8 object-cover" :src="user.avatar" alt="">
+              <p class="font-semibold text-gray-700 text-sm">Jame Romes</p>
+            </div>
+          </div>
+          
+
+          <div class="flex flex-col items-center gap-4 my-6 border-b-2 border-spacing-4 pb-4 border-gray-300">
             <img class="rounded-xl" :src="recipes[1].image" alt="">
             <h1 class="text-xl font-extrabold ">{{recipes[1].name}}</h1>
             <TagList></TagList>
@@ -155,12 +166,54 @@
               {{ recipes[1].description }}
             </p>
           </div>
+
+
+
+
+          <div class="flex justify-between">
+            <div class="flex justify-between flex-col gap-3">
+                <div class="flex gap-2 items-end">
+                  <IconChef class="h-6"></IconChef>
+                  <p class="text-md font-bold text-slate-500">Easy</p>
+                </div>
+                <div class="flex gap-2 items-end">
+                  <IconTime class="h-6"></IconTime>
+                  <p class="text-md font-bold text-slate-500">1h 20m</p>
+                </div>
+                <div class="flex gap-2 items-end">
+                  <IconEat class="h-6"></IconEat>
+                  <p class="text-md font-bold text-slate-500">4-8</p>
+                </div>            
+            </div>
+
+            <div class="flex justify-between flex-col items-end gap-3">
+                <div class="flex gap-2 items-end">
+                  <IconStar class="h-6"></IconStar>
+                  <p class="text-md font-bold text-slate-500">3 out of 5</p>
+                </div>
+                <div class="flex gap-2 items-end">
+                  <IconNutrion class="h-6"></IconNutrion>
+                  <p class="text-md font-bold text-slate-500 cursor-pointer hover:underline underline-offset-2">500 kcal</p>
+                </div>
+                <div class="flex gap-2 items-end">
+                  <IconIngredient class="h-6"></IconIngredient>
+                  <p class="text-md font-bold text-slate-500 cursor-pointer hover:underline underline-offset-2">12 Ingredients</p>
+                </div>            
+            </div>
+
+
+          </div>
         </div>
-        <div class="flex justify-between gap-2">
-            <IngredientButton class="w-1/3"></IngredientButton>
+
+
+
+        <div class="flex justify-center items-center gap-2">
             <CookButtonComponet class="flex-shrink-0"></CookButtonComponet>
-            <FavoriteButton class="w-1/3"></FavoriteButton>
+            <!-- <IngredientButton ></IngredientButton> -->
+            <FavoriteButton></FavoriteButton>
         </div>
+
+
       </div>
     </div>
 
@@ -185,6 +238,14 @@ import IconTime from '@/components/icons/IconTime.vue';
 import IconDocumentation from '@/components/icons/IconDocumentation.vue';
 import CookButton from '@/components/recipeComponents/CookButton.vue';
 import IconCook from '@/components/icons/IconCook.vue';
+import IconEat from '@/components/icons/IconEat.vue';
+import IconStar from '@/components/icons/IconStar.vue';
+
+import IconNutrion from '@/components/icons/IconNutrion.vue';
+import IconIngredient from '@/components/icons/IconIngredient.vue';
+
+
+
 import FavoriteButton from '@/components/recipeComponents/FavoriteButton.vue';
 import IngredientButton from '@/components/recipeComponents/IngredientButton.vue';
 
@@ -256,6 +317,10 @@ export default {
     FavoriteButton,
     IngredientButton,
     TagList,
+    IconEat,
+    IconNutrion,
+    IconIngredient,
+    IconStar,
 },
   mounted () {
     if (this.isAuthenticated) {
