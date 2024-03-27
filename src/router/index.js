@@ -75,7 +75,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         requiresAuth: 0,
-        layout: NoneLayoutVue,
+        layout: MainLayout,
       },
       component: HomeView
     },

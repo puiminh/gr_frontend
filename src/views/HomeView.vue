@@ -1,53 +1,5 @@
 <template>
-  <div class="flex w-full h-full">
-
-
-    <div class="left-bar bg-white w-1/6 pt-8 flex flex-col">
-      <LogoDefault class="mb-10 mx-auto"></LogoDefault>
-
-      <div class="flex flex-col gap-4 pl-12 text-lg">
-        <div class="menu-item py-1 flex items-center gap-4 relative">
-          <IconDashboard :checked="true" class="h-8"></IconDashboard>
-          <h2 class="  font-bold text-slate-800 ">Home</h2>
-          <div class="w-1 h-full absolute right-0 bg-orange"></div>
-        </div>
-        <div class="menu-item py-1 flex items-center gap-4 relative">
-          <IconExplore :checked="false" class="h-8"></IconExplore>
-          <h2 class="  font-bold text-slate-600 ">Explore</h2>
-        </div>
-        <div class="menu-item py-1 flex items-center gap-4 relative">
-          <IconHeart :checked="false" class="h-8"></IconHeart>
-          <h2 class=" font-bold text-slate-600 ">Favorites</h2>
-        </div>
-        <div class="menu-item py-1 flex items-center gap-4 relative">
-          <IconMap :checked="false" class="h-8"></IconMap>
-          <h2 class=" font-bold text-slate-600 ">Store</h2>
-        </div>
-        <div class="menu-item py-1 flex items-center gap-4 relative">
-          <IconSetting :checked="false" class="h-8"></IconSetting>
-          <h2 class=" font-bold text-slate-600 ">Account</h2>
-        </div>
-      </div>
-
-      <div class="flex flex-col items-center mb-4 mt-auto relative">
-          <img style="transform: translate(-50%, -70%);" class="z-10 absolute upload-box left-1/2" src="/images/cooking3.webp" alt="">
-        <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-lg upload-box">
-          <p>Share your <span class="font-extrabold">Recipes</span> <br> with the whole world</p>  
-
-          <div class="flex items-center mt-4">
-            <button class="orange bg-white font-bold px-3 py-2 rounded-xl mx-auto">Workspace</button>
-            <button
-                    type="button" class="h-min bg-gray-800 rounded-full ring-4 ring-white">
-                    <img class="w-8 h-8 rounded-full object-cover" :src="user.avatar" alt="user photo">
-            </button>
-          </div>
-
-        </div>
-      </div>
-
-
-    </div>
-    <div class="content w-5/6 flex h-screen overflow-auto">
+    <div class="content w-full flex h-screen overflow-auto">
       <div class="bg-lightGray w-3/4 px-8 h-screen overflow-y-auto overflow-x-hidden">
           
           <!-- Search Bar -->
@@ -162,7 +114,7 @@
             <img class="rounded-xl" :src="recipes[1].image" alt="">
             <h1 class="text-xl font-extrabold ">{{recipes[1].name}}</h1>
             <TagList></TagList>
-            <p class="text-lg font-semibold text-slate-700">
+            <p class="text-lg font-semibold text-slate-700 h-28">
               {{ recipes[1].description }}
             </p>
           </div>
@@ -216,8 +168,6 @@
 
       </div>
     </div>
-
-  </div>
 </template>
 <script>
 import LogoDefault from '@/components/barComponents/LogoDefault.vue';
