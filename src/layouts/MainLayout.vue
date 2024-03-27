@@ -1,41 +1,57 @@
 <template>
     <div class="flex w-full h-full">
-  
-  
+
+    
       <TransitionGroup
         name="sidebar"
         tag="div"
+        mode="out-in"
         class="left-bar bg-white w-1/6 pt-8 flex flex-col relative "
         :class="{'w-24': collapseSidebar}"
       >
         <div class="mb-10 mx-auto">
             <router-link to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="/images/logo.png" class="h-12" alt="Flowbite Logo" />
-                <span v-if="!collapseSidebar" class="self-center text-2xl font-semibold whitespace-nowrap dm-serif orange">Recipes.</span>
+                <img src="/images/logo.png" class="h-12 flex-shrink-0" alt="Flowbite Logo" />
+                <Transition name="sidebar">
+                  <span v-if="!collapseSidebar" class="self-center text-2xl font-semibold whitespace-nowrap dm-serif orange">Recipes.</span>
+                </Transition>
             </router-link>
         </div>
   
-        <div class="flex flex-col gap-4 pl-12 text-lg">
+        <div class="flex flex-col gap-4 text-lg"
+          :class="{'expandSidebar': !collapseSidebar}"
+        >
           <div class="menu-item py-1 flex items-center gap-4 relative">
-            <IconDashboard :checked="true" class="h-8"></IconDashboard>
-            <h2 v-if="!collapseSidebar" class="  font-bold text-slate-800 ">Home</h2>
+            <IconDashboard :checked="true" class="h-8 flex-shrink-0"></IconDashboard>
+            <Transition name="sidebar">
+              <h2 v-if="!collapseSidebar" class="  font-bold text-slate-900 ">Home</h2>
+            </Transition>
+            
             <div class="w-1 h-full absolute right-0 bg-orange"></div>
           </div>
           <div class="menu-item py-1 flex items-center gap-4 relative">
-            <IconExplore :checked="false" class="h-8"></IconExplore>
-            <h2 v-if="!collapseSidebar" class="  font-bold text-slate-600 ">Explore</h2>
+            <IconExplore :checked="false" class="h-8 flex-shrink-0"></IconExplore>
+            <Transition name="sidebar">
+              <h2 v-if="!collapseSidebar" class="  font-bold text-slate-600 ">Explore</h2>
+            </Transition>
           </div>
           <div class="menu-item py-1 flex items-center gap-4 relative">
-            <IconHeart :checked="false" class="h-8"></IconHeart>
-            <h2 v-if="!collapseSidebar" class=" font-bold text-slate-600 ">Favorites</h2>
+            <IconHeart :checked="false" class="h-8 flex-shrink-0"></IconHeart>
+            <Transition name="sidebar">
+              <h2 v-if="!collapseSidebar" class="  font-bold text-slate-600 ">Favorite</h2>
+            </Transition>
           </div>
           <div class="menu-item py-1 flex items-center gap-4 relative">
-            <IconMap :checked="false" class="h-8"></IconMap>
-            <h2 v-if="!collapseSidebar" class=" font-bold text-slate-600 ">Store</h2>
+            <IconMap :checked="false" class="h-8 flex-shrink-0"></IconMap>
+            <Transition name="sidebar">
+              <h2 v-if="!collapseSidebar" class="  font-bold text-slate-600 ">Map</h2>
+            </Transition>
           </div>
           <div class="menu-item py-1 flex items-center gap-4 relative">
-            <IconSetting :checked="false" class="h-8"></IconSetting>
-            <h2 v-if="!collapseSidebar" class=" font-bold text-slate-600 ">Account</h2>
+            <IconSetting :checked="false" class="h-8 flex-shrink-0"></IconSetting>
+            <Transition name="sidebar">
+              <h2 v-if="!collapseSidebar" class="  font-bold text-slate-600 ">Account</h2>
+            </Transition>
           </div>
         </div>
   
@@ -49,23 +65,34 @@
           </button>
         </div>
   
-        <div v-if="!collapseSidebar" class="flex flex-col items-center mb-4 mt-auto relative">
-          <img style="transform: translate(-50%, -70%);" class="z-10 absolute upload-box left-1/2" src="/images/cooking3.webp" alt="">
-          <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-lg upload-box">
-            <p>Share your <span class="font-extrabold">Recipes</span> <br> with the whole world</p>  
-  
-            <div class="flex items-center mt-4">
-              <button class="orange bg-white font-bold px-3 py-2 rounded-xl mx-auto">Workspace</button>
-              <button
-                      type="button" class="h-min bg-gray-800 rounded-full ring-4 ring-white">
-                      <img class="w-8 h-8 rounded-full object-cover" :src="user.avatar" alt="user photo">
-              </button>
+        <Transition name="sidebar" mode="out-in">
+          <div v-if="!collapseSidebar" class="flex flex-col items-center mb-4 mt-auto relative">
+            <img style="transform: translate(-50%, -70%);" class="z-10 absolute upload-box left-1/2" src="/images/cooking3.webp" alt="">
+            <div class="flex flex-col bottom-0 pt-12 pb-6 m-4 px-8 rounded-2xl bg-orange font-bold text-white text-lg upload-box">
+              <p>Share your <span class="font-extrabold">Recipes</span> <br> with the whole world</p>  
+              <div class="flex items-center mt-4">
+                <button class="orange bg-white font-bold px-3 py-2 rounded-xl mx-auto">Workspace</button>
+                <button
+                        type="button" class="h-min bg-gray-800 rounded-full ring-4 ring-white">
+                        <img class="w-8 h-8 rounded-full object-cover" :src="user.avatar" alt="user photo">
+                </button>
+              </div>
+    
             </div>
-  
           </div>
-        </div>
-  
-  
+          <div v-else class="flex flex-col items-center mb-4 mt-auto relative">
+            <div class="flex flex-col bottom-0 rounded-2xl font-bold text-white text-lg gap-4">
+                <button class="bg-white font-bold mx-auto">
+                  <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 14.5001L11.6422 19.3212C11.7734 19.3868 11.839 19.4196 11.9078 19.4325C11.9687 19.4439 12.0313 19.4439 12.0922 19.4325C12.161 19.4196 12.2266 19.3868 12.3578 19.3212L22 14.5001M2 9.50006L11.6422 4.67895C11.7734 4.61336 11.839 4.58056 11.9078 4.56766C11.9687 4.55622 12.0313 4.55622 12.0922 4.56766C12.161 4.58056 12.2266 4.61336 12.3578 4.67895L22 9.50006L12.3578 14.3212C12.2266 14.3868 12.161 14.4196 12.0922 14.4325C12.0313 14.4439 11.9687 14.4439 11.9078 14.4325C11.839 14.4196 11.7734 14.3868 11.6422 14.3212L2 9.50006Z" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                </button>
+                <button
+                        type="button" class="h-min bg-gray-800 rounded-full ring-2 ring-white">
+                        <img class="w-8 h-8 rounded-full object-cover" :src="user.avatar" alt="user photo">
+                </button>  
+            </div>
+          </div>
+        </Transition>
+
       </TransitionGroup>
       <RouterView class="w-5/6" :key="$route.fullPath"></RouterView>
   
@@ -197,35 +224,34 @@ width: calc(100% - 2rem);
 }
 
 /* Thiết lập transition */
-
-.icon-enter-from {
-  transform: rotateY(0deg);
+.expandSidebar .menu-item {
+  justify-content: start;
+  padding-left: 3rem;
 }
-.icon-enter-to {
-    transform: rotateY(180deg);
-}
-
-.icon-leave-from {
-  transform: rotateY(0deg);
+.menu-item {
+  justify-content: center;
 }
 
-.icon-leave-to {
-  transform: rotateY(180deg);
+.left-bar {
+  transition: all 0.5s ease-in-out;
 }
 
 
-.icon-enter-active {
-  transition: transform 0.5s ease-in-out;
+.sidebar-enter-from {
+  opacity: 0;
 }
-
-.sidebar-enter-from, .sidebar-leave-to {
-    opacity: 0;
+.sidebar-enter-to {
+  opacity: 1;
 }
-
-.sidebar-enter-active, .sidebar-leave-active {
-    transition: all 1s ease-in-out;
+.sidebar-leave-from {
+  opacity: 1;
 }
-
+.sidebar-leave-to {
+  opacity: 0;
+}
+.sidebar-enter-active {
+  transition: all 0.3s ease-in-out 0.5s;
+} 
 
 
 
