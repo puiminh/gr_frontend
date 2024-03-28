@@ -108,8 +108,8 @@
     </div>
     <div class="bg-white w-1/4 h-screen py-8 flex flex-col justify-between mx-6">
       <div 
-        class="relative "
-        :class="{'slide-in-out': changingRecipe}"
+        class="relative"
+        id="preview-recipe"
         >
         <div class="flex gap-3 items-center justify-between">
           <div>
@@ -222,7 +222,7 @@ import IngredientButton from '@/components/recipeComponents/IngredientButton.vue
 
 import TagList from '@/components/recipeComponents/TagList.vue';
 
-
+import gsap from 'gsap';
 
 
 
@@ -253,14 +253,11 @@ computed: {
 methods: {
   ...mapActions(useAuthStore, ['signOut']),
   async changeViewRecipe(index) {
-    this.changingRecipe = true;
 
-    this.viewingRecipe = index;
-    
-    setTimeout(() => {
-    this.changingRecipe = false;
-      
-    }, 1000);
+    if (index != this.viewingRecipe) {
+      gsap.fromTo("#preview-recipe", {y: -100, opacity: 0},{y: 0, opacity: 1})
+      this.viewingRecipe = index;      
+    }
 
   },
   handleClickUserDropdown () { 
@@ -342,33 +339,5 @@ width: calc(100% - 2rem);
 .pin-enter-active, .pin-leave-active {
   transition: all 0.3s ease-in-out;
 }
-
-
-@keyframes slideIn {
-  0% {
-    transform: translateY(-50%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideOut {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-.slide-in-out {
-  animation: slideIn 0.5s ease-in-out;
-}
-
 
 </style>
