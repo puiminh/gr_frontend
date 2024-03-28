@@ -173,15 +173,15 @@
                 <p class="text-md font-bold text-slate-500 cursor-pointer hover:underline underline-offset-2">12 Ingredients</p>
               </div>            
           </div>
-
-
         </div>
       </div>
 
 
 
       <div class="flex justify-center items-center gap-2">
-          <CookButtonComponet class="flex-shrink-0"></CookButtonComponet>
+          <RouterLink :to="'/recipe/'+ recipes[viewingRecipe].id">
+            <CookButtonComponet class="flex-shrink-0"></CookButtonComponet>
+          </RouterLink>
           <!-- <IngredientButton ></IngredientButton> -->
           <FavoriteButton></FavoriteButton>
       </div>

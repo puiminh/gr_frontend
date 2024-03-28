@@ -145,7 +145,7 @@ data () {
         email: "abc@gmail.com",
         avatar: "https://www.paratime.vn/wp-content/uploads/2019/09/timestudio.vn-corporate-headshot-pricing-01.jpg",
     },
-    collapseSidebar: false,
+    collapseSidebar: true,
     
     }
 },

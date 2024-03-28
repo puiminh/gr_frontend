@@ -156,7 +156,7 @@ const router = createRouter({
       name: 'recipe-view',
       meta: {
         requiresAuth: 1,
-        layout: RecipeViewLayout,
+        layout: MainLayout,
       },
       component: RecipeView,
     },
